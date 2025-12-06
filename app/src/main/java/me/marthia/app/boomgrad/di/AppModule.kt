@@ -1,0 +1,20 @@
+package me.marthia.app.boomgrad.di
+
+
+import me.marthia.app.boomgrad.presentation.attractions.AttractionsViewModel
+import me.marthia.app.boomgrad.presentation.detail.AttractionDetailViewModel
+import me.marthia.app.boomgrad.presentation.favorites.FavoritesViewModel
+import me.marthia.app.boomgrad.presentation.search.SearchViewModel
+import org.koin.core.module.dsl.viewModel
+import org.koin.dsl.module
+
+/**
+ * Koin module for providing ViewModels.
+ */
+val appModule = module {
+    viewModel { AttractionsViewModel(get()) }
+    viewModel { AttractionDetailViewModel(get(), get()) }
+    viewModel { FavoritesViewModel(repository = get()) }
+    viewModel { SearchViewModel(get()) }
+
+}
