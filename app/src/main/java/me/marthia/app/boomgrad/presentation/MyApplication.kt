@@ -7,11 +7,10 @@ import me.marthia.app.boomgrad.di.networkModule
 import me.marthia.app.boomgrad.di.repositoryModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
-import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.core.context.GlobalContext.startKoin
 import timber.log.Timber
 
-class MyApplication: Application() {
+class MyApplication : Application() {
 
 
     override fun onCreate() {
@@ -20,7 +19,6 @@ class MyApplication: Application() {
         startKoin {
             androidLogger()
             androidContext(applicationContext)
-            workManagerFactory() // Important! Enables WorkManager factory
             modules(appModule, networkModule, repositoryModule)
         }
 

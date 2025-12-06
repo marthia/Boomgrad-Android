@@ -1,7 +1,9 @@
 package me.marthia.app.boomgrad.data.remote.dto
 
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class AttractionDto(
     @SerialName("id")
     val id: String,
@@ -23,6 +25,7 @@ data class AttractionDto(
     val location: LocationDto
 )
 
+@Serializable
 data class ContactInfoDto(
     @SerialName("phone")
     val phone: String?,
@@ -34,6 +37,7 @@ data class ContactInfoDto(
     val address: String
 )
 
+@Serializable
 data class OpeningHoursDto(
     @SerialName("monday")
     val monday: String,
@@ -51,6 +55,7 @@ data class OpeningHoursDto(
     val sunday: String
 )
 
+@Serializable
 data class LocationDto(
     @SerialName("latitude")
     val latitude: Double,
@@ -58,6 +63,7 @@ data class LocationDto(
     val longitude: Double
 )
 
+@Serializable
 data class AttractionsResponse(
     @SerialName("attractions")
     val attractions: List<AttractionDto>,

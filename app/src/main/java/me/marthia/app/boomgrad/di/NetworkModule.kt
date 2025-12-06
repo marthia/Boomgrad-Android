@@ -21,7 +21,8 @@ import org.koin.dsl.module
 import timber.log.Timber
 
 object ApiConfig {
-    const val HOST = "185.227.79.50"
+    const val HOST = "10.0.2.2"
+    const val PORT = 8080
     const val BASE_PATH = "api/"
     const val TIMEOUT_MILLIS = 30_000L
     const val VERSION = "1.0.0"
@@ -80,6 +81,7 @@ val networkModule = module {
                     protocol = URLProtocol.HTTP // Or URLProtocol.HTTPS if needed
                     // Set the base host for the API
                     host = ApiConfig.HOST
+                    port = ApiConfig.PORT
                     // Prepend the base path for all API endpoints
                     path(ApiConfig.BASE_PATH)
 
