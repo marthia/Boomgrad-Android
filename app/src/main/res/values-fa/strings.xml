@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">چیستان</string>
+    <string name="label_login_button">ورود به نرم افزار</string>
+    <string name="placeholder_login_username">نام کاربری</string>
+    <string name="placeholder_login_username_description">نام کاربری خود را وارد کنید</string>
+    <string name="placeholder_login_password">کلمه عبور</string>
+    <string name="placeholder_login_password_description">کلمه عبور خود را وارد کنید</string>
+    <string name="title_login_name">ورود به حساب کاربری</string>
+    <string name="subtitle_login_description">شرکت طنین ارتباط هشت بهشت</string>
+
+
+    <!-- Home Tabs -->
+    <string name="home_feed">خانه</string>
+    <string name="home_attraction">جاذبه‌ها</string>
+    <string name="home_cart">سبد خرید</string>
+    <string name="home_profile">پروفایل</string>
+    <string name="tour_detail_title_prerequisites">وسایل مورد نیاز</string>
+
+</resources>

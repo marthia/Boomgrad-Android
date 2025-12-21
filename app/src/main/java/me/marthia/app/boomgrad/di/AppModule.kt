@@ -1,7 +1,7 @@
 package me.marthia.app.boomgrad.di
 
 
-import me.marthia.app.boomgrad.presentation.attractions.AttractionsViewModel
+import me.marthia.app.boomgrad.presentation.attraction.AttractionsViewModel
 import me.marthia.app.boomgrad.presentation.detail.AttractionDetailViewModel
 import me.marthia.app.boomgrad.presentation.favorites.FavoritesViewModel
 import me.marthia.app.boomgrad.presentation.search.SearchViewModel

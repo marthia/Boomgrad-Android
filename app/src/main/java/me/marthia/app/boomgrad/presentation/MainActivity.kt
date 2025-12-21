@@ -1,79 +1,37 @@
+/*
+ * Copyright 2020-2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package me.marthia.app.boomgrad.presentation
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.getValue
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-import me.marthia.app.boomgrad.presentation.navigation.NavigationGraph
-import me.marthia.app.boomgrad.presentation.navigation.Screen
-import me.marthia.app.boomgrad.presentation.theme.TourAppTheme
-
+import androidx.activity.enableEdgeToEdge
+import com.almasnet.app.android.presentation.util.LocaleProvider
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-        setContent {
-            TourAppTheme {
-                val navController = rememberNavController()
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                val currentRoute = navBackStackEntry?.destination?.route
-                
-                Scaffold(
-                    bottomBar = {
-                        // Hide bottom bar on detail screen
-                        if (currentRoute != null && !currentRoute.startsWith("attraction/")) {
-                            NavigationBar {
-                                NavigationBarItem(
-                                    icon = { Icon(Icons.Default.Home, "Attractions") },
-                                    label = { Text("Attractions") },
-                                    selected = currentRoute == Screen.Attractions.route,
-                                    onClick = {
-                                        navController.navigate(Screen.Attractions.route) {
-                                            popUpTo(Screen.Attractions.route) { inclusive = true }
-                                        }
-                                    }
-                                )
-                                NavigationBarItem(
-                                    icon = { Icon(Icons.Default.Search, "Search") },
-                                    label = { Text("Search") },
-                                    selected = currentRoute == Screen.Search.route,
-                                    onClick = {
-                                        navController.navigate(Screen.Search.route) {
-                                            popUpTo(Screen.Attractions.route)
-                                        }
-                                    }
-                                )
-                                NavigationBarItem(
-                                    icon = { Icon(Icons.Default.Favorite, "Favorites") },
-                                    label = { Text("Favorites") },
-                                    selected = currentRoute == Screen.Favorites.route,
-                                    onClick = {
-                                        navController.navigate(Screen.Favorites.route) {
-                                            popUpTo(Screen.Attractions.route)
-                                        }
-                                    }
-                                )
-                            }
-                        }
-                    }
-                ) { paddingValues ->
-                    NavigationGraph(
-                        navController = navController,
-                        startDestination = Screen.Attractions.route
-                    )
-                }
-            }
-        }
+        setContent { JetsnackApp() }
+    }
+
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(LocaleProvider.onAttach(newBase!!))
     }
 }

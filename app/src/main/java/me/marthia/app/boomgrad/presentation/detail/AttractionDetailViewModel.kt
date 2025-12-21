@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import me.marthia.app.boomgrad.domain.model.Attraction
-import me.marthia.app.boomgrad.domain.usecase.GetAttractionDetailUseCase
+import me.marthia.app.boomgrad.domain.usecase.attraction.GetAttractionDetailUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
