@@ -45,7 +45,7 @@ import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.presentation.components.IconText
 import me.marthia.app.boomgrad.presentation.components.JetSnackBackground
 import me.marthia.app.boomgrad.presentation.components.JetsnackCard
-import me.marthia.app.boomgrad.presentation.components.JetsnackScaffold
+import me.marthia.app.boomgrad.presentation.components.AppScaffold
 import me.marthia.app.boomgrad.presentation.components.JetsnackSurface
 import me.marthia.app.boomgrad.presentation.components.QuantitySelector
 import me.marthia.app.boomgrad.presentation.home.Itinerary
@@ -58,7 +58,7 @@ import me.marthia.app.boomgrad.presentation.util.debugPlaceholder
 fun TourDetail(tourId: Long, upPress: () -> Unit) {
 
 
-    JetsnackScaffold() {
+    AppScaffold() {
         TourDetailContent(modifier = Modifier.padding(it))
     }
 

@@ -62,36 +62,43 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import me.marthia.app.boomgrad.R
+import me.marthia.app.boomgrad.presentation.components.AppScaffold
 import me.marthia.app.boomgrad.presentation.components.IconText
 import me.marthia.app.boomgrad.presentation.components.JetHorizontalDivider
 import me.marthia.app.boomgrad.presentation.components.JetSnackBackground
 import me.marthia.app.boomgrad.presentation.components.JetVerticalDivider
 import me.marthia.app.boomgrad.presentation.components.JetsnackButton
 import me.marthia.app.boomgrad.presentation.components.JetsnackCard
-import me.marthia.app.boomgrad.presentation.components.JetsnackScaffold
 import me.marthia.app.boomgrad.presentation.components.JetsnackSearch
 import me.marthia.app.boomgrad.presentation.components.JetsnackSurface
-import me.marthia.app.boomgrad.presentation.theme.HanaGreen8
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
 import me.marthia.app.boomgrad.presentation.theme.BaseTheme
+import me.marthia.app.boomgrad.presentation.theme.HanaGreen8
 import me.marthia.app.boomgrad.presentation.util.debugPlaceholder
 
 @Composable
 fun HomeScreen(onTourSelected: (Long) -> Unit) {
 
-    JetsnackScaffold() {
-        HomeScreenContent(Modifier.padding(it), onTourSelected = onTourSelected)
+    AppScaffold() {
+        HomeScreenContent(modifier = Modifier, paddingValues = it, onTourSelected = onTourSelected)
     }
 }
 
 
 @Composable
-private fun HomeScreenContent(modifier: Modifier = Modifier, onTourSelected: (Long) -> Unit) {
+private fun HomeScreenContent(
+    modifier: Modifier = Modifier,
+    paddingValues: PaddingValues,
+    onTourSelected: (Long) -> Unit
+) {
 
     Column(
         modifier = modifier.verticalScroll(rememberScrollState()),
     ) {
+        Spacer(Modifier.height(paddingValues.calculateTopPadding()))
+
         HomeTopBar(modifier = Modifier.fillMaxWidth())
+
         SearchAll(
             modifier = Modifier
                 .fillMaxWidth()
@@ -105,7 +112,7 @@ private fun HomeScreenContent(modifier: Modifier = Modifier, onTourSelected: (Lo
 
         Spacer(
             Modifier.windowInsetsBottomHeight(
-                WindowInsets.navigationBars.add(WindowInsets(bottom = 80.dp)),
+                WindowInsets.navigationBars.add(WindowInsets(bottom = 80.dp + paddingValues.calculateBottomPadding())),
             ),
         )
     }
@@ -159,7 +166,10 @@ fun SearchAll(modifier: Modifier = Modifier) {
                         Text(text = "تهران | تهران", style = MaterialTheme.typography.labelMedium)
                     },
                     leadingIcon = {
-                        Icon(painter = painterResource(R.drawable.icon_location_16), "Choose Your Location")
+                        Icon(
+                            painter = painterResource(R.drawable.icon_location_16),
+                            "Choose Your Location"
+                        )
                     },
                     trailingIcon = {
                         Icon(Icons.Rounded.KeyboardArrowDown, "Arrow Icon")
@@ -287,7 +297,10 @@ fun Recommended() {
 
 
                     Text("کوه‌گشت یک روزه کلکچال", style = MaterialTheme.typography.titleMedium)
-                    Text(" املت، چای، کمپ در برف و مدیتیشن املت، چای، کمپ در برف و مدیتیشن", style = MaterialTheme.typography.bodyMedium)
+                    Text(
+                        " املت، چای، کمپ در برف و مدیتیشن املت، چای، کمپ در برف و مدیتیشن",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
 
 
                     Row(
@@ -322,7 +335,10 @@ fun Recommended() {
                             contentPadding = PaddingValues(8.dp),
                             onClick = { },
                         ) {
-                            Icon(imageVector = Icons.AutoMirrored.Rounded.ArrowForward, contentDescription = "add")
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Rounded.ArrowForward,
+                                contentDescription = "add"
+                            )
                         }
 
                     }
@@ -399,7 +415,10 @@ fun ForYou(onTourSelected: (Long) -> Unit) {
                 )
             },
         )
-        LazyRow(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+        LazyRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
             items(3) {
 
                 Box(
@@ -437,7 +456,10 @@ fun ForYou(onTourSelected: (Long) -> Unit) {
                             style = MaterialTheme.typography.titleMedium,
                             color = BaseTheme.colors.textInteractive,
                         )
-                        JetHorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = BaseTheme.colors.uiBorder)
+                        JetHorizontalDivider(
+                            modifier = Modifier.padding(vertical = 8.dp),
+                            color = BaseTheme.colors.uiBorder
+                        )
                         IconText(
                             text = {
                                 Text("تهران، تهران", color = BaseTheme.colors.textInteractive)
@@ -546,7 +568,7 @@ private fun PreviewHomeScreen() {
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
 
             JetSnackBackground(modifier = Modifier.fillMaxSize()) {
-                HomeScreenContent(modifier = Modifier.systemBarsPadding(), {})
+                HomeScreenContent(modifier = Modifier.systemBarsPadding(), PaddingValues(0.dp), {})
             }
         }
     }

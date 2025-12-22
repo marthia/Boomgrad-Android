@@ -18,8 +18,8 @@ package me.marthia.app.boomgrad.presentation.components
 
 import android.content.res.Resources
 import androidx.annotation.StringRes
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -30,6 +30,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -46,7 +47,7 @@ import java.util.UUID
  * Wrap Material [androidx.compose.material3.Scaffold] and set [BaseTheme] colors.
  */
 @Composable
-fun JetsnackScaffold(
+fun AppScaffold(
     modifier: Modifier = Modifier,
     snackBarHostState: SnackbarHostState = remember { SnackbarHostState() },
     topBar: @Composable (() -> Unit) = {},
@@ -58,21 +59,23 @@ fun JetsnackScaffold(
     contentColor: Color = BaseTheme.colors.textSecondary,
     content: @Composable (PaddingValues) -> Unit,
 ) {
-    JetSnackBackground(modifier = Modifier.fillMaxSize(), gradient = backgroundColor) {
-        Scaffold(
-            modifier = modifier,
-            topBar = topBar,
-            bottomBar = bottomBar,
-            snackbarHost = {
-                snackbarHost(snackBarHostState)
-            },
-            floatingActionButton = floatingActionButton,
-            floatingActionButtonPosition = floatingActionButtonPosition,
-            containerColor = Color.Transparent,
-            contentColor = contentColor,
-            content = content,
-        )
-    }
+
+    Scaffold(
+        modifier = modifier.background(
+            brush = Brush.verticalGradient(backgroundColor),
+        ),
+        topBar = topBar,
+        bottomBar = bottomBar,
+        snackbarHost = {
+            snackbarHost(snackBarHostState)
+        },
+        floatingActionButton = floatingActionButton,
+        floatingActionButtonPosition = floatingActionButtonPosition,
+        containerColor = Color.Transparent,
+        contentColor = contentColor,
+        content = content,
+    )
+
 }
 
 /**

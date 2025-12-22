@@ -9,12 +9,12 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import me.marthia.app.boomgrad.presentation.components.JetSnackBackground
-import me.marthia.app.boomgrad.presentation.components.JetsnackScaffold
+import me.marthia.app.boomgrad.presentation.components.AppScaffold
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
 
 @Composable
 fun ProfileScreen() {
-    JetsnackScaffold {}
+    AppScaffold {}
 
 }
 

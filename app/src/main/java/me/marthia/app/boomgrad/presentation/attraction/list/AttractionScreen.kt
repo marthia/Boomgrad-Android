@@ -31,14 +31,14 @@ import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.presentation.components.IconText
 import me.marthia.app.boomgrad.presentation.components.JetSnackBackground
 import me.marthia.app.boomgrad.presentation.components.JetsnackCard
-import me.marthia.app.boomgrad.presentation.components.JetsnackScaffold
+import me.marthia.app.boomgrad.presentation.components.AppScaffold
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
 import me.marthia.app.boomgrad.presentation.theme.BaseTheme
 import me.marthia.app.boomgrad.presentation.util.debugPlaceholder
 
 @Composable
 fun AttractionList(onAttractionSelected: (Long) -> Unit) {
-    JetsnackScaffold() {
+    AppScaffold() {
         AttractionList(Modifier.padding(it), onAttractionSelected = onAttractionSelected)
     }
 }

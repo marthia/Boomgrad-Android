@@ -45,7 +45,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import me.marthia.app.boomgrad.presentation.attraction.detail.AttractionDetail
-import me.marthia.app.boomgrad.presentation.components.JetsnackScaffold
+import me.marthia.app.boomgrad.presentation.components.AppScaffold
 import me.marthia.app.boomgrad.presentation.components.JetsnackSnackbar
 import me.marthia.app.boomgrad.presentation.components.rememberJetsnackScaffoldState
 import me.marthia.app.boomgrad.presentation.home.AppBottomBar
@@ -136,7 +136,7 @@ fun MainContainer(
         ?: throw IllegalStateException("No SharedElementScope found")
     val animatedVisibilityScope = LocalNavAnimatedVisibilityScope.current
         ?: throw IllegalStateException("No SharedElementScope found")
-    JetsnackScaffold(
+    AppScaffold(
         bottomBar = {
             with(animatedVisibilityScope) {
                 with(sharedTransitionScope) {
