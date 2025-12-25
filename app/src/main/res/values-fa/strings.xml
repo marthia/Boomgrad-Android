@@ -3,11 +3,11 @@
     <string name="app_name">چیستان</string>
     <string name="label_login_button">ورود به نرم افزار</string>
     <string name="placeholder_login_username">نام کاربری</string>
-    <string name="placeholder_login_username_description">نام کاربری خود را وارد کنید</string>
+    <string name="placeholder_login_username_description">شماره موبایل</string>
     <string name="placeholder_login_password">کلمه عبور</string>
     <string name="placeholder_login_password_description">کلمه عبور خود را وارد کنید</string>
-    <string name="title_login_name">ورود به حساب کاربری</string>
-    <string name="subtitle_login_description">شرکت طنین ارتباط هشت بهشت</string>
+    <string name="title_login_name">ورود / ثبت‌نام</string>
+    <string name="subtitle_login_description">برای ادامه، لطفا اطلاعات خود را وارد کنید.</string>
 
 
     <!-- Home Tabs -->

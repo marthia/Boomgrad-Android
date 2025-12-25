@@ -8,7 +8,7 @@ sealed class LoginState {
 
 
 sealed class LoginEvent {
-    data class Login(val phone: String) : LoginEvent()
+    data class Login(val username: String, val password: String) : LoginEvent()
     data object ClearError : LoginEvent()
     data object Logout : LoginEvent()
 

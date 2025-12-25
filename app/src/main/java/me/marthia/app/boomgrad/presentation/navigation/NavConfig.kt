@@ -15,13 +15,17 @@ import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDeepLink
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.presentation.LocalNavAnimatedVisibilityScope
 import me.marthia.app.boomgrad.presentation.attraction.list.AttractionList
 import me.marthia.app.boomgrad.presentation.cart.CartScreen
 import me.marthia.app.boomgrad.presentation.home.HomeScreen
+import me.marthia.app.boomgrad.presentation.login.LoginScreen
+import me.marthia.app.boomgrad.presentation.login.otp.OtpScreen
 import me.marthia.app.boomgrad.presentation.nonSpatialExpressiveSpring
 import me.marthia.app.boomgrad.presentation.profile.ProfileScreen
 
@@ -84,6 +88,7 @@ fun NavGraphBuilder.addHomeGraph(
         ProfileScreen()
     }
 }
+
 
 enum class HomeSections(
     @StringRes val title: Int,

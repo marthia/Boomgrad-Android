@@ -1,4 +1,4 @@
-package me.marthia.app.boomgrad.presentation.detail
+package me.marthia.app.boomgrad.presentation.attraction.detail
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -20,9 +20,9 @@ class AttractionDetailViewModel(
     private val _uiState = MutableStateFlow<DetailUiState>(DetailUiState.Loading)
     val uiState: StateFlow<DetailUiState> = _uiState.asStateFlow()
 
-    init {
-        loadAttractionDetail()
-    }
+//    init {
+//        loadAttractionDetail()
+//    }
 
     private fun loadAttractionDetail() {
         viewModelScope.launch {

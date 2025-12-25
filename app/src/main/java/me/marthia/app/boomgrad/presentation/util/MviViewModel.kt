@@ -10,14 +10,14 @@ import kotlinx.coroutines.flow.asStateFlow
  *
  * This class is designed to be extended by specific ViewModels in the application.
  *
- * @param STATE The type of the state object, which must extend [BaseViewState].
+ * @param STATE The type of the state object, which must extend [ViewState].
  *              Represents the state of the UI at any given moment.
  * @param EVENT The type of the event object. Represents user actions or other
  *              events that can trigger a state change.
  */
-abstract class MviViewModel<STATE : BaseViewState<*>, EVENT> : MvvmViewModel() {
+abstract class MviViewModel<STATE : ViewState<*>, EVENT> : MvvmViewModel() {
 
-    private val _uiState = MutableStateFlow<BaseViewState<*>>(BaseViewState.Loading)
+    private val _uiState = MutableStateFlow<ViewState<*>>(ViewState.Loading)
     val uiState = _uiState.asStateFlow()
 
     /**
@@ -40,11 +40,11 @@ abstract class MviViewModel<STATE : BaseViewState<*>, EVENT> : MvvmViewModel() {
 
     override fun startLoading() {
         super.startLoading()
-        _uiState.value = BaseViewState.Loading
+        _uiState.value = ViewState.Loading
     }
 
     override fun handleError(exception: Throwable) {
         super.handleError(exception)
-        _uiState.value = BaseViewState.Error(exception)
+        _uiState.value = ViewState.Error(exception)
     }
 }

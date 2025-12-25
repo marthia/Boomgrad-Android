@@ -1,21 +1,20 @@
-package me.marthia.app.boomgrad.data
+package me.marthia.app.boomgrad.data.remote.repository
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import me.marthia.app.boomgrad.data.mapper.toDomain
 import me.marthia.app.boomgrad.data.remote.api.TourApiService
 import me.marthia.app.boomgrad.domain.model.Attraction
 import me.marthia.app.boomgrad.domain.repository.AttractionRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import me.marthia.app.boomgrad.presentation.util.DataState
-
 
 class AttractionRepositoryImpl (
     private val apiService: TourApiService
 ) : AttractionRepository {
-    
+
     private val favoriteIds = MutableStateFlow<Set<String>>(emptySet())
     private val _favoriteAttractions = MutableStateFlow<List<Attraction>>(emptyList())
-    
+
   /*  override suspend fun getAttractions(): Result<List<Attraction>> {
         return try {
             val response = apiService.getAttractions()
@@ -38,7 +37,7 @@ class AttractionRepositoryImpl (
             Result.failure(e)
         }
     }
-    
+
     override suspend fun searchAttractions(query: String): Result<List<Attraction>> {
         return try {
             val response = apiService.searchAttractions(query)
@@ -48,11 +47,11 @@ class AttractionRepositoryImpl (
             Result.failure(e)
         }
     }
-    
+
     override fun getFavoriteAttractions(): Flow<List<Attraction>> {
         return _favoriteAttractions
     }
-    
+
     override suspend fun toggleFavorite(attractionId: String) {
         val currentFavorites = favoriteIds.value.toMutableSet()
         if (currentFavorites.contains(attractionId)) {

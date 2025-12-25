@@ -42,15 +42,20 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
-import me.marthia.app.boomgrad.presentation.attraction.detail.AttractionDetail
+import me.marthia.app.boomgrad.presentation.attraction.detail.AttractionDetailScreen
 import me.marthia.app.boomgrad.presentation.components.AppScaffold
 import me.marthia.app.boomgrad.presentation.components.JetsnackSnackbar
 import me.marthia.app.boomgrad.presentation.components.rememberJetsnackScaffoldState
 import me.marthia.app.boomgrad.presentation.home.AppBottomBar
+import me.marthia.app.boomgrad.presentation.login.LoginScreen
+import me.marthia.app.boomgrad.presentation.login.otp.OtpScreen
+import me.marthia.app.boomgrad.presentation.navigation.Arguments
 import me.marthia.app.boomgrad.presentation.navigation.HomeSections
 import me.marthia.app.boomgrad.presentation.navigation.MainDestinations
+import me.marthia.app.boomgrad.presentation.navigation.Routes
 import me.marthia.app.boomgrad.presentation.navigation.addHomeGraph
 import me.marthia.app.boomgrad.presentation.navigation.composableWithCompositionLocal
 import me.marthia.app.boomgrad.presentation.navigation.rememberJetsnackNavController
@@ -75,7 +80,7 @@ fun JetsnackApp() {
                     ) { backStackEntry ->
                         MainContainer(
                             onSnackSelected = jetsnackNavController::navigateToSnackDetail,
-                            onTourSelected = jetsnackNavController::navigateToTourDetail,
+                            onTourSelected = { _, _ -> jetsnackNavController.navigateToLogin() },
                             onAttractionSelected = jetsnackNavController::navigateToAttraction,
                         )
                     }
@@ -103,17 +108,34 @@ fun JetsnackApp() {
                                 "{${MainDestinations.ATTRACTION_ID_KEY}}",
                         arguments = listOf(
                             navArgument(MainDestinations.ATTRACTION_ID_KEY) {
-                                type = NavType.LongType
+                                type = NavType.StringType
                             },
                         ),
 
                         ) { backStackEntry ->
                         val arguments = requireNotNull(backStackEntry.arguments)
                         val attractionId = arguments.getLong(MainDestinations.TOUR_ID_KEY)
-                        AttractionDetail(
-                            attractionId = attractionId,
-                            upPress = jetsnackNavController::upPress,
+                        AttractionDetailScreen(
+                            attractionId = "$attractionId",
+                            onBackClick = jetsnackNavController::upPress,
                         )
+                    }
+
+                    composable(Routes.LOGIN) {
+                        LoginScreen()
+                    }
+
+                    composable(
+                        route = "${Routes.OTP}/{${Arguments.OTP_PHONE}}",
+                        arguments = listOf(
+                            navArgument(Arguments.OTP_PHONE) {
+                                type = NavType.StringType
+                            },
+                        ),
+                    ) { from ->
+                        val arguments = requireNotNull(from.arguments)
+                        val phone = arguments.getString(Arguments.OTP_PHONE, "-1")
+                        OtpScreen(navBackStackEntry = from, phone = phone)
                     }
                 }
             }
@@ -187,6 +209,7 @@ fun MainContainer(
                     .padding(padding)
                     .consumeWindowInsets(padding),
             )
+
         }
     }
 }

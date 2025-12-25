@@ -1,4 +1,4 @@
-package me.marthia.app.boomgrad.presentation.util
+package me.marthia.app.boomgrad.domain.util
 
 enum class HttpStatusCode(val code: Int) {
 
@@ -46,4 +46,10 @@ enum class HttpStatusCode(val code: Int) {
     LoopDetected(508),
     NotExtended(510),
     NetworkAuthenticationRequired(511);
+
+    companion object {
+        fun fromCode(code: Int): HttpStatusCode {
+            return entries.firstOrNull { it.code == code } ?: Unknown
+        }
+    }
 }

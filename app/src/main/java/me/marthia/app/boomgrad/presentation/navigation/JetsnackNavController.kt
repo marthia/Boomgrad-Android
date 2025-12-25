@@ -98,6 +98,10 @@ class JetsnackNavController(val navController: NavHostController) {
         }
     }
 
+    fun navigateToLogin() {
+        navController.navigate(Routes.LOGIN)
+    }
+
 
 }
 

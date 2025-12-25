@@ -4,7 +4,13 @@ package me.marthia.app.boomgrad.presentation.components
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
@@ -19,7 +25,12 @@ import me.marthia.app.boomgrad.presentation.theme.BaseTheme
 fun TopBar(
     title: @Composable () -> Unit = {},
     modifier: Modifier = Modifier,
-    navigationIcon: @Composable () -> Unit = {},
+    onBackClick: () -> Unit = {}, // required only if using generic navigationIcon
+    navigationIcon: @Composable () -> Unit = {
+        IconButton(onClick = onBackClick, shape = CircleShape, colors = IconButtonDefaults.filledIconButtonColors(containerColor = BaseTheme.colors.iconInteractive)) {
+            Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back")
+        }
+    },
     actions: @Composable RowScope.() -> Unit = {},
     expandedHeight: Dp = TopAppBarDefaults.TopAppBarExpandedHeight,
     windowInsets: WindowInsets = TopAppBarDefaults.windowInsets,

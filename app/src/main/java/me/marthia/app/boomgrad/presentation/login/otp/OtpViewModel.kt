@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.IntentFilter
 import androidx.core.content.ContextCompat
 import me.marthia.app.boomgrad.domain.repository.LoginRepository
-import me.marthia.app.boomgrad.presentation.util.BaseViewState
+import me.marthia.app.boomgrad.presentation.util.ViewState
 import me.marthia.app.boomgrad.presentation.util.MviViewModel
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.android.gms.auth.api.phone.SmsRetrieverClient
@@ -16,7 +16,7 @@ import timber.log.Timber
 class OtpViewModel(
     private val repository: LoginRepository,
     private val context: Context
-) : MviViewModel<BaseViewState<OTPState>, OTPEvent>() {
+) : MviViewModel<ViewState<OTPState>, OTPEvent>() {
 
     private val _otpCode = MutableStateFlow("")
     val otpCode = _otpCode.asStateFlow()
@@ -73,12 +73,12 @@ class OtpViewModel(
 
     private fun handleVerifyOtp(otp: String) {
         safeLaunch {
-            setState(BaseViewState.Loading)
+            setState(ViewState.Loading)
 
             val code = otp.trim()
 
             if (code.isEmpty()) {
-                setState(BaseViewState.Error(Throwable("کد تایید نمی‌تواند خالی باشد")))
+                setState(ViewState.Error(Throwable("کد تایید نمی‌تواند خالی باشد")))
                 return@safeLaunch
             }
 
@@ -86,13 +86,13 @@ class OtpViewModel(
             if (response.status == true) {
                 // Get token from token manager after successful OTP verification
                 setState(
-                    BaseViewState.Data(
+                    ViewState.Data(
                         OTPState(isCodeCorrect = true)
                     )
                 )
             } else {
                 setState(
-                    BaseViewState.Error(
+                    ViewState.Error(
                         Throwable(response.message)/* ?: Throwable("کد تایید نامعتبر است")*/
                     )
                 )

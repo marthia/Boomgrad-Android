@@ -8,8 +8,8 @@
 
     ```
     <string name="label_login_button">Login to Application</string>
-    <string name="placeholder_login_username">Username</string>
-    <string name="placeholder_login_username_description">Enter your username</string>
+    <string name="placeholder_login_username">Phone Number</string>
+    <string name="placeholder_login_username_description">Enter your Phone</string>
     <string name="placeholder_login_password">Password</string>
     <string name="placeholder_login_password_description">Enter your password</string>
     <string name="title_login_name">Login to Account</string>

@@ -4,68 +4,46 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import me.marthia.app.boomgrad.domain.repository.LoginRepository
-import me.marthia.app.boomgrad.presentation.util.BaseViewState
+import me.marthia.app.boomgrad.domain.usecase.login.LoginUseCase
 import me.marthia.app.boomgrad.presentation.util.MviViewModel
+import me.marthia.app.boomgrad.presentation.util.ViewState
 import org.koin.android.annotation.KoinViewModel
 
 @KoinViewModel
 class LoginViewModel(
-    private val repository: LoginRepository,
-) : MviViewModel<BaseViewState<LoginState>, LoginEvent>() {
+    private val login: LoginUseCase,
+) : MviViewModel<ViewState<LoginState>, LoginEvent>() {
     private val _token = MutableStateFlow("")
     val token = _token.asStateFlow()
 
-    fun isLoggedIn() = repository.getToken().isNullOrBlank().not()
+//    fun isLoggedIn() = repository.getToken().isNullOrBlank().not()
 
     override fun onTriggerEvent(eventType: LoginEvent) {
         when (eventType) {
-            is LoginEvent.Login -> handleLogin(eventType.phone)
+            is LoginEvent.Login -> handleLogin(eventType.username, eventType.password)
             is LoginEvent.ClearError -> clearError()
             LoginEvent.Logout -> handleLogout()
         }
     }
 
-    private fun handleLogin(phone: String) {
+    private fun handleLogin(username: String, password: String) {
         safeLaunch {
-            setState(BaseViewState.Loading)
+            val params = LoginUseCase.LoginParams(username = username, password = password)
 
-            // Validate input
-            if (phone.isEmpty()) {
-                setState(BaseViewState.Error(Throwable("نام کاربری نمی‌تواند خالی باشد")))
-                return@safeLaunch
+            execute(login.invoke(params = params)) {
+                setState(ViewState.Data(LoginState.LoginSuccess(token = "")))
             }
-
-            // Call API
-            val response = repository.login(phone)
-            if (response.success == true) {
-                setState(
-                    BaseViewState.Data(
-                        LoginState.OtpRequired(
-                            message = response.message
-                                ?: "کد تایید به شماره شما ارسال شد"
-                        )
-                    )
-                )
-            } else {
-                setState(
-                    BaseViewState.Error(
-                        Throwable(response.message ?: "ورود ناموفق بود")
-                    )
-                )
-            }
-
         }
     }
 
     private fun handleLogout() {
         viewModelScope.launch {
-            repository.clearToken()
-            setState(BaseViewState.Data(LoginState.LoggedOut))
+//            repository.clearToken()
+            setState(ViewState.Data(LoginState.LoggedOut))
         }
     }
 
     fun clearError() {
-        setState(BaseViewState.Empty)
+        setState(ViewState.Empty)
     }
 }
