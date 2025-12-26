@@ -3,24 +3,28 @@ package me.marthia.app.boomgrad.presentation.login.otp
 import android.content.Context
 import android.content.IntentFilter
 import androidx.core.content.ContextCompat
-import me.marthia.app.boomgrad.domain.repository.LoginRepository
-import me.marthia.app.boomgrad.presentation.util.ViewState
-import me.marthia.app.boomgrad.presentation.util.MviViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.android.gms.auth.api.phone.SmsRetrieverClient
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import me.marthia.app.boomgrad.domain.repository.LoginRepository
+import me.marthia.app.boomgrad.presentation.util.ViewState
 import timber.log.Timber
 
 class OtpViewModel(
     private val repository: LoginRepository,
     private val context: Context
-) : MviViewModel<ViewState<OTPState>, OTPEvent>() {
+) : ViewModel() {
 
     private val _otpCode = MutableStateFlow("")
     val otpCode = _otpCode.asStateFlow()
 
+    private val _otpState = MutableStateFlow<ViewState<OTPState>>(ViewState.Idle)
+    val otpState = _otpState.asStateFlow()
 
     private val smsBroadcastReceiver: SmsRetrieverOTP = SmsRetrieverOTP()
 
@@ -43,7 +47,7 @@ class OtpViewModel(
             }
         })
 
-        safeLaunch {
+        viewModelScope.launch {
             delay(100)
             val intentFilter = IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
 
@@ -53,12 +57,6 @@ class OtpViewModel(
         }
     }
 
-    override fun onTriggerEvent(eventType: OTPEvent) {
-        when (eventType) {
-            is OTPEvent.VerifyOtp -> handleVerifyOtp(eventType.otp)
-            is OTPEvent.RequestForOtp -> {}
-        }
-    }
 
     private fun startSMSRetrieverClient(context: Context) {
         val client: SmsRetrieverClient = SmsRetriever.getClient(context)
@@ -71,31 +69,31 @@ class OtpViewModel(
         }
     }
 
-    private fun handleVerifyOtp(otp: String) {
-        safeLaunch {
-            setState(ViewState.Loading)
+    fun verifyOtp(otp: String) {
+        viewModelScope.launch {
+            _otpState.value = ViewState.Loading
 
             val code = otp.trim()
 
             if (code.isEmpty()) {
-                setState(ViewState.Error(Throwable("کد تایید نمی‌تواند خالی باشد")))
-                return@safeLaunch
+                _otpState.value = ViewState.Error(Throwable("کد تایید نمی‌تواند خالی باشد"))
+                return@launch
             }
 
             val response = repository.checkSmsCode(code)
             if (response.status == true) {
                 // Get token from token manager after successful OTP verification
-                setState(
-                    ViewState.Data(
+                _otpState.value =
+                    ViewState.Success(
                         OTPState(isCodeCorrect = true)
                     )
-                )
+
             } else {
-                setState(
+                _otpState.value =
                     ViewState.Error(
                         Throwable(response.message)/* ?: Throwable("کد تایید نامعتبر است")*/
                     )
-                )
+
             }
         }
     }

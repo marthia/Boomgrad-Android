@@ -1,29 +1,34 @@
 package me.marthia.app.boomgrad.data.remote.api
 
-import me.marthia.app.boomgrad.data.remote.dto.LoginResponseDto
-import me.marthia.app.boomgrad.data.remote.dto.SmsResponseDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
-import io.ktor.client.request.parameter
 import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 import me.marthia.app.boomgrad.data.local.TokenManager
+import me.marthia.app.boomgrad.data.remote.dto.BaseResponse
+import me.marthia.app.boomgrad.data.remote.dto.LoginDto
+import me.marthia.app.boomgrad.data.remote.dto.LoginRequestBody
+import me.marthia.app.boomgrad.data.remote.dto.SmsResponseDto
+import me.marthia.app.boomgrad.data.remote.util.toNetworkFailure
 
 class LoginApiServiceImpl(
     private val client: HttpClient,
     private val tokenManager: TokenManager
 ) : LoginApiService {
 
-    override suspend fun login(username: String, password: String): Result<LoginResponseDto> {
+    override suspend fun login(email: String, password: String): Result<BaseResponse<LoginDto>> {
         return try {
-            val response = client.post("login") {
-                parameter("username", username)
-                parameter("password", password) // Base64 encoded
-            }.body<LoginResponseDto>()
+            val response = client.post("auth/login") {
+                contentType(ContentType.Application.Json)
+                setBody(LoginRequestBody(email = email, password = password))
+            }.body<BaseResponse<LoginDto>>()
 
             Result.success(response)
         } catch (e: Exception) {
-            Result.failure(e)
+            Result.failure(e.toNetworkFailure())
         }
     }
 

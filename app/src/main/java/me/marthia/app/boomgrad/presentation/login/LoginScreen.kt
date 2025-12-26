@@ -1,24 +1,26 @@
 package me.marthia.app.boomgrad.presentation.login
 
-import android.widget.Toast
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,52 +31,45 @@ import me.marthia.app.boomgrad.presentation.components.JetsnackButton
 import me.marthia.app.boomgrad.presentation.components.JetsnackTextField
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
 import me.marthia.app.boomgrad.presentation.theme.BaseTheme
-import me.marthia.app.boomgrad.presentation.util.ViewState
 import me.marthia.app.boomgrad.presentation.util.KeyboardAware
 import me.marthia.app.boomgrad.presentation.util.RightToLeftLayout
+import me.marthia.app.boomgrad.presentation.util.ViewState
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(onLoginSuccess: () -> Unit) {
 
     val viewModel = koinViewModel<LoginViewModel>()
 
-    val context = LocalContext.current
+    val viewState by viewModel.loginState.collectAsState()
 
-    LaunchedEffect(Unit) {
-        viewModel.uiState.collect {
-            when (it) {
-                is ViewState.Data<*> -> {
-//                    navigator.navigate(OtpScreenDestination(phoneNumber = "09035135466")) // fixme
-                    // remove callbacks
-                    viewModel.clearError()
-                }
+    AppScaffold { paddingValues ->
 
-                is ViewState.Error -> {
-                    Toast.makeText(
-                        context,
-                        it.throwable.message,
-                        Toast.LENGTH_LONG
-                    ).show()
-                    // remove callbacks
-                    viewModel.clearError()
-                }
-
-                else -> {}
-            }
-        }
+        LoginScreenContent(
+            modifier = Modifier.padding(paddingValues),
+            viewState = viewState, onLogin = viewModel::login
+        )
     }
 
-    AppScaffold { p ->
-        LoginScreenContent(modifier = Modifier.padding(p), onLogin = { username, password ->
-            viewModel.onTriggerEvent(LoginEvent.Login(username = username, password = password))
-        })
+    LaunchedEffect(viewState) {
+        when (viewState) {
+            is ViewState.Error -> {
+
+            }
+
+            is ViewState.Success<*> -> {
+
+            }
+
+            else -> {}
+        }
     }
 }
 
 @Composable
 private fun LoginScreenContent(
     modifier: Modifier = Modifier,
+    viewState: ViewState<*>,
     onLogin: (username: String, password: String) -> Unit
 ) {
 
@@ -88,6 +83,7 @@ private fun LoginScreenContent(
             modifier = Modifier
 
                 .padding(top = cardTopPadding),
+            viewState = viewState,
             onLogin = onLogin
         )
 
@@ -98,6 +94,7 @@ private fun LoginScreenContent(
 @Composable
 fun LoginCard(
     modifier: Modifier = Modifier,
+    viewState: ViewState<*>,
     onLogin: (username: String, password: String) -> Unit
 ) {
     var username by rememberSaveable { mutableStateOf("") }
@@ -106,20 +103,22 @@ fun LoginCard(
 
     Column(
         modifier = modifier
-            .fillMaxWidth()
-            .padding(top = 16.dp),
+            .fillMaxWidth(),
     ) {
 
         Text(
             modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
             text = stringResource(R.string.title_login_name),
-            style = MaterialTheme.typography.headlineLarge
+            style = MaterialTheme.typography.titleLarge
         )
         Text(
             modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
             text = stringResource(R.string.subtitle_login_description),
-            style = MaterialTheme.typography.titleMedium
+            style = MaterialTheme.typography.titleSmall
         )
+
+
+        Spacer(Modifier.height(24.dp))
 
         JetsnackTextField(
             modifier = Modifier
@@ -182,8 +181,9 @@ fun LoginCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 24.dp, start = 16.dp, end = 16.dp, top = 48.dp),
+            innerRowModifier = Modifier.fillMaxWidth(),
             backgroundGradient = BaseTheme.colors.interactivePrimary,
-            enabled = username.isNotBlank(),
+            enabled = username.isNotBlank() && password.isNotBlank() && viewState !is ViewState.Loading,
             contentPadding = PaddingValues(
                 horizontal = 16.dp,
                 vertical = 8.dp
@@ -191,13 +191,16 @@ fun LoginCard(
             onClick = {
                 onLogin(username, password)
             }) {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 12.dp, horizontal = 16.dp),
-                text = stringResource(id = R.string.label_login_button),
-                style = MaterialTheme.typography.labelLarge
-            )
+            if (viewState is ViewState.Loading) {
+                CircularProgressIndicator()
+            } else {
+                Text(
+                    modifier = Modifier
+                        .padding(vertical = 12.dp, horizontal = 16.dp),
+                    text = stringResource(id = R.string.label_login_button),
+                    style = MaterialTheme.typography.labelLarge
+                )
+            }
         }
     }
 
@@ -211,7 +214,7 @@ private fun PreviewLoginScreen() {
 
         RightToLeftLayout {
             JetSnackBackground(modifier = Modifier.fillMaxSize()) {
-                LoginScreenContent { _, _ ->
+                LoginScreenContent(viewState = ViewState.Idle) { _, _ ->
 
                 }
             }

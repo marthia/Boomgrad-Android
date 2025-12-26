@@ -26,4 +26,6 @@
     <string name="home_profile">Profile</string>
     <string name="home_attraction">Attraction</string>
     <string name="tour_detail_title_prerequisites">وسایل مورد نیاز</string>
+    <string name="message_login_failure">خطا</string>
+    <string name="message_login_success">ورود موفق</string>
 </resources>

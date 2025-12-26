@@ -4,9 +4,9 @@ sealed interface ViewState<out T> {
 
     data object Loading : ViewState<Nothing>
 
-    data object Empty : ViewState<Nothing>
+    data object Idle : ViewState<Nothing>
 
-    data class Data<T>(val value: T) : ViewState<T>
+    data class Success<T>(val value: T) : ViewState<T>
 
     data class Error(val throwable: Throwable) : ViewState<Nothing>
 }

@@ -80,6 +80,12 @@ val Typography = Typography(
         fontWeight = FontWeight.SemiBold,
         lineHeight = 29.sp,
     ),
+    headlineLarge = TextStyle(
+        fontFamily = PeydaFont,
+        fontSize = 32.sp,
+        fontWeight = FontWeight.Bold,
+        lineHeight = 40.sp,
+    ),
     titleLarge = TextStyle(
         fontFamily = PeydaFont,
         fontSize = 20.sp,

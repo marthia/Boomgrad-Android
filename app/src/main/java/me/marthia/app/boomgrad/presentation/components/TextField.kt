@@ -1,11 +1,17 @@
 package me.marthia.app.boomgrad.presentation.components
 
 import android.content.res.Configuration
+import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.LocalTextStyle
@@ -15,12 +21,16 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
 import me.marthia.app.boomgrad.presentation.theme.BaseTheme
@@ -127,9 +137,67 @@ fun JetsnackTextField(
     }
 }
 
+@Composable
+fun DecoratedTextField(
+    value: String,
+    length: Int,
+    modifier: Modifier = Modifier,
+    boxWidth: Dp = 48.dp,
+    boxHeight: Dp = 48.dp,
+    enabled: Boolean = true,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+    keyboardActions: KeyboardActions = KeyboardActions(),
+    color: Color = BaseTheme.colors.uiContainer,
+    shape: Shape = RoundedCornerShape(4.dp),
+    onValueChange: (String) -> Unit,
+) {
+    val spaceBetweenBoxes = 8.dp
+    BasicTextField(
+        modifier = modifier,
+        value = value,
+        singleLine = true,
+        onValueChange = {
+            if (it.length <= length) {
+                onValueChange(it)
+            }
+        },
+        enabled = enabled,
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
+        decorationBox = {
+            Row(
+                Modifier.size(width = (boxWidth + spaceBetweenBoxes) * length, height = boxHeight),
+                horizontalArrangement = Arrangement.spacedBy(spaceBetweenBoxes),
+            ) {
+                repeat(length) { index ->
+                    Box(
+                        modifier = Modifier
+                            .size(boxWidth, boxHeight)
+                            .background(
+                                color = color,
+                                shape = shape
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = value.getOrNull(index)?.toString() ?: "",
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
+                }
+            }
+        })
+}
+
 
 @Preview("default", showBackground = true, showSystemUi = true)
-@Preview("dark theme", showBackground = true, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(
+    "dark theme",
+    showBackground = true,
+    showSystemUi = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
 @Preview("large font", showBackground = true, showSystemUi = true, fontScale = 2f)
 @Composable
 private fun PreviewTextField() {

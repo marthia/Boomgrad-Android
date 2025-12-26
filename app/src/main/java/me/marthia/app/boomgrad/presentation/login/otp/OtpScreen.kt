@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,11 +26,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
 import me.marthia.app.boomgrad.presentation.components.AppScaffold
+import me.marthia.app.boomgrad.presentation.components.DecoratedTextField
+import me.marthia.app.boomgrad.presentation.components.JetsnackButton
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
-import me.marthia.app.boomgrad.presentation.util.ViewState
-import me.marthia.app.boomgrad.presentation.util.DecoratedTextField
+import me.marthia.app.boomgrad.presentation.theme.BaseTheme
 import me.marthia.app.boomgrad.presentation.util.KeyboardAware
 import me.marthia.app.boomgrad.presentation.util.LeftToRightLayout
+import me.marthia.app.boomgrad.presentation.util.ViewState
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -45,7 +45,7 @@ fun OtpScreen(
     val otp = viewModel.otpCode.collectAsState()
 
     val context = LocalContext.current
-    val uiState = viewModel.uiState.collectAsState()
+    val uiState = viewModel.otpState.collectAsState()
 
 
     // we navigate to home screen when otp is verified
@@ -53,7 +53,7 @@ fun OtpScreen(
     // listening on ui state changes
     LaunchedEffect(uiState.value) {
         when (uiState.value) {
-            is ViewState.Data<*> -> {
+            is ViewState.Success<*> -> {
 //                if (uiState.value.cast<BaseViewState.Data<OTPState>>().value.isCodeCorrect == true)
 //                    navigator.navigate(HomeRouteDestination) {
                 // Important: Pop up to root and inclusive=true cleans the back stack
@@ -87,10 +87,10 @@ fun OtpScreen(
             modifier = Modifier.padding(paddingValues),
             otpFromSms = otp.value,
             onAuthorize = { otp ->
-                viewModel.onTriggerEvent(OTPEvent.VerifyOtp(otp = otp))
+                viewModel.verifyOtp(otp = otp)
             },
             onResendCode = {
-                viewModel.onTriggerEvent(OTPEvent.RequestForOtp(phone))
+//                viewModel.onTriggerEvent(OTPEvent.RequestForOtp(phone))
             }
         )
     }
@@ -132,11 +132,11 @@ private fun OtpScreenContent(
 
             Text(
                 text = "کد تایید",
-                style = MaterialTheme.typography.headlineMedium
+                style = MaterialTheme.typography.titleLarge
             )
             Text(
                 text = "کد تایید به شماره فلان ارسال شد",
-                style = MaterialTheme.typography.headlineMedium
+                style = MaterialTheme.typography.bodyLarge
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -157,19 +157,19 @@ private fun OtpScreenContent(
                         onResendCode()
                     },
                     text = "برای دریافت مجدد، کلیک کنید",
-                    color = MaterialTheme.colorScheme.primary,
+                    color = BaseTheme.colors.brand,
                     style = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.onPrimaryFixed)
                 )
             }
 
             Spacer(modifier = Modifier.height(68.dp))
 
-            Button(
+            JetsnackButton(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 24.dp, start = 16.dp, end = 16.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                 shape = MaterialTheme.shapes.small,
+                innerRowModifier = Modifier.fillMaxWidth(),
                 enabled = otp.value.length == 4,
                 contentPadding = PaddingValues(
                     horizontal = 16.dp,

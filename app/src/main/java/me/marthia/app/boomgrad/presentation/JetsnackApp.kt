@@ -122,7 +122,7 @@ fun JetsnackApp() {
                     }
 
                     composable(Routes.LOGIN) {
-                        LoginScreen()
+                        LoginScreen(jetsnackNavController::upPress)
                     }
 
                     composable(

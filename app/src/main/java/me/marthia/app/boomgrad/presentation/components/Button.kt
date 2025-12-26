@@ -29,6 +29,7 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -56,6 +57,7 @@ import me.marthia.app.boomgrad.presentation.theme.BaseTheme
 fun JetsnackButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    innerRowModifier: Modifier = Modifier,
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     shape: Shape = ButtonShape,
@@ -91,7 +93,8 @@ fun JetsnackButton(
             value = MaterialTheme.typography.labelLarge,
         ) {
             Row(
-                Modifier
+                innerRowModifier
+
 //                    .defaultMinSize(
 //                        minWidth = ButtonDefaults.MinWidth,
 //                        minHeight = ButtonDefaults.MinHeight,

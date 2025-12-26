@@ -1,7 +1,9 @@
-package com.almasnet.app.android.presentation.util
+package me.marthia.app.boomgrad.presentation.util
 
 import android.content.Context
-import me.marthia.app.boomgrad.presentation.util.setLocale
+import android.content.res.Configuration
+import android.os.LocaleList
+import java.util.Locale
 
 object LocaleProvider {
     private const val SELECTED_LANGUAGE = "Locale.Helper.Selected.Language"
@@ -39,8 +41,26 @@ object LocaleProvider {
         context: Context,
         language: String,
     ): Context {
-        return context.setLocale(language)
+        val locale = Locale(language)
+        Locale.setDefault(locale)
+
+        val current = context.resources.configuration.locales.get(0)
+
+        if (current == locale) return context
+
+        val config = Configuration(context.resources.configuration)
+        // bring the target locale to the front of the list
+        val set = linkedSetOf(locale)
+
+        val defaultLocales = LocaleList.getDefault()
+        val all = List<Locale>(defaultLocales.size()) { defaultLocales[it] }
+        // append other locales supported by the user
+        set.addAll(all)
+
+        config.setLocales(LocaleList(*set.toTypedArray()))
+        config.setLayoutDirection(locale)
+        // TODO it won't work without this line why?
+        context.resources.updateConfiguration(config, context.resources.displayMetrics)
+        return context.createConfigurationContext(config)
     }
-
-
 }

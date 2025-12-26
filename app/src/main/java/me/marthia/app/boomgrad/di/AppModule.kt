@@ -3,6 +3,7 @@ package me.marthia.app.boomgrad.di
 
 import me.marthia.app.boomgrad.presentation.attraction.AttractionsViewModel
 import me.marthia.app.boomgrad.presentation.attraction.detail.AttractionDetailViewModel
+import me.marthia.app.boomgrad.presentation.components.SnackbarManager
 import me.marthia.app.boomgrad.presentation.favorites.FavoritesViewModel
 import me.marthia.app.boomgrad.presentation.login.LoginViewModel
 import me.marthia.app.boomgrad.presentation.login.otp.OtpViewModel
@@ -19,6 +20,6 @@ val appModule = module {
     viewModel { AttractionDetailViewModel(get(), get()) }
     viewModel { FavoritesViewModel(repository = get()) }
     viewModel { SearchViewModel(get()) }
-    viewModel { LoginViewModel(get()) }
+    viewModel { LoginViewModel(get(), get(), SnackbarManager) }
     viewModel { OtpViewModel(repository = get(), context = androidContext()) }
 }

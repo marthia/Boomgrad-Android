@@ -21,7 +21,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.almasnet.app.android.presentation.util.LocaleProvider
+import me.marthia.app.boomgrad.presentation.util.LocaleProvider
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

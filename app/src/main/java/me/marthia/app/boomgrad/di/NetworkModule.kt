@@ -4,6 +4,9 @@ package me.marthia.app.boomgrad.di
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.engine.cio.endpoint
+import io.ktor.client.plugins.auth.Auth
+import io.ktor.client.plugins.auth.providers.BearerTokens
+import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
@@ -17,11 +20,12 @@ import io.ktor.http.path
 import io.ktor.http.withCharset
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import me.marthia.app.boomgrad.data.local.TokenManager
 import org.koin.dsl.module
 import timber.log.Timber
 
 object ApiConfig {
-    const val HOST = "10.0.2.2"
+    const val HOST = "192.168.1.102"
     const val PORT = 8080
     const val BASE_PATH = "api/"
     const val TIMEOUT_MILLIS = 30_000L
@@ -43,6 +47,7 @@ val networkModule = module {
 
     // HttpClient Configuration
     single<HttpClient> {
+
         HttpClient(CIO) {
             // Content Negotiation for JSON
             install(ContentNegotiation) {
@@ -67,6 +72,20 @@ val networkModule = module {
             }
 
 
+            val tokenManager: TokenManager = get()
+
+            install(Auth) {
+                bearer {
+                    loadTokens {
+                        // Load tokens from a local storage and return them as the 'BearerTokens' instance
+                        tokenManager.getToken()?.let { token ->
+                            BearerTokens(token, "")
+                        }
+                    }
+                }
+            }
+
+
             /**
              * Default Request Configuration.
              * This block allows setting up default parameters for every outgoing request
@@ -84,12 +103,6 @@ val networkModule = module {
                     port = ApiConfig.PORT
                     // Prepend the base path for all API endpoints
                     path(ApiConfig.BASE_PATH)
-
-                    // Automatically append version and token as query parameters to every request
-                    parameters.append("version", ApiConfig.VERSION)
-//                    TokenManager(androidContext()).getToken()?.let { token ->
-//                        parameters.append("token", token)
-//                    }
                 }
                 // Set the default Content-Type header for all requests to application/json
                 contentType(ContentType.Application.Json.withCharset(Charsets.UTF_8))

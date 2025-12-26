@@ -6,16 +6,15 @@ import me.marthia.app.boomgrad.data.mapper.toDomain
 import me.marthia.app.boomgrad.data.remote.api.TourApiService
 import me.marthia.app.boomgrad.domain.model.Attraction
 import me.marthia.app.boomgrad.domain.repository.AttractionRepository
-import me.marthia.app.boomgrad.presentation.util.DataState
 
-class AttractionRepositoryImpl (
+class AttractionRepositoryImpl(
     private val apiService: TourApiService
 ) : AttractionRepository {
 
     private val favoriteIds = MutableStateFlow<Set<String>>(emptySet())
     private val _favoriteAttractions = MutableStateFlow<List<Attraction>>(emptyList())
 
-  /*  override suspend fun getAttractions(): Result<List<Attraction>> {
+    override suspend fun getAttractions(): Result<List<Attraction>> {
         return try {
             val response = apiService.getAttractions()
             val attractions = response.attractions.map { it.toDomain() }
@@ -23,10 +22,6 @@ class AttractionRepositoryImpl (
         } catch (e: Exception) {
             Result.failure(e)
         }
-    }*/
-
-    override suspend fun getAttractions(): DataState<List<Attraction>> {
-        TODO("Not yet implemented")
     }
 
     override suspend fun getAttractionById(id: String): Result<Attraction> {

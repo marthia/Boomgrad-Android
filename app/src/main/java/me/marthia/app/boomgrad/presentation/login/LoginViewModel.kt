@@ -1,49 +1,59 @@
 package me.marthia.app.boomgrad.presentation.login
 
+import android.net.http.HttpException
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.io.IOException
+import me.marthia.app.boomgrad.R
+import me.marthia.app.boomgrad.domain.usecase.login.ClearTokenUseCase
 import me.marthia.app.boomgrad.domain.usecase.login.LoginUseCase
-import me.marthia.app.boomgrad.presentation.util.MviViewModel
+import me.marthia.app.boomgrad.presentation.components.SnackbarManager
 import me.marthia.app.boomgrad.presentation.util.ViewState
 import org.koin.android.annotation.KoinViewModel
 
+
 @KoinViewModel
 class LoginViewModel(
-    private val login: LoginUseCase,
-) : MviViewModel<ViewState<LoginState>, LoginEvent>() {
-    private val _token = MutableStateFlow("")
-    val token = _token.asStateFlow()
+    private val loginUseCase: LoginUseCase,
+    private val clearToken: ClearTokenUseCase,
+    private val snackbarManager: SnackbarManager,
+) : ViewModel() {
 
-//    fun isLoggedIn() = repository.getToken().isNullOrBlank().not()
+    private val _loginState = MutableStateFlow<ViewState<LoginState>>(ViewState.Idle)
+    val loginState = _loginState.asStateFlow()
 
-    override fun onTriggerEvent(eventType: LoginEvent) {
-        when (eventType) {
-            is LoginEvent.Login -> handleLogin(eventType.username, eventType.password)
-            is LoginEvent.ClearError -> clearError()
-            LoginEvent.Logout -> handleLogout()
-        }
-    }
 
-    private fun handleLogin(username: String, password: String) {
-        safeLaunch {
-            val params = LoginUseCase.LoginParams(username = username, password = password)
-
-            execute(login.invoke(params = params)) {
-                setState(ViewState.Data(LoginState.LoginSuccess(token = "")))
-            }
-        }
-    }
-
-    private fun handleLogout() {
+    fun login(username: String, password: String) {
         viewModelScope.launch {
-//            repository.clearToken()
-            setState(ViewState.Data(LoginState.LoggedOut))
+            _loginState.value = ViewState.Loading
+
+            loginUseCase(LoginUseCase.LoginParams(username, password))
+                .onSuccess { state ->
+                    _loginState.value = ViewState.Success(LoginState(state.token))
+                    snackbarManager.showMessage(R.string.message_login_success)
+                }
+                .onFailure { error ->
+//                    _loginState.value = ViewState.Error(
+//                        error.toUiMessage()
+//                    )
+                    snackbarManager.showMessage(R.string.message_login_failure)
+                }
         }
     }
 
     fun clearError() {
-        setState(ViewState.Empty)
+        clearToken.invoke()
+        _loginState.value = ViewState.Idle
     }
+
+}
+
+// If you need common error mapping
+fun Throwable.toUiMessage(): String = when (this) {
+    is IOException -> "Network error. Please check your connection."
+    is HttpException -> "Server error. Please try again."
+    else -> message ?: "An unexpected error occurred"
 }
