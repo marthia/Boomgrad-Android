@@ -97,7 +97,8 @@ fun QuantitySelector(
             contentPadding = PaddingValues(8.dp),
             onClick = { count.intValue += 1 },
         ) {
-            Icon(painter = painterResource(id = R.drawable.icon_add_24), contentDescription = "add")
+            Icon(painter = painterResource(id = R.drawable.icon_add_24),
+                contentDescription = "add")
         }
     }
 }

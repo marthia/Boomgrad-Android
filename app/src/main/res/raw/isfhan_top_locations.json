@@ -1,0 +1,163 @@
+{
+  "locations": [
+    {
+      "id": 1,
+      "title": "میدان نقش جهان",
+      "title_en": "Naqsh-e Jahan Square",
+      "description": "بزرگترین میدان تاریخی ایران و دومین میدان بزرگ جهان با مساحت ۸۹۶۰۰ متر مربع که در فهرست میراث جهانی یونسکو ثبت شده است",
+      "address": "اصفهان، خیابان استانداری، خیابان سپه، میدان نقش جهان",
+      "phone": "رایگان و بدون نیاز به تماس",
+      "hours": "۲۴ ساعته (اما بناهای اطراف از ۹ صبح تا ۶ عصر)",
+      "entrance_fee": "رایگان (ورود به میدان)",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Naghsh-e_Jahan_Square_panorama.jpg/1280px-Naghsh-e_Jahan_Square_panorama.jpg",
+      "coordinates": {
+        "lat": 32.6577,
+        "lng": 51.6775
+      }
+    },
+    {
+      "id": 2,
+      "title": "مسجد شاه (امام)",
+      "title_en": "Shah (Imam) Mosque",
+      "description": "شاهکار معماری اسلامی و کاشیکاری دوران صفویه با گنبد بزرگ آبی رنگ در ضلع جنوبی میدان نقش جهان",
+      "address": "اصفهان، میدان نقش جهان، ضلع جنوبی میدان",
+      "phone": "۰۳۱۳۲۲۲۲۱۷۳",
+      "hours": "۹:۰۰ تا ۱۲:۳۰ و ۱۴:۰۰ تا ۱۸:۰۰",
+      "entrance_fee": "۵۰٬۰۰۰ تومان",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Shah_Mosque_Isfahan_2.jpg/1280px-Shah_Mosque_Isfahan_2.jpg",
+      "coordinates": {
+        "lat": 32.6557,
+        "lng": 51.6775
+      }
+    },
+    {
+      "id": 3,
+      "title": "مسجد شیخ لطف الله",
+      "title_en": "Sheikh Lotfollah Mosque",
+      "description": "شاهکار معماری و کاشیکاری با گنبد طاووسی و بدون مناره که در ضلع شرقی میدان نقش جهان قرار دارد",
+      "address": "اصفهان، میدان نقش جهان، ضلع شرقی میدان",
+      "phone": "۰۳۱۳۲۲۲۷۵۰۴",
+      "hours": "۹:۰۰ تا ۱۲:۳۰ و ۱۴:۰۰ تا ۱۸:۰۰",
+      "entrance_fee": "۵۰٬۰۰۰ تومان",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Sheikh_Lotfollah_Mosque_Isfahan.jpg/1280px-Sheikh_Lotfollah_Mosque_Isfahan.jpg",
+      "coordinates": {
+        "lat": 32.6579,
+        "lng": 51.6789
+      }
+    },
+    {
+      "id": 4,
+      "title": "کاخ عالی قاپو",
+      "title_en": "Ali Qapu Palace",
+      "description": "کاخ شش طبقه صفوی با ارتفاع ۴۸ متر و تالار موسیقی معروف در طبقه آخر که در ضلع غربی میدان نقش جهان واقع است",
+      "address": "اصفهان، میدان نقش جهان، ضلع غربی میدان",
+      "phone": "۰۳۱۳۲۲۲۶۱۷۳",
+      "hours": "۹:۰۰ تا ۱۶:۳۰",
+      "entrance_fee": "۵۰٬۰۰۰ تومان",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Ali_Qapu_palace.jpg/1280px-Ali_Qapu_palace.jpg",
+      "coordinates": {
+        "lat": 32.6578,
+        "lng": 51.6762
+      }
+    },
+    {
+      "id": 5,
+      "title": "سی و سه پل",
+      "title_en": "Si-o-se Pol (Bridge of 33 Arches)",
+      "description": "بزرگترین و معروفترین پل تاریخی اصفهان با ۳۳ دهانه و طول ۲۹۸ متر بر روی رودخانه زاینده رود",
+      "address": "اصفهان، خیابان چهارباغ عباسی، انتهای جنوبی",
+      "phone": "رایگان و بدون نیاز به تماس",
+      "hours": "۲۴ ساعته",
+      "entrance_fee": "رایگان",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Si-o-se_pol.jpg/1280px-Si-o-se_pol.jpg",
+      "coordinates": {
+        "lat": 32.6464,
+        "lng": 51.6691
+      }
+    },
+    {
+      "id": 6,
+      "title": "پل خواجو",
+      "title_en": "Khaju Bridge",
+      "description": "یکی از زیباترین پل‌های ایران با معماری باشکوه و تزیینات کاشیکاری که در دوران شاه عباس دوم ساخته شده است",
+      "address": "اصفهان، انتهای خیابان کمال اسماعیل",
+      "phone": "رایگان و بدون نیاز به تماس",
+      "hours": "۲۴ ساعته",
+      "entrance_fee": "رایگان",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Khaju_Bridge.jpg/1280px-Khaju_Bridge.jpg",
+      "coordinates": {
+        "lat": 32.6392,
+        "lng": 51.6883
+      }
+    },
+    {
+      "id": 7,
+      "title": "کلیسای وانک",
+      "title_en": "Vank Cathedral",
+      "description": "کلیسای ارامنه با معماری ایرانی-ارمنی و نقاشی‌های دیواری زیبا در محله جلفا",
+      "address": "اصفهان، جلفا، خیابان حکیم نظامی، حکیم نظامی ۱۹",
+      "phone": "۰۳۱۳۳۲۶۳۲۷۷",
+      "hours": "۸:۳۰ تا ۱۲:۴۵ و ۱۵:۳۰ تا ۱۸:۱۵",
+      "entrance_fee": "۳۰٬۰۰۰ تومان",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Vank_Cathedral_Interior.jpg/1280px-Vank_Cathedral_Interior.jpg",
+      "coordinates": {
+        "lat": 32.6447,
+        "lng": 51.6527
+      }
+    },
+    {
+      "id": 8,
+      "title": "کاخ چهلستون",
+      "title_en": "Chehel Sotoun Palace",
+      "description": "کاخ باغ صفوی با ۲۰ ستون که در انعکاس آب ۴۰ ستون به نظر می‌رسد و دارای نقاشی‌های دیواری زیبا",
+      "address": "اصفهان، میدان امام حسین، خیابان استانداری، باغ چهلستون",
+      "phone": "۰۳۱۳۲۲۲۳۴۹۴",
+      "hours": "۹:۰۰ تا ۱۷:۰۰",
+      "entrance_fee": "۵۰٬۰۰۰ تومان",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Chehel_Sotoun.jpg/1280px-Chehel_Sotoun.jpg",
+      "coordinates": {
+        "lat": 32.6617,
+        "lng": 51.6732
+      }
+    },
+    {
+      "id": 9,
+      "title": "مسجد جامع اصفهان",
+      "title_en": "Jameh Mosque of Isfahan",
+      "description": "یکی از قدیمی‌ترین مساجد ایران با معماری متنوع از دوره‌های مختلف تاریخی که در فهرست میراث جهانی یونسکو ثبت شده",
+      "address": "اصفهان، خیابان حاتم، مسجد جامع",
+      "phone": "۰۳۱۳۲۶۲۲۰۵۰",
+      "hours": "۹:۰۰ تا ۱۴:۳۰ و ۱۵:۳۰ تا ۱۸:۰۰",
+      "entrance_fee": "۳۰٬۰۰۰ تومان",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Jameh_Mosque_of_Isfahan.jpg/1280px-Jameh_Mosque_of_Isfahan.jpg",
+      "coordinates": {
+        "lat": 32.6721,
+        "lng": 51.6851
+      }
+    },
+    {
+      "id": 10,
+      "title": "بازار اصفهان",
+      "title_en": "Isfahan Grand Bazaar",
+      "description": "یکی از قدیمی‌ترین و بزرگترین بازارهای خاورمیانه با فروشگاه‌های صنایع دستی، فرش، ادویه و سوغات",
+      "address": "اصفهان، میدان نقش جهان، سردر قیصریه (ورودی اصلی)",
+      "phone": "۰۳۱۳۲۲۲۰۱۵۰",
+      "hours": "۹:۰۰ تا ۱۳:۰۰ و ۱۶:۰۰ تا ۲۱:۰۰",
+      "entrance_fee": "رایگان",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Isfahan_Grand_Bazaar.jpg/1280px-Isfahan_Grand_Bazaar.jpg",
+      "coordinates": {
+        "lat": 32.6598,
+        "lng": 51.6788
+      }
+    }
+  ],
+  "metadata": {
+    "city": "Isfahan",
+    "city_fa": "اصفهان",
+    "country": "Iran",
+    "total_locations": 10,
+    "currency": "تومان (Toman)",
+    "last_updated": "2025-01-01",
+    "notes": "قیمت‌ها و ساعت‌های بازدید ممکن است تغییر کنند. لطفاً قبل از بازدید با مکان‌ها تماس بگیرید."
+  }
+}

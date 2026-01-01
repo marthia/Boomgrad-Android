@@ -7,9 +7,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -30,10 +30,12 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import me.marthia.app.boomgrad.presentation.components.DropDownPicker
 import me.marthia.app.boomgrad.presentation.components.JetSnackBackground
 import me.marthia.app.boomgrad.presentation.components.JetsnackCard
 import me.marthia.app.boomgrad.presentation.components.JetsnackSurface
 import me.marthia.app.boomgrad.presentation.components.JetsnackTextField
+import me.marthia.app.boomgrad.presentation.home.model.Filter
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
 import me.marthia.app.boomgrad.presentation.theme.BaseTheme
 
@@ -63,7 +65,11 @@ fun CreateEditTour(modifier: Modifier = Modifier) {
                     .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
-                Text(text = "اطلاعات پایه", style = MaterialTheme.typography.titleMedium, color = BaseTheme.colors.textSecondary)
+                Text(
+                    text = "اطلاعات پایه",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = BaseTheme.colors.textSecondary
+                )
 
                 JetsnackTextField(
                     modifier = Modifier.fillMaxWidth(), value = "", label = { Text("عنوان تور") },
@@ -80,16 +86,18 @@ fun CreateEditTour(modifier: Modifier = Modifier) {
                     onValueChange = {},
                 )
 
-                CitySelection()
-                CitySelection()
-                CitySelection()
+                DropDownPicker(label = {
+                    Text("شهر")
+                }, placeholder = {
+                    Text("انتخاب شهر")
+                }, items = listOf())
 
 
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    CitySelection(modifier = Modifier.weight(1f))
-                    Spacer(Modifier.width(16.dp))
-                    CitySelection(modifier = Modifier.weight(1f))
-                }
+//                Row(modifier = Modifier.fillMaxWidth()) {
+//                    CitySelection(modifier = Modifier.weight(1f))
+//                    Spacer(Modifier.width(16.dp))
+//                    CitySelection(modifier = Modifier.weight(1f))
+//                }
 
             }
         }
@@ -97,72 +105,7 @@ fun CreateEditTour(modifier: Modifier = Modifier) {
 }
 
 
-@Composable
-fun DropDown(
-    modifier: Modifier = Modifier,
-    label: @Composable () -> Unit,
-) {
 
-    Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        label()
-        JetsnackSurface(
-            modifier = Modifier.fillMaxWidth(),
-            shape = MaterialTheme.shapes.medium,
-            color = BaseTheme.colors.textField,
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(text = "رده سنی", modifier = Modifier.padding(vertical = 16.dp))
-                Icon(Icons.Rounded.ExpandMore, "Expand")
-            }
-        }
-    }
-}
-
-@Composable
-fun CitySelection(
-    modifier: Modifier = Modifier,
-    expanded: MutableState<Boolean> = remember { mutableStateOf(false) },
-) {
-
-    Box(modifier = modifier.fillMaxWidth()) {
-        // Button to trigger the dropdown
-        DropDown {
-            Text("شهر")
-        }
-        // Dropdown menu
-        DropdownMenu(
-            expanded = expanded.value,
-            onDismissRequest = { expanded.value = false },
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            DropdownMenuItem(
-                text = { Text("اصفهان") },
-                onClick = {
-                    // Handle selection
-                    expanded.value = false
-                },
-            )
-            DropdownMenuItem(
-                text = { Text("تهران") },
-                onClick = {
-                    expanded.value = false
-                },
-            )
-            DropdownMenuItem(
-                text = { Text("شیراز") },
-                onClick = {
-                    expanded.value = false
-                },
-            )
-        }
-    }
-}
 
 
 @Preview("default", showBackground = true, showSystemUi = true)

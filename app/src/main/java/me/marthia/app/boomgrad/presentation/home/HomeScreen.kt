@@ -1,7 +1,13 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalSharedTransitionApi::class)
 
 package me.marthia.app.boomgrad.presentation.home
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -42,8 +48,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -62,6 +70,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import me.marthia.app.boomgrad.R
+import me.marthia.app.boomgrad.presentation.FilterSharedElementKey
 import me.marthia.app.boomgrad.presentation.components.AppScaffold
 import me.marthia.app.boomgrad.presentation.components.IconText
 import me.marthia.app.boomgrad.presentation.components.JetHorizontalDivider
@@ -71,6 +80,8 @@ import me.marthia.app.boomgrad.presentation.components.JetsnackButton
 import me.marthia.app.boomgrad.presentation.components.JetsnackCard
 import me.marthia.app.boomgrad.presentation.components.JetsnackSearch
 import me.marthia.app.boomgrad.presentation.components.JetsnackSurface
+import me.marthia.app.boomgrad.presentation.components.PlainButton
+import me.marthia.app.boomgrad.presentation.home.model.Filter
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
 import me.marthia.app.boomgrad.presentation.theme.BaseTheme
 import me.marthia.app.boomgrad.presentation.theme.HanaGreen8
@@ -80,7 +91,18 @@ import me.marthia.app.boomgrad.presentation.util.debugPlaceholder
 fun HomeScreen(onTourSelected: (Long) -> Unit) {
 
     AppScaffold() {
-        HomeScreenContent(modifier = Modifier, paddingValues = it, onTourSelected = onTourSelected)
+        SharedTransitionLayout {
+            Box {
+                HomeScreenContent(
+                    modifier = Modifier,
+                    paddingValues = it,
+                    sharedTransitionScope = this@SharedTransitionLayout,
+                    onTourSelected = onTourSelected
+                )
+
+
+            }
+        }
     }
 }
 
@@ -88,9 +110,14 @@ fun HomeScreen(onTourSelected: (Long) -> Unit) {
 @Composable
 private fun HomeScreenContent(
     modifier: Modifier = Modifier,
+    sharedTransitionScope: SharedTransitionScope,
     paddingValues: PaddingValues,
     onTourSelected: (Long) -> Unit
 ) {
+    var citySelectionVisible by remember {
+        mutableStateOf(false)
+    }
+
 
     Column(
         modifier = modifier.verticalScroll(rememberScrollState()),
@@ -99,11 +126,19 @@ private fun HomeScreenContent(
 
         HomeTopBar(modifier = Modifier.fillMaxWidth())
 
+
         SearchAll(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
+            filtersVisible = citySelectionVisible,
+            showCitySelection = {
+                citySelectionVisible = true
+            },
+            cityList = listOf(),
+            sharedTransitionScope = sharedTransitionScope,
         )
+
         Spacer(Modifier.height(24.dp))
         StorySection(modifier = Modifier.fillMaxWidth())
         Recommended()
@@ -116,65 +151,96 @@ private fun HomeScreenContent(
             ),
         )
     }
+
+    AnimatedVisibility(citySelectionVisible, enter = fadeIn(), exit = fadeOut()) {
+        CurrentCityScreen(
+            animatedVisibilityScope = this@AnimatedVisibility,
+            sharedTransitionScope = sharedTransitionScope,
+        ) { citySelectionVisible = false }
+    }
 }
 
 @Composable
-fun SearchAll(modifier: Modifier = Modifier) {
+fun SearchAll(
+    modifier: Modifier = Modifier,
+    cityList: List<Filter>,
+    showCitySelection: () -> Unit,
+    filtersVisible: Boolean,
+    sharedTransitionScope: SharedTransitionScope
+) {
     val expanded = remember { mutableStateOf(false) }
     val searchQuery = remember { mutableStateOf("") }
     JetsnackSearch(
         modifier = modifier,
         inputField = {
+            with(sharedTransitionScope) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 12.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 12.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
+                    BasicTextField(
+                        value = searchQuery.value,
+                        onValueChange = {
+                            searchQuery.value = it
+                        },
+                        decorationBox = {
+                            IconText(
+                                leadingIcon = {
+                                    Icon(
+                                        imageVector = Icons.Rounded.Search,
+                                        contentDescription = "Search",
+                                        tint = BaseTheme.colors.textHelp,
+                                    )
+                                },
+                                text = {
+                                    Text(
+                                        text = "جستجوی تور، جاذبه، راهنما",
+                                        style = MaterialTheme.typography.labelSmall,
+                                        color = BaseTheme.colors.textHelp,
+                                    )
+                                },
+                            )
+                        },
+                    )
 
-                BasicTextField(
-                    value = searchQuery.value,
-                    onValueChange = {
-                        searchQuery.value = it
-                    },
-                    decorationBox = {
-                        IconText(
-                            leadingIcon = {
-                                Icon(
-                                    imageVector = Icons.Rounded.Search,
-                                    contentDescription = "Search",
-                                    tint = BaseTheme.colors.textHelp,
-                                )
-                            },
-                            text = {
-                                Text(
-                                    text = "جستجوی تور، جاذبه، راهنما",
-                                    style = MaterialTheme.typography.labelSmall,
-                                    color = BaseTheme.colors.textHelp,
-                                )
-                            },
-                        )
-                    },
-                )
+                    JetVerticalDivider()
 
-                JetVerticalDivider()
-
-                IconText(
-                    text = {
-                        Text(text = "تهران | تهران", style = MaterialTheme.typography.labelMedium)
-                    },
-                    leadingIcon = {
-                        Icon(
-                            painter = painterResource(R.drawable.icon_location_16),
-                            "Choose Your Location"
-                        )
-                    },
-                    trailingIcon = {
-                        Icon(Icons.Rounded.KeyboardArrowDown, "Arrow Icon")
-                    },
-                )
+                    AnimatedVisibility(!filtersVisible) {
+                        PlainButton(
+                            onClick = { showCitySelection() },
+                            modifier = Modifier
+                                .sharedBounds(
+                                    sharedContentState =
+                                        rememberSharedContentState(FilterSharedElementKey),
+                                    animatedVisibilityScope = this@AnimatedVisibility,
+                                    resizeMode = SharedTransitionScope.ResizeMode.RemeasureToBounds,
+                                ),
+                            contentPadding = PaddingValues(8.dp)
+                        ) {
+                            IconText(
+                                text = {
+                                    Text(
+                                        text = "تهران | تهران",
+                                        style = MaterialTheme.typography.labelMedium
+                                    )
+                                },
+                                leadingIcon = {
+                                    Icon(
+                                        painter = painterResource(R.drawable.icon_location_16),
+                                        "Choose Your Location"
+                                    )
+                                },
+                                trailingIcon = {
+                                    Icon(Icons.Rounded.KeyboardArrowDown, "Arrow Icon")
+                                },
+                            )
+                        }
+                    }
+                }
             }
 
 
@@ -566,9 +632,14 @@ private fun PreviewHomeScreen() {
     AppTheme {
 
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
-
-            JetSnackBackground(modifier = Modifier.fillMaxSize()) {
-                HomeScreenContent(modifier = Modifier.systemBarsPadding(), PaddingValues(0.dp), {})
+            SharedTransitionLayout {
+                JetSnackBackground(modifier = Modifier.fillMaxSize()) {
+                    HomeScreenContent(
+                        modifier = Modifier.systemBarsPadding(),
+                        sharedTransitionScope = this@SharedTransitionLayout,
+                        paddingValues = PaddingValues(0.dp),
+                        onTourSelected = {})
+                }
             }
         }
     }

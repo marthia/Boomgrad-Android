@@ -25,7 +25,7 @@ import org.koin.dsl.module
 import timber.log.Timber
 
 object ApiConfig {
-    const val HOST = "192.168.1.102"
+    const val HOST = "10.0.2.2"
     const val PORT = 8080
     const val BASE_PATH = "api/"
     const val TIMEOUT_MILLIS = 30_000L

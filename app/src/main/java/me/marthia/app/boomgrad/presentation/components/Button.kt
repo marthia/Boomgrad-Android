@@ -29,7 +29,6 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -81,6 +80,58 @@ fun JetsnackButton(
                     colors = if (enabled) backgroundGradient else disabledBackgroundGradient,
                 ),
             )
+            .clickable(
+                onClick = onClick,
+                enabled = enabled,
+                role = Role.Button,
+                interactionSource = interactionSource,
+                indication = null,
+            ),
+    ) {
+        ProvideTextStyle(
+            value = MaterialTheme.typography.labelLarge,
+        ) {
+            Row(
+                innerRowModifier
+
+//                    .defaultMinSize(
+//                        minWidth = ButtonDefaults.MinWidth,
+//                        minHeight = ButtonDefaults.MinHeight,
+//                    )
+                    .indication(interactionSource, ripple())
+                    .padding(contentPadding),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+                content = content,
+            )
+        }
+    }
+}
+
+@Composable
+fun PlainButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    innerRowModifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    shape: Shape = ButtonShape,
+    border: BorderStroke? = null,
+    disabledBackground: Color = Color.Transparent,
+    background: Color = Color.Transparent,
+    contentColor: Color = BaseTheme.colors.textSecondary,
+    disabledContentColor: Color = BaseTheme.colors.textHelp,
+    contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
+    content: @Composable RowScope.() -> Unit,
+) {
+    JetsnackSurface(
+        shape = shape,
+        color = Color.Transparent,
+        contentColor = if (enabled) contentColor else disabledContentColor,
+        border = border,
+        modifier = modifier
+            .clip(shape)
+            .background(if (enabled) background else disabledBackground)
             .clickable(
                 onClick = onClick,
                 enabled = enabled,

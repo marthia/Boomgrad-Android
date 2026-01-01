@@ -1,5 +1,6 @@
 package me.marthia.app.boomgrad.data.remote.repository
 
+import android.content.Context
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import me.marthia.app.boomgrad.data.mapper.toDomain
@@ -8,7 +9,8 @@ import me.marthia.app.boomgrad.domain.model.Attraction
 import me.marthia.app.boomgrad.domain.repository.AttractionRepository
 
 class AttractionRepositoryImpl(
-    private val apiService: TourApiService
+    private val apiService: TourApiService,
+    private val context: Context,
 ) : AttractionRepository {
 
     private val favoriteIds = MutableStateFlow<Set<String>>(emptySet())
@@ -19,6 +21,15 @@ class AttractionRepositoryImpl(
             val response = apiService.getAttractions()
             val attractions = response.attractions.map { it.toDomain() }
             Result.success(attractions)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun getMockAttractions(): Result<List<MockAttraction>> {
+        return try {
+            val response = FakeAttractionDataSource.getAll(context)
+            Result.success(response)
         } catch (e: Exception) {
             Result.failure(e)
         }
