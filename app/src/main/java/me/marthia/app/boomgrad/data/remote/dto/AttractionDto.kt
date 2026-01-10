@@ -6,23 +6,19 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class AttractionDto(
     @SerialName("id")
-    val id: String,
-    @SerialName("name")
-    val name: String,
-    @SerialName("description")
-    val description: String,
+    val id: String?,
     @SerialName("category")
-    val category: String,
+    val category: String?,
     @SerialName("image_url")
     val imageUrl: String?,
     @SerialName("rating")
-    val rating: Double,
+    val rating: Float,
     @SerialName("contact_info")
-    val contactInfo: ContactInfoDto,
+    val contactInfo: ContactInfoDto?,
     @SerialName("opening_hours")
-    val openingHours: OpeningHoursDto,
+    val openingHours: OpeningHoursDto?,
     @SerialName("location")
-    val location: LocationDto
+    val location: LocationDto?
 )
 
 @Serializable
@@ -34,33 +30,25 @@ data class ContactInfoDto(
     @SerialName("website")
     val website: String?,
     @SerialName("address")
-    val address: String
+    val address: String?
 )
 
 @Serializable
 data class OpeningHoursDto(
     @SerialName("monday")
-    val monday: String,
+    val monday: String?,
     @SerialName("tuesday")
-    val tuesday: String,
+    val tuesday: String?,
     @SerialName("wednesday")
-    val wednesday: String,
+    val wednesday: String?,
     @SerialName("thursday")
-    val thursday: String,
+    val thursday: String?,
     @SerialName("friday")
-    val friday: String,
+    val friday: String?,
     @SerialName("saturday")
-    val saturday: String,
+    val saturday: String?,
     @SerialName("sunday")
-    val sunday: String
-)
-
-@Serializable
-data class LocationDto(
-    @SerialName("latitude")
-    val latitude: Double,
-    @SerialName("longitude")
-    val longitude: Double
+    val sunday: String?
 )
 
 @Serializable

@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -92,7 +93,11 @@ fun AttractionList(
 }
 
 @Composable
-fun AttractionListItem(modifier: Modifier = Modifier, item : MockAttraction, onAttractionSelected: (Long) -> Unit) {
+fun AttractionListItem(
+    modifier: Modifier = Modifier,
+    item: MockAttraction,
+    onAttractionSelected: (Long) -> Unit
+) {
     JetsnackCard(
         modifier = modifier.clickable { onAttractionSelected(-1) },
         elevation = 0.dp,
@@ -105,6 +110,7 @@ fun AttractionListItem(modifier: Modifier = Modifier, item : MockAttraction, onA
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Row(
+                modifier = Modifier.weight(2f),
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -119,19 +125,21 @@ fun AttractionListItem(modifier: Modifier = Modifier, item : MockAttraction, onA
                 )
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(
-                        item.title,
+                        text = item.title,
                         style = MaterialTheme.typography.titleSmall,
                         color = BaseTheme.colors.textSecondary
                     )
                     Text(
-                        item.address,
+                        text = item.address,
                         style = MaterialTheme.typography.labelSmall,
-                        color = BaseTheme.colors.textHelp
+                        color = BaseTheme.colors.textHelp,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
             }
 
             IconText(
+                modifier = Modifier.weight(1f),
                 leadingIcon = {
                     Icon(
                         painter = painterResource(R.drawable.icon_star_20),

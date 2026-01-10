@@ -44,8 +44,10 @@ import coil.request.ImageRequest
 import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.domain.model.Attraction
 import me.marthia.app.boomgrad.domain.model.AttractionContactInfo
-import me.marthia.app.boomgrad.domain.model.Location
 import me.marthia.app.boomgrad.domain.model.AttractionOpeningHours
+import me.marthia.app.boomgrad.domain.model.City
+import me.marthia.app.boomgrad.domain.model.Location
+import me.marthia.app.boomgrad.domain.model.LocationType
 import me.marthia.app.boomgrad.presentation.components.AppScaffold
 import me.marthia.app.boomgrad.presentation.components.IconText
 import me.marthia.app.boomgrad.presentation.components.JetSnackBackground
@@ -70,7 +72,7 @@ fun AttractionDetailScreen(
     AppScaffold(
         topBar = {
             TopBar(
-                title = {  },
+                title = { },
                 onBackClick = onBackClick
             )
         }
@@ -86,16 +88,15 @@ fun AttractionDetailScreen(
             AttractionDetailContent(
                 attraction = Attraction(
                     id = "",
-                    name = "میدان نقش جهان",
-                    description = "نقش جهان آینه شکوه و عظمت ایران و یادگار دوران صفوی با زیبایی هرچه تمام مایه فخر ایران و ایرانی است.",
+
+
                     category = "تاریخی",
                     imageUrl = "",
-                    rating = 4.8,
+                    rating = 4.8f,
                     contactInfo = AttractionContactInfo(
                         phone = "09035135466",
                         email = "marthia@pm.me",
                         website = "marthia.com",
-                        address = "اصفهان میدان انقلاب",
                     ),
                     openingHours = AttractionOpeningHours(
                         monday = "8:00 تا 22:30",
@@ -109,8 +110,18 @@ fun AttractionDetailScreen(
                     location = Location(
                         latitude = 41.4,
                         longitude = 41.4,
+                        name = "میدان نقش جهان",
+                        description = "نقش جهان آینه شکوه و عظمت ایران و یادگار دوران صفوی با زیبایی هرچه تمام مایه فخر ایران و ایرانی است.",
+                        address = "اصفهان میدان انقلاب",
+                        city = City(
+                            id = 1,
+                            name = "اصفهان",
+                            countyId = 1,
+                            provinceId = 1,
+                        ),
+                        id = 1,
+                        type = LocationType.ATTRACTION,
                     ),
-                    isFavorite = true,
                 )
             )
 //                }
@@ -161,7 +172,7 @@ private fun AttractionDetailContent(attraction: Attraction) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = attraction.name,
+                    text = attraction.location.name,
                     style = MaterialTheme.typography.headlineMedium
                 )
 
@@ -202,7 +213,7 @@ private fun AttractionDetailContent(attraction: Attraction) {
             }
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = attraction.description,
+                text = attraction.location.description,
                 style = MaterialTheme.typography.bodyMedium
             )
 
@@ -236,7 +247,7 @@ private fun ContactInfoSection(attraction: Attraction) {
             ContactInfoRow(
                 icon = Icons.Default.LocationOn,
                 label = "آدرس",
-                value = attraction.contactInfo.address
+                value = attraction.location.address
             )
 
             attraction.contactInfo.phone?.let { phone ->
@@ -393,16 +404,13 @@ private fun PreviewAttraction() {
                 AttractionDetailContent(
                     Attraction(
                         id = "",
-                        name = "میدان نقش جهان",
-                        description = "نقش جهان آینه شکوه و عظمت ایران و یادگار دوران صفوی با زیبایی هرچه تمام مایه فخر ایران و ایرانی است.",
                         category = "تاریخی",
                         imageUrl = "",
-                        rating = 4.8,
+                        rating = 4.8f,
                         contactInfo = AttractionContactInfo(
                             phone = "09035135466",
                             email = "marthia@pm.me",
                             website = "marthia.com",
-                            address = "اصفهان میدان انقلاب",
                         ),
                         openingHours = AttractionOpeningHours(
                             monday = "8:00 تا 22:30",
@@ -416,6 +424,17 @@ private fun PreviewAttraction() {
                         location = Location(
                             latitude = 41.4,
                             longitude = 41.4,
+                            name = "میدان نقش جهان",
+                            description = "نقش جهان آینه شکوه و عظمت ایران و یادگار دوران صفوی با زیبایی هرچه تمام مایه فخر ایران و ایرانی است.",
+                            address = "اصفهان میدان انقلاب",
+                            city = City(
+                                id = 1,
+                                name = "اصفهان",
+                                countyId = 1,
+                                provinceId = 1,
+                            ),
+                            id = 1,
+                            type = LocationType.ATTRACTION,
                         ),
                         isFavorite = true,
                     )

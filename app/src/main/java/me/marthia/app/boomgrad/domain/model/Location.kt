@@ -1,7 +1,7 @@
 package me.marthia.app.boomgrad.domain.model
 
 data class Location(
-    val id: String,
+    val id: Long,
     val name: String,
     val description: String,
     val latitude: Double,

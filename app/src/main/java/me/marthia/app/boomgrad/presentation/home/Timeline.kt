@@ -24,8 +24,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import me.marthia.app.boomgrad.domain.model.ItineraryStop
 import me.marthia.app.boomgrad.presentation.theme.BaseTheme
-
 
 
 enum class LineType {

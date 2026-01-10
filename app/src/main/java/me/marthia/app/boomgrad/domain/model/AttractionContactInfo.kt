@@ -4,5 +4,4 @@ data class AttractionContactInfo(
     val phone: String?,
     val email: String?,
     val website: String?,
-    val address: String
 )

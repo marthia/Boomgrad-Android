@@ -1,5 +1,6 @@
 package me.marthia.app.boomgrad.presentation.tour.detail
 
+import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -46,6 +47,7 @@ import coil.request.ImageRequest
 import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.domain.model.AttractionCategory
 import me.marthia.app.boomgrad.domain.model.Guide
+import me.marthia.app.boomgrad.domain.model.ItineraryStop
 import me.marthia.app.boomgrad.domain.model.Tour
 import me.marthia.app.boomgrad.domain.model.TourStatus
 import me.marthia.app.boomgrad.presentation.common.ErrorScreen
@@ -57,7 +59,6 @@ import me.marthia.app.boomgrad.presentation.components.JetsnackCard
 import me.marthia.app.boomgrad.presentation.components.JetsnackSurface
 import me.marthia.app.boomgrad.presentation.components.QuantitySelector
 import me.marthia.app.boomgrad.presentation.home.Itinerary
-import me.marthia.app.boomgrad.presentation.home.ItineraryStop
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
 import me.marthia.app.boomgrad.presentation.theme.BaseTheme
 import me.marthia.app.boomgrad.presentation.util.ViewState
@@ -513,7 +514,7 @@ fun AddToCard() {
 
 
 @Preview("default", showBackground = true, showSystemUi = true)
-//@Preview("dark theme", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview("dark theme", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Preview("large font", fontScale = 2f)
 @Composable
 private fun PreviewTourDetail() {

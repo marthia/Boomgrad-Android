@@ -28,12 +28,12 @@
     <string name="tour_detail_title_prerequisites">وسایل مورد نیاز</string>
     <string name="message_login_failure">خطا</string>
     <string name="message_login_success">ورود موفق</string>
-    <string name="tour_detail_review_count">'(%d reviews)'</string>
+    <string name="tour_detail_review_count">(%s reviews)</string>
     <string name="tour_detail_guide_label">Official Tour Guide</string>
     <string name="tour_detail_description_label">Description</string>
     <string name="tour_detail_highlights_label">Highlights</string>
     <string name="tour_detail_duration_label">Duration</string>
-    <string name="tour_detail_duration_value">'%d hours'</string>
+    <string name="tour_detail_duration_value">%s hours</string>
     <string name="tour_detail_level_label">Level</string>
     <string name="tour_detail_due_date">Due Date</string>
     <string name="tour_detail_start_time_label">Start Time</string>
