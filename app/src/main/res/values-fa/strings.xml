@@ -18,5 +18,19 @@
     <string name="tour_detail_title_prerequisites">وسایل مورد نیاز</string>
     <string name="message_login_failure">خطا</string>
     <string name="message_login_success">ورود موفق</string>
+    <string name="tour_detail_review_count">'(%d نظر)'</string>
+    <string name="tour_detail_guide_label">راهنمای رسمی</string>
+    <string name="tour_detail_description_label">توضیحات</string>
+    <string name="tour_detail_highlights_label">خدمات و ویژگی‌های سفر</string>
+    <string name="tour_detail_duration_label">مدت زمان</string>
+    <string name="tour_detail_duration_value">'%d ساعت'</string>
+    <string name="tour_detail_level_label">درجه سختی</string>
+    <string name="tour_detail_due_date">تاریخ برگزاری</string>
+    <string name="tour_detail_start_time_label">ساعت شروع</string>
+    <string name="tour_detail_target_demographic_label">رده سنی</string>
+    <string name="tour_detail_itinerary_label">برنامه سفر</string>
+    <string name="tour_detail_price_per_person">قیمت هر نفر</string>
+    <string name="tour_detail_max_people_label">تعداد نفرات</string>
+    <string name="tour_detail_total_price">جمع کل</string>
 
 </resources>

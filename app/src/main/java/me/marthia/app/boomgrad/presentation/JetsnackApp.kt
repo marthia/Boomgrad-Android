@@ -60,7 +60,7 @@ import me.marthia.app.boomgrad.presentation.navigation.addHomeGraph
 import me.marthia.app.boomgrad.presentation.navigation.composableWithCompositionLocal
 import me.marthia.app.boomgrad.presentation.navigation.rememberJetsnackNavController
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
-import me.marthia.app.boomgrad.presentation.tour.TourDetail
+import me.marthia.app.boomgrad.presentation.tour.detail.TourDetail
 
 @Preview
 @Composable

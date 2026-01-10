@@ -5,9 +5,9 @@ import me.marthia.app.boomgrad.data.remote.dto.ContactInfoDto
 import me.marthia.app.boomgrad.data.remote.dto.LocationDto
 import me.marthia.app.boomgrad.data.remote.dto.OpeningHoursDto
 import me.marthia.app.boomgrad.domain.model.Attraction
-import me.marthia.app.boomgrad.domain.model.ContactInfo
+import me.marthia.app.boomgrad.domain.model.AttractionContactInfo
 import me.marthia.app.boomgrad.domain.model.Location
-import me.marthia.app.boomgrad.domain.model.OpeningHours
+import me.marthia.app.boomgrad.domain.model.AttractionOpeningHours
 
 fun AttractionDto.toDomain(): Attraction {
     return Attraction(
@@ -24,8 +24,8 @@ fun AttractionDto.toDomain(): Attraction {
     )
 }
 
-fun ContactInfoDto.toDomain(): ContactInfo {
-    return ContactInfo(
+fun ContactInfoDto.toDomain(): AttractionContactInfo {
+    return AttractionContactInfo(
         phone = phone,
         email = email,
         website = website,
@@ -33,8 +33,8 @@ fun ContactInfoDto.toDomain(): ContactInfo {
     )
 }
 
-fun OpeningHoursDto.toDomain(): OpeningHours {
-    return OpeningHours(
+fun OpeningHoursDto.toDomain(): AttractionOpeningHours {
+    return AttractionOpeningHours(
         monday = monday,
         tuesday = tuesday,
         wednesday = wednesday,

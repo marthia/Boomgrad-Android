@@ -4,12 +4,12 @@ import android.content.Context
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import me.marthia.app.boomgrad.data.mapper.toDomain
-import me.marthia.app.boomgrad.data.remote.api.TourApiService
+import me.marthia.app.boomgrad.data.remote.api.AttractionApiService
 import me.marthia.app.boomgrad.domain.model.Attraction
 import me.marthia.app.boomgrad.domain.repository.AttractionRepository
 
 class AttractionRepositoryImpl(
-    private val apiService: TourApiService,
+    private val apiService: AttractionApiService,
     private val context: Context,
 ) : AttractionRepository {
 

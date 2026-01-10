@@ -5,8 +5,8 @@ import me.marthia.app.boomgrad.data.remote.api.LoginApiService
 import me.marthia.app.boomgrad.data.remote.api.LoginApiServiceImpl
 import me.marthia.app.boomgrad.data.remote.api.ProvinceCityService
 import me.marthia.app.boomgrad.data.remote.api.ProvinceCityServiceImpl
-import me.marthia.app.boomgrad.data.remote.api.TourApiService
-import me.marthia.app.boomgrad.data.remote.api.TourApiServiceImpl
+import me.marthia.app.boomgrad.data.remote.api.AttractionApiService
+import me.marthia.app.boomgrad.data.remote.api.AttractionApiServiceImpl
 import me.marthia.app.boomgrad.data.remote.repository.AttractionRepositoryImpl
 import me.marthia.app.boomgrad.data.remote.repository.LoginRepositoryImpl
 import me.marthia.app.boomgrad.data.remote.repository.ProvinceRepositoryImpl
@@ -30,7 +30,7 @@ import org.koin.dsl.module
 // Repository Module
 val repositoryModule = module {
 
-    singleOf(::TourApiServiceImpl) bind TourApiService::class
+    singleOf(::AttractionApiServiceImpl) bind AttractionApiService::class
     single<AttractionRepository> { AttractionRepositoryImpl(get(), androidContext()) }
 
     single<TokenManager> { TokenManager(androidContext()) }

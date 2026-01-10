@@ -1,21 +1,20 @@
 package me.marthia.app.boomgrad.data.remote.api
 
-import me.marthia.app.boomgrad.data.remote.dto.AttractionDto
-import me.marthia.app.boomgrad.data.remote.dto.AttractionsResponse
+import me.marthia.app.boomgrad.data.remote.dto.TourDto
 
 interface TourApiService {
 
-    suspend fun getAttractions(
+    suspend fun getTours(
         page: Int = 1,
         limit: Int = 20
-    ): AttractionsResponse
+    ): List<TourDto>
 
-    suspend fun getAttractionById(
+    suspend fun getTourById(
         id: String
-    ): AttractionDto
+    ): TourDto
 
-    suspend fun searchAttractions(
+    suspend fun searchTours(
         query: String,
         limit: Int = 20
-    ): AttractionsResponse
+    ): List<TourDto>
 }

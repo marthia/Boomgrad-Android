@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.LocationOn
@@ -25,10 +24,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -46,9 +43,9 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.domain.model.Attraction
-import me.marthia.app.boomgrad.domain.model.ContactInfo
+import me.marthia.app.boomgrad.domain.model.AttractionContactInfo
 import me.marthia.app.boomgrad.domain.model.Location
-import me.marthia.app.boomgrad.domain.model.OpeningHours
+import me.marthia.app.boomgrad.domain.model.AttractionOpeningHours
 import me.marthia.app.boomgrad.presentation.components.AppScaffold
 import me.marthia.app.boomgrad.presentation.components.IconText
 import me.marthia.app.boomgrad.presentation.components.JetSnackBackground
@@ -94,13 +91,13 @@ fun AttractionDetailScreen(
                     category = "تاریخی",
                     imageUrl = "",
                     rating = 4.8,
-                    contactInfo = ContactInfo(
+                    contactInfo = AttractionContactInfo(
                         phone = "09035135466",
                         email = "marthia@pm.me",
                         website = "marthia.com",
                         address = "اصفهان میدان انقلاب",
                     ),
-                    openingHours = OpeningHours(
+                    openingHours = AttractionOpeningHours(
                         monday = "8:00 تا 22:30",
                         tuesday = "8:00 تا 22:30",
                         wednesday = "8:00 تا 22:30",
@@ -401,13 +398,13 @@ private fun PreviewAttraction() {
                         category = "تاریخی",
                         imageUrl = "",
                         rating = 4.8,
-                        contactInfo = ContactInfo(
+                        contactInfo = AttractionContactInfo(
                             phone = "09035135466",
                             email = "marthia@pm.me",
                             website = "marthia.com",
                             address = "اصفهان میدان انقلاب",
                         ),
-                        openingHours = OpeningHours(
+                        openingHours = AttractionOpeningHours(
                             monday = "8:00 تا 22:30",
                             tuesday = "8:00 تا 22:30",
                             wednesday = "8:00 تا 22:30",
