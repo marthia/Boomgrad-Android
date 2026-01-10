@@ -10,7 +10,7 @@ interface TourApiService {
     ): List<TourDto>
 
     suspend fun getTourById(
-        id: String
+        id: Long
     ): TourDto
 
     suspend fun searchTours(

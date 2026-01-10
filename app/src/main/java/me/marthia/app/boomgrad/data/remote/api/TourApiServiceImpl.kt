@@ -21,7 +21,7 @@ class TourApiServiceImpl(
     }
 
     override suspend fun getTourById(
-        id: String
+        id: Long
     ): TourDto {
         return client.get("tours/$id").body()
     }

@@ -26,10 +26,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import me.marthia.app.boomgrad.presentation.theme.BaseTheme
 
-data class ItineraryStop(
-    val destination: String,
-    val duration: String? = null,
-)
+
 
 enum class LineType {
     NONE,
