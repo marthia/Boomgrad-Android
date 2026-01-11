@@ -9,14 +9,24 @@ import kotlinx.coroutines.launch
 import me.marthia.app.boomgrad.domain.model.City
 import me.marthia.app.boomgrad.domain.model.County
 import me.marthia.app.boomgrad.domain.model.Province
+import me.marthia.app.boomgrad.domain.usecase.attraction.GetTopAttractionsUseCase
+import me.marthia.app.boomgrad.domain.usecase.category.GetAttractionCategoryUseCase
 import me.marthia.app.boomgrad.domain.usecase.common.GetCityUseCase
 import me.marthia.app.boomgrad.domain.usecase.common.GetCountyUseCase
 import me.marthia.app.boomgrad.domain.usecase.common.GetProvinceUseCase
+import me.marthia.app.boomgrad.domain.usecase.tour.GetForYouToursUseCase
+import me.marthia.app.boomgrad.domain.usecase.tour.GetWeekRecommendedUseCase
+import me.marthia.app.boomgrad.presentation.home.model.HomeUiState
+import me.marthia.app.boomgrad.presentation.util.ViewState
 
 class HomeViewModel(
     private val getCity: GetCityUseCase,
     private val getCounty: GetCountyUseCase,
     private val getProvince: GetProvinceUseCase,
+    private val getCategories: GetAttractionCategoryUseCase,
+    private val getForYouTours: GetForYouToursUseCase,
+    private val getTopAttractions: GetTopAttractionsUseCase,
+    private val getWeekRecommended: GetWeekRecommendedUseCase,
 ) : ViewModel() {
 
     private val _provinces = MutableStateFlow<List<Province>>(emptyList())
@@ -31,6 +41,9 @@ class HomeViewModel(
     // Optional: error state for showing user-friendly messages
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> = _error.asStateFlow()
+
+    private val _uiState = MutableStateFlow<ViewState<HomeUiState>>(ViewState.Idle)
+    val uiState: StateFlow<ViewState<HomeUiState>> = _uiState.asStateFlow()
 
     fun getProvince() {
         viewModelScope.launch {
@@ -63,6 +76,33 @@ class HomeViewModel(
                 _cities.value = cities
             }.onFailure { error ->
                 _error.value = "Failed to load cities"
+            }
+        }
+    }
+
+    fun getAll() {
+
+        // todo need to use flow and combine them
+        viewModelScope.launch {
+            getForYouTours.invoke().onSuccess { forYouTours ->
+
+                getTopAttractions.invoke().onSuccess { topAttractions ->
+                    getWeekRecommended.invoke().onSuccess { weekRecommended ->
+
+                        getCategories.invoke().onSuccess { categories ->
+
+                            _uiState.value = ViewState.Success(
+                                HomeUiState(
+                                    categories = categories,
+                                    forYouTours = forYouTours,
+                                    topAttractions = topAttractions,
+                                    weekRecommended = weekRecommended
+                                )
+                            )
+                        }
+                    }
+
+                }
             }
         }
     }

@@ -32,5 +32,9 @@
     <string name="tour_detail_price_per_person">قیمت هر نفر</string>
     <string name="tour_detail_max_people_label">تعداد نفرات</string>
     <string name="tour_detail_total_price">جمع کل</string>
+    <string name="home_screen_week_recommendation_label">پیشنهادی این هفته</string>
+    <string name="home_screen_for_you_label">برای شما</string>
+    <string name="home_screen_top_attractions_label">مقاصد برتر</string>
+    <string name="home_screen_search_help_label">جستجوی تور، جاذبه، راهنما</string>
 
 </resources>

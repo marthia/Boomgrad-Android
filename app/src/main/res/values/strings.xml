@@ -25,9 +25,9 @@
     <string name="home_cart">My Cart</string>
     <string name="home_profile">Profile</string>
     <string name="home_attraction">Attraction</string>
-    <string name="tour_detail_title_prerequisites">وسایل مورد نیاز</string>
-    <string name="message_login_failure">خطا</string>
-    <string name="message_login_success">ورود موفق</string>
+    <string name="tour_detail_title_prerequisites">Required Items</string>
+    <string name="message_login_failure">Login Failed</string>
+    <string name="message_login_success">Login Successful</string>
     <string name="tour_detail_review_count">(%s reviews)</string>
     <string name="tour_detail_guide_label">Official Tour Guide</string>
     <string name="tour_detail_description_label">Description</string>
@@ -42,4 +42,8 @@
     <string name="tour_detail_price_per_person">Price Per Person</string>
     <string name="tour_detail_max_people_label">Max People</string>
     <string name="tour_detail_total_price">Price</string>
+    <string name="home_screen_week_recommendation_label">This Week Recommendation</string>
+    <string name="home_screen_for_you_label">For You</string>
+    <string name="home_screen_top_attractions_label">Top Destinations</string>
+    <string name="home_screen_search_help_label">Search Attraction, Tour, Guide</string>
 </resources>

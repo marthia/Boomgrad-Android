@@ -64,13 +64,21 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import me.marthia.app.boomgrad.R
+import me.marthia.app.boomgrad.domain.model.Attraction
+import me.marthia.app.boomgrad.domain.model.AttractionCategory
+import me.marthia.app.boomgrad.domain.model.Tour
 import me.marthia.app.boomgrad.presentation.FilterSharedElementKey
+import me.marthia.app.boomgrad.presentation.category.CategoryTag
+import me.marthia.app.boomgrad.presentation.common.ErrorScreen
+import me.marthia.app.boomgrad.presentation.common.LoadingScreen
 import me.marthia.app.boomgrad.presentation.components.AppScaffold
 import me.marthia.app.boomgrad.presentation.components.IconText
 import me.marthia.app.boomgrad.presentation.components.JetHorizontalDivider
@@ -82,29 +90,47 @@ import me.marthia.app.boomgrad.presentation.components.JetsnackSearch
 import me.marthia.app.boomgrad.presentation.components.JetsnackSurface
 import me.marthia.app.boomgrad.presentation.components.PlainButton
 import me.marthia.app.boomgrad.presentation.home.model.Filter
+import me.marthia.app.boomgrad.presentation.home.model.HomeUiState
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
 import me.marthia.app.boomgrad.presentation.theme.BaseTheme
 import me.marthia.app.boomgrad.presentation.theme.HanaGreen8
+import me.marthia.app.boomgrad.presentation.util.ViewState
 import me.marthia.app.boomgrad.presentation.util.debugPlaceholder
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeScreen(onTourSelected: (Long) -> Unit) {
 
+    val viewModel: HomeViewModel = koinViewModel()
+
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    when (uiState) {
+        is ViewState.Loading -> LoadingScreen()
+        is ViewState.Error -> ErrorScreen()
+        is ViewState.Success -> {
+
+            AppScaffold() {
+                SharedTransitionLayout {
+                    Box {
+                        HomeScreenContent(
+                            modifier = Modifier,
+                            paddingValues = it,
+                            sharedTransitionScope = this@SharedTransitionLayout,
+                            categories = (uiState as ViewState.Success<HomeUiState>).value.categories,
+                            topAttractions = (uiState as ViewState.Success<HomeUiState>).value.topAttractions,
+                            forYouTours = (uiState as ViewState.Success<HomeUiState>).value.forYouTours,
+                            recommendedThisWeek = (uiState as ViewState.Success<HomeUiState>).value.weekRecommended,
+                            onTourSelected = onTourSelected,
+                        )
 
 
-    AppScaffold() {
-        SharedTransitionLayout {
-            Box {
-                HomeScreenContent(
-                    modifier = Modifier,
-                    paddingValues = it,
-                    sharedTransitionScope = this@SharedTransitionLayout,
-                    onTourSelected = onTourSelected
-                )
-
-
+                    }
+                }
             }
         }
+
+        else -> {}
     }
 }
 
@@ -114,6 +140,10 @@ private fun HomeScreenContent(
     modifier: Modifier = Modifier,
     sharedTransitionScope: SharedTransitionScope,
     paddingValues: PaddingValues,
+    categories: List<AttractionCategory>,
+    topAttractions: List<Attraction>,
+    forYouTours: List<Tour>,
+    recommendedThisWeek: List<Tour>,
     onTourSelected: (Long) -> Unit
 ) {
     var citySelectionVisible by remember {
@@ -142,10 +172,10 @@ private fun HomeScreenContent(
         )
 
         Spacer(Modifier.height(24.dp))
-        StorySection(modifier = Modifier.fillMaxWidth())
-        Recommended()
-        ForYou(onTourSelected = onTourSelected)
-        TopDestinations()
+        StorySection(modifier = Modifier.fillMaxWidth(), categories = categories)
+        Recommended(list = recommendedThisWeek)
+        ForYou(list = forYouTours, onTourSelected = onTourSelected)
+        TopDestinations(list = topAttractions)
 
         Spacer(
             Modifier.windowInsetsBottomHeight(
@@ -200,7 +230,7 @@ fun SearchAll(
                                 },
                                 text = {
                                     Text(
-                                        text = "جستجوی تور، جاذبه، راهنما",
+                                        text = stringResource(R.string.home_screen_search_help_label),
                                         style = MaterialTheme.typography.labelSmall,
                                         color = BaseTheme.colors.textHelp,
                                     )
@@ -312,37 +342,35 @@ fun HomeTopBar(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun StorySection(modifier: Modifier = Modifier) {
-    val items = listOf(
-        "زیارتی" to "https://picsum.photos/200",
-        "تفریحی" to "https://picsum.photos/203",
-        "تاریخی" to "https://picsum.photos/205",
-        "طبیعت‌گردی" to "https://picsum.photos/210",
-        "سلامت" to "https://picsum.photos/220",
-    )
+fun StorySection(modifier: Modifier = Modifier, categories: List<AttractionCategory>) {
     LazyRow(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         contentPadding = PaddingValues(horizontal = 16.dp),
     ) {
-        items(items) { titleImagePair ->
-            Story(title = titleImagePair.first, image = titleImagePair.second)
+        items(categories) { category ->
+            Story(title = category.name, image = category.image)
         }
     }
 }
 
 @Composable
-fun Recommended() {
+fun Recommended(list: List<Tour>) {
     val pagerState = rememberPagerState(
         initialPage = 0, initialPageOffsetFraction = 0f,
         pageCount = {
-            1
+            list.size
         },
     )
     Column(Modifier.padding(16.dp)) {
         IconText(
             modifier = Modifier.padding(bottom = 16.dp),
-            text = { Text("پیشنهادی این هفته", style = MaterialTheme.typography.titleMedium) },
+            text = {
+                Text(
+                    stringResource(R.string.home_screen_week_recommendation_label),
+                    style = MaterialTheme.typography.titleMedium
+                )
+            },
             leadingIcon = {
                 Icon(
                     painter = painterResource(R.drawable.icon_featured_24),
@@ -351,7 +379,7 @@ fun Recommended() {
                 )
             },
         )
-        HorizontalPager(state = pagerState) {
+        HorizontalPager(state = pagerState) { index ->
             JetsnackCard(contentColor = BaseTheme.colors.textSecondary) {
 
                 Column(modifier = Modifier.padding(16.dp)) {
@@ -359,14 +387,15 @@ fun Recommended() {
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(200.dp),
+                        images = list[index].images
                     )
 
                     JetHorizontalDivider(modifier = Modifier.padding(top = 60.dp, bottom = 24.dp))
 
 
-                    Text("کوه‌گشت یک روزه کلکچال", style = MaterialTheme.typography.titleMedium)
+                    Text(text = list[index].title, style = MaterialTheme.typography.titleMedium)
                     Text(
-                        " املت، چای، کمپ در برف و مدیتیشن املت، چای، کمپ در برف و مدیتیشن",
+                        list[index].description,
                         style = MaterialTheme.typography.bodyMedium
                     )
 
@@ -379,24 +408,7 @@ fun Recommended() {
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
 
-                        JetsnackSurface(
-                            shape = MaterialTheme.shapes.extraLarge,
-                            color = BaseTheme.colors.uiContainer,
-                        ) {
-                            IconText(
-                                modifier = Modifier.padding(8.dp),
-                                leadingIcon = {
-                                    Icon(
-                                        painter = painterResource(R.drawable.icon_leaf_24),
-                                        tint = Color.Unspecified,
-                                        contentDescription = "featured",
-                                    )
-                                },
-                                text = {
-                                    Text(text = "طبیعت", color = BaseTheme.colors.brand)
-                                },
-                            )
-                        }
+                        CategoryTag(title = list[index].category.name)
 
                         JetsnackButton(
                             shape = CircleShape,
@@ -418,12 +430,12 @@ fun Recommended() {
 }
 
 @Composable
-fun RecommendedImages(modifier: Modifier = Modifier) {
+fun RecommendedImages(modifier: Modifier = Modifier, images: List<String>) {
     Box(modifier = modifier, contentAlignment = Alignment.Center) {
 
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data("https://picsum.photos/560/800")
+                .data(images[2])
                 .crossfade(true)
                 .build(),
             placeholder = debugPlaceholder(debugPreview = R.drawable.placeholder_vertical),
@@ -437,7 +449,7 @@ fun RecommendedImages(modifier: Modifier = Modifier) {
 
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data("https://picsum.photos/500/800")
+                .data(images[1])
                 .crossfade(true)
                 .build(),
             placeholder = debugPlaceholder(debugPreview = R.drawable.placeholder_vertical),
@@ -451,7 +463,7 @@ fun RecommendedImages(modifier: Modifier = Modifier) {
 
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data("https://picsum.photos/550/800")
+                .data(images[0])
                 .crossfade(true)
                 .build(),
             placeholder = debugPlaceholder(debugPreview = R.drawable.placeholder_vertical),
@@ -465,7 +477,7 @@ fun RecommendedImages(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ForYou(onTourSelected: (Long) -> Unit) {
+fun ForYou(list: List<Tour>, onTourSelected: (Long) -> Unit) {
 
     Column(
         modifier = Modifier
@@ -474,7 +486,12 @@ fun ForYou(onTourSelected: (Long) -> Unit) {
     ) {
         IconText(
             modifier = Modifier.padding(bottom = 16.dp),
-            text = { Text("برای شما", style = MaterialTheme.typography.titleMedium) },
+            text = {
+                Text(
+                    text = stringResource(R.string.home_screen_for_you_label),
+                    style = MaterialTheme.typography.titleMedium
+                )
+            },
             leadingIcon = {
                 Icon(
                     painter = painterResource(R.drawable.icon_featured_24),
@@ -487,7 +504,7 @@ fun ForYou(onTourSelected: (Long) -> Unit) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(3) {
+            items(list) { item ->
 
                 Box(
                     modifier = Modifier
@@ -498,7 +515,7 @@ fun ForYou(onTourSelected: (Long) -> Unit) {
                     ) {
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)
-                            .data("https://picsum.photos/500/800")
+                            .data(item.images.first())
                             .crossfade(true)
                             .build(),
                         placeholder = debugPlaceholder(debugPreview = R.drawable.placeholder_vertical),
@@ -520,7 +537,7 @@ fun ForYou(onTourSelected: (Long) -> Unit) {
 
 
                         Text(
-                            "کوه‌گشت یک روزه کلکچال",
+                            text = item.title,
                             style = MaterialTheme.typography.titleMedium,
                             color = BaseTheme.colors.textInteractive,
                         )
@@ -530,7 +547,10 @@ fun ForYou(onTourSelected: (Long) -> Unit) {
                         )
                         IconText(
                             text = {
-                                Text("تهران، تهران", color = BaseTheme.colors.textInteractive)
+                                Text(
+                                    text = item.city.name,
+                                    color = BaseTheme.colors.textInteractive
+                                )
                             },
                             leadingIcon = {
 
@@ -556,7 +576,7 @@ fun ForYou(onTourSelected: (Long) -> Unit) {
 }
 
 @Composable
-fun TopDestinations() {
+fun TopDestinations(list: List<Attraction>) {
 
     Column(
         modifier = Modifier
@@ -564,7 +584,12 @@ fun TopDestinations() {
     ) {
         IconText(
             modifier = Modifier.padding(start = 16.dp, bottom = 16.dp),
-            text = { Text("جاذبه‌های برتر", style = MaterialTheme.typography.titleMedium) },
+            text = {
+                Text(
+                    stringResource(R.string.home_screen_top_attractions_label),
+                    style = MaterialTheme.typography.titleMedium
+                )
+            },
             leadingIcon = {
                 Icon(
                     painter = painterResource(R.drawable.icon_featured_24),
@@ -577,7 +602,7 @@ fun TopDestinations() {
             modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp),
             contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 16.dp),
         ) {
-            items(3) {
+            items(list) { attraction ->
 
                 Box(
                     modifier = Modifier
@@ -586,7 +611,7 @@ fun TopDestinations() {
                 ) {
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)
-                            .data("https://picsum.photos/500/800")
+                            .data(attraction.imageUrl)
                             .crossfade(true)
                             .build(),
                         placeholder = debugPlaceholder(debugPreview = R.drawable.placeholder_vertical),
@@ -616,7 +641,7 @@ fun TopDestinations() {
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
                             .offset(y = 32.dp),
-                        text = "کاخ سرهنگ",
+                        text = attraction.location.name,
                         style = MaterialTheme.typography.titleSmall,
                     )
                 }
@@ -640,6 +665,10 @@ private fun PreviewHomeScreen() {
                         modifier = Modifier.systemBarsPadding(),
                         sharedTransitionScope = this@SharedTransitionLayout,
                         paddingValues = PaddingValues(0.dp),
+                        categories = listOf(),
+                        topAttractions = listOf(),
+                        forYouTours = listOf(),
+                        recommendedThisWeek = listOf(),
                         onTourSelected = {})
                 }
             }

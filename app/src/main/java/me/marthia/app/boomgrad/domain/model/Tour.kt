@@ -20,4 +20,5 @@ data class Tour(
     val startTime: String,
     val demographic: String,
     val itinerary: List<ItineraryStop>,
+    val city: City,
 )

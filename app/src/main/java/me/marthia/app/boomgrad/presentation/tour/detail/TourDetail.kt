@@ -46,6 +46,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.domain.model.AttractionCategory
+import me.marthia.app.boomgrad.domain.model.City
 import me.marthia.app.boomgrad.domain.model.Guide
 import me.marthia.app.boomgrad.domain.model.ItineraryStop
 import me.marthia.app.boomgrad.domain.model.Tour
@@ -547,7 +548,12 @@ private fun PreviewTourDetail() {
                         ),
                         duration = 108,
                         price = 123546.8,
-                        category = AttractionCategory(id = 0, "تاریخی", ""),
+                        category = AttractionCategory(
+                            id = 0,
+                            name = "تاریخی",
+                            description = "",
+                            image = ""
+                        ),
                         maxPeople = 7,
                         status = TourStatus.PENDING,
                         rate = 4.8f,
@@ -572,7 +578,13 @@ private fun PreviewTourDetail() {
                                 ItineraryStop("کلیسای وانک", "ساعت ۱۸"),
                                 ItineraryStop("کلیسای مریم مقدس", "ساعت ۱۹"),
                                 ItineraryStop("میدان جلفا", "شنبه ۲۴ دی ساعت ۲۰"),
-                            )
+                            ),
+                        city = City(
+                            id = 1,
+                            name = "اصفهان",
+                            county = "مرکزی",
+                            province = "اصفهان",
+                        ),
                     )
                 )
             }

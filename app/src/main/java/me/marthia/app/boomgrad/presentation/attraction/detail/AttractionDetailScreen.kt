@@ -116,8 +116,8 @@ fun AttractionDetailScreen(
                         city = City(
                             id = 1,
                             name = "اصفهان",
-                            countyId = 1,
-                            provinceId = 1,
+                            county = "مرکزی",
+                            province = "اصفهان",
                         ),
                         id = 1,
                         type = LocationType.ATTRACTION,
@@ -430,8 +430,8 @@ private fun PreviewAttraction() {
                             city = City(
                                 id = 1,
                                 name = "اصفهان",
-                                countyId = 1,
-                                provinceId = 1,
+                                county = "مرکزی",
+                                province = "اصفهان",
                             ),
                             id = 1,
                             type = LocationType.ATTRACTION,
