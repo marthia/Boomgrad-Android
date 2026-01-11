@@ -9,8 +9,8 @@ fun CityDto.toDomain(): City {
     return City(
         id = this.id,
         name = this.name,
-        countyId = this.countyId,
-        provinceId = this.provinceId
+        county = this.county,
+        province = this.province
     )
 }
 

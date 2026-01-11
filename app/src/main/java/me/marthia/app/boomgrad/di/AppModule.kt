@@ -1,8 +1,8 @@
 package me.marthia.app.boomgrad.di
 
 
-import me.marthia.app.boomgrad.presentation.attraction.list.AttractionsViewModel
 import me.marthia.app.boomgrad.presentation.attraction.detail.AttractionDetailViewModel
+import me.marthia.app.boomgrad.presentation.attraction.list.AttractionsViewModel
 import me.marthia.app.boomgrad.presentation.components.SnackbarManager
 import me.marthia.app.boomgrad.presentation.favorites.FavoritesViewModel
 import me.marthia.app.boomgrad.presentation.home.HomeViewModel
@@ -22,6 +22,21 @@ val appModule = module {
     viewModel { FavoritesViewModel(repository = get()) }
     viewModel { SearchViewModel(get()) }
     viewModel { LoginViewModel(get(), get(), SnackbarManager) }
-    viewModel { OtpViewModel(repository = get(), context = androidContext()) }
-    viewModel { HomeViewModel(get(), get(), get()) }
+    viewModel {
+        OtpViewModel(
+            repository = get(),
+            context = androidContext()
+        )
+    }
+    viewModel {
+        HomeViewModel(
+            getCity = get(),
+            getCounty = get(),
+            getProvince = get(),
+            getCategories = get(),
+            getForYouTours = get(),
+            getTopAttractions = get(),
+            getWeekRecommended = get(),
+        )
+    }
 }

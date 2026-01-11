@@ -44,4 +44,6 @@ data class TourDto(
     val demographic: String,
     @SerialName("itinerary")
     val itinerary: List<ItineraryStopDto>,
+    @SerialName("city")
+    val city: CityDto,
 )

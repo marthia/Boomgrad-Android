@@ -24,6 +24,7 @@ fun TourDto.toDomain(): Tour {
         startTime = startTime,
         demographic = demographic,
         itinerary = itinerary.toDomains(),
+        city = city.toDomain()
     )
 }
 

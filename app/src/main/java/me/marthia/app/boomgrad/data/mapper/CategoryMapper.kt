@@ -7,4 +7,5 @@ fun AttractionCategoryDto.toDomain() = AttractionCategory(
     id = id,
     name = name,
     description = description,
+    image = image,
 )

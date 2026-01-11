@@ -13,11 +13,11 @@ data class CityDto(
     val name: String,
 
     @SerialName("ostan")
-    val provinceId: Long,
+    val province: String,
 
 
     @SerialName("shahrestan")
-    val countyId: Long,
+    val county: String,
 
 
     )
