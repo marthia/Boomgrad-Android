@@ -1,5 +1,6 @@
 package me.marthia.app.boomgrad.presentation.tour.detail
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,18 +9,23 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.ArrowDropUp
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import me.marthia.app.boomgrad.presentation.components.DropDownPicker
 import me.marthia.app.boomgrad.presentation.components.JetSnackBackground
 import me.marthia.app.boomgrad.presentation.components.JetsnackCard
 import me.marthia.app.boomgrad.presentation.components.JetsnackTextField
@@ -73,11 +79,22 @@ fun CreateEditTour(modifier: Modifier = Modifier) {
                     onValueChange = {},
                 )
 
-                DropDownPicker(label = {
-                    Text("شهر")
-                }, placeholder = {
-                    Text("انتخاب شهر")
-                }, items = listOf())
+                var expanded by remember { mutableStateOf(false) }
+                JetsnackTextField(
+                    modifier = Modifier.fillMaxWidth().clickable {
+
+                    },
+                    label = { Text("شهر") },
+                    value = "متن مورد نظر خود را وارد کنید",
+                    readOnly = true,
+                    trailingIcon = {
+                        Icon(
+                            imageVector = if (expanded) Icons.Default.ArrowDropUp else Icons.Default.ArrowDropDown,
+                            contentDescription = null
+                        )
+                    },
+                    onValueChange = {},
+                )
 
 
 //                Row(modifier = Modifier.fillMaxWidth()) {
@@ -90,9 +107,6 @@ fun CreateEditTour(modifier: Modifier = Modifier) {
         }
     }
 }
-
-
-
 
 
 @Preview("default", showBackground = true, showSystemUi = true)

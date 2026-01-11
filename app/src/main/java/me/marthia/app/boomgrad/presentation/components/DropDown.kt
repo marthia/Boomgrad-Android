@@ -111,7 +111,7 @@ fun <T : Any> DropDownPicker(
 
     Box(modifier = modifier.fillMaxWidth()) {
         // Button to trigger the dropdown
-        OutlinedTextField(
+        JetsnackTextField(
             value = selectedItem?.let { itemText(it) } ?: "",
             onValueChange = {},
             readOnly = true,
