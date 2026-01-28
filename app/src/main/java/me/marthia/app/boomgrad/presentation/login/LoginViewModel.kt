@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.io.IOException
 import me.marthia.app.boomgrad.R
+import me.marthia.app.boomgrad.data.remote.util.NetworkFailure
 import me.marthia.app.boomgrad.domain.usecase.login.ClearTokenUseCase
 import me.marthia.app.boomgrad.domain.usecase.login.LoginUseCase
 import me.marthia.app.boomgrad.presentation.components.SnackbarManager
@@ -36,9 +37,9 @@ class LoginViewModel(
                     snackbarManager.showMessage(R.string.message_login_success)
                 }
                 .onFailure { error ->
-//                    _loginState.value = ViewState.Error(
-//                        error.toUiMessage()
-//                    )
+                    _loginState.value = ViewState.Error(
+                        error
+                    )
                     snackbarManager.showMessage(R.string.message_login_failure)
                 }
         }
@@ -49,11 +50,4 @@ class LoginViewModel(
         _loginState.value = ViewState.Idle
     }
 
-}
-
-// If you need common error mapping
-fun Throwable.toUiMessage(): String = when (this) {
-    is IOException -> "Network error. Please check your connection."
-    is HttpException -> "Server error. Please try again."
-    else -> message ?: "An unexpected error occurred"
 }

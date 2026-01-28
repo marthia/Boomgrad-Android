@@ -35,37 +35,7 @@ enum class LineType {
     LAST
 }
 
-@Composable
-fun TimelineNode(
-    circleColor: Color = MaterialTheme.colorScheme.primary,
-    circleRadius: Dp = 6.dp,
-    lineColor: Color = MaterialTheme.colorScheme.primary,
-    lineWidth: Dp = 2.dp,
-    lineType: LineType = LineType.NORMAL,
-    content: @Composable () -> Unit,
-) {
-    Layout(
-        content = content,
-        modifier = Modifier.fillMaxWidth(),
-    ) { measurables, constraints ->
-        val placeables = measurables.map { it.measure(constraints) }
-        val contentHeight = placeables.maxOf { it.height }
 
-        val circleRadiusPx = circleRadius.toPx()
-        val lineWidthPx = lineWidth.toPx()
-        val circleOffsetX = circleRadiusPx
-
-        layout(constraints.maxWidth, contentHeight) {
-            // Draw the canvas for circle and line
-            placeables.forEach { placeable ->
-                placeable.place(
-                    x = (circleRadiusPx * 2 + 16.dp.toPx()).toInt(),
-                    y = 0,
-                )
-            }
-        }
-    }
-}
 
 @Composable
 fun ItineraryItem(

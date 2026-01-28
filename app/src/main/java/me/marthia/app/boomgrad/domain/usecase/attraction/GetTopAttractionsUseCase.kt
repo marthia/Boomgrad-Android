@@ -7,6 +7,6 @@ class GetTopAttractionsUseCase(
     private val repository: AttractionRepository
 ) {
     suspend operator fun invoke(): Result<List<Attraction>> {
-        return repository.getAttractions()
+        return repository.getTopAttractions()
     }
 }

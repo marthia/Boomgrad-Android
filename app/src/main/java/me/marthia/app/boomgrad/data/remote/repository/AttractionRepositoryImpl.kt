@@ -26,6 +26,16 @@ class AttractionRepositoryImpl(
         }
     }
 
+    override suspend fun getTopAttractions(): Result<List<Attraction>> {
+        return try {
+            val response = apiService.getAttractions()
+            val attractions = response.attractions.map { it.toDomain() }
+            Result.success(attractions)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     override suspend fun getMockAttractions(): Result<List<MockAttraction>> {
         return try {
             val response = FakeAttractionDataSource.getAll(context)
