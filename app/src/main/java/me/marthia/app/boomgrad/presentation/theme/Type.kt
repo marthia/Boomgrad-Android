@@ -130,7 +130,7 @@ val Typography = Typography(
     bodySmall = TextStyle(
         fontFamily = PeydaFont,
         fontSize = 12.sp,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.Normal,
         lineHeight = 16.sp,
         letterSpacing = 0.4.sp,
     ),

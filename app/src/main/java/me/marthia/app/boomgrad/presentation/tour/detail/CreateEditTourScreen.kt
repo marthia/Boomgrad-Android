@@ -65,14 +65,29 @@ fun CreateEditTour(modifier: Modifier = Modifier) {
                 )
 
                 JetsnackTextField(
-                    modifier = Modifier.fillMaxWidth(), value = "", label = { Text("عنوان تور") },
+                    modifier = Modifier.fillMaxWidth(),
+                    value = "",
+                    label = {
+                        Text(
+                            text = "عنوان تور",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = BaseTheme.colors.textSecondary
+                        )
+                    },
                     placeholder = {
                         Text("عنوان مورد نظر خود را وارد کنید")
                     },
                     onValueChange = {},
                 )
                 JetsnackTextField(
-                    modifier = Modifier.fillMaxWidth(), value = "", label = { Text("زیر عنوان") },
+                    modifier = Modifier.fillMaxWidth(), value = "",
+                    label = {
+                        Text(
+                            text = "زیر عنوان",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = BaseTheme.colors.textSecondary
+                        )
+                    },
                     placeholder = {
                         Text("متن مورد نظر خود را وارد کنید")
                     },
@@ -81,10 +96,18 @@ fun CreateEditTour(modifier: Modifier = Modifier) {
 
                 var expanded by remember { mutableStateOf(false) }
                 JetsnackTextField(
-                    modifier = Modifier.fillMaxWidth().clickable {
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
 
+                        },
+                    label = {
+                        Text(
+                            text = "شهر",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = BaseTheme.colors.textSecondary
+                        )
                     },
-                    label = { Text("شهر") },
                     value = "متن مورد نظر خود را وارد کنید",
                     readOnly = true,
                     trailingIcon = {

@@ -36,5 +36,20 @@
     <string name="home_screen_for_you_label">برای شما</string>
     <string name="home_screen_top_attractions_label">مقاصد برتر</string>
     <string name="home_screen_search_help_label">جستجوی تور، جاذبه، راهنما</string>
+    <string name="label_profile_edit">ویرایش پروفایل</string>
+    <string name="label_profile_my_trips">سفرهای من</string>
+    <string name="label_profile_logout">خروج</string>
+    <string name="label_edit_profile_fullname">نام و نام خانوادگی</string>
+    <string name="description_edit_profile_fullname">مثال: محمد احمدی</string>
+    <string name="label_edit_profile_email">ایمیل</string>
+    <string name="description_edit_profile_email">info@example.com</string>
+    <string name="label_edit_profile_phone">شماره تماس</string>
+    <string name="description_edit_profile_phone">09012345678</string>
+    <string name="label_my_trips_tab_scheduled">پیش رو</string>
+    <string name="label_my_trips_tab_completed">گذشته</string>
+    <string name="label_my_trips_tab_Cancelled">لغو شده</string>
+    <string name="label_home_create_tour">تور جدید بسازید</string>
+    <string name="description_home_create_tour">تجربیات جدید خود را با دیگران به اشتراک بگذارید</string>
+    <string name="home_screen_active_tours_label">تورهای فعال</string>
 
 </resources>

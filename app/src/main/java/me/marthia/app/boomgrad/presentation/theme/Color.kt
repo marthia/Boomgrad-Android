@@ -101,8 +101,6 @@ val Khaki1 = Color(0xfffef3dd)
 val Khaki0 = Color(0xfffffbef)
 
 
-
-
 val HanaGreen11 = Color(0xff162015)
 val HanaGreen10 = Color(0xff21301f)
 val HanaGreen9 = Color(0xff2a3e29)
@@ -117,8 +115,10 @@ val HanaGreen1 = Color(0xffe1e8e0)
 val HanaGreen0 = Color(0xfff5f8f4)
 
 
-val FunctionalRed = Color(0xffd00036)
+val FunctionalRed5 = Color(0xffff383c)
+val FunctionalRed1 = Color(0xFFFDEDEE)
 val FunctionalRedDark = Color(0xffea6d7e)
+val FunctionalRedDark1 = Color(0xFF3B2527)
 val FunctionalGreen = Color(0xff52c41a)
 val FunctionalGrey = Color(0xfff6f6f6)
 val FunctionalDarkGrey = Color(0xff2e2e2e)

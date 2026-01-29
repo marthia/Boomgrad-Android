@@ -46,4 +46,19 @@
     <string name="home_screen_for_you_label">For You</string>
     <string name="home_screen_top_attractions_label">Top Destinations</string>
     <string name="home_screen_search_help_label">Search Attraction, Tour, Guide</string>
+    <string name="label_profile_edit">Edit Profile</string>
+    <string name="label_profile_my_trips">My Trips</string>
+    <string name="label_profile_logout">Logout</string>
+    <string name="label_edit_profile_fullname">Full Name</string>
+    <string name="description_edit_profile_fullname">For Instance: John Doe</string>
+    <string name="label_edit_profile_email">Email</string>
+    <string name="description_edit_profile_email">info@example.com</string>
+    <string name="label_edit_profile_phone">Phone Number</string>
+    <string name="description_edit_profile_phone">09012345678</string>
+    <string name="label_my_trips_tab_scheduled">Scheduled</string>
+    <string name="label_my_trips_tab_completed">Completed</string>
+    <string name="label_my_trips_tab_Cancelled">Cancelled</string>
+    <string name="label_home_create_tour">Create New Tour</string>
+    <string name="description_home_create_tour">Share you new experiences with others</string>
+    <string name="home_screen_active_tours_label">Active Tours</string>
 </resources>
