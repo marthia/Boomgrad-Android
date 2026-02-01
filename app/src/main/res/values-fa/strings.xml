@@ -51,5 +51,9 @@
     <string name="label_home_create_tour">تور جدید بسازید</string>
     <string name="description_home_create_tour">تجربیات جدید خود را با دیگران به اشتراک بگذارید</string>
     <string name="home_screen_active_tours_label">تورهای فعال</string>
+    <string name="label_attraction_detail_phone">تلفن تماس</string>
+    <string name="label_attraction_detail_mail">ایمیل</string>
+    <string name="label_attraction_detail_working_time">ساعات بازدید</string>
+    <string name="label_attraction_detail_address">آدرس</string>
 
 </resources>

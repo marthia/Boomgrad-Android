@@ -1,12 +1,6 @@
 <resources>
     <string name="app_name">Boomgrad</string>
 
-
-
-
-
-
-    ```
     <string name="label_login_button">Login to Application</string>
     <string name="placeholder_login_username">Phone Number</string>
     <string name="placeholder_login_username_description">Enter your Phone</string>
@@ -14,12 +8,6 @@
     <string name="placeholder_login_password_description">Enter your password</string>
     <string name="title_login_name">Login to Account</string>
     <string name="subtitle_login_description">Tanin Ertebat Hasht Behesht Company</string>
-    ```
-
-
-
-
-
     <!-- Home Tabs -->
     <string name="home_feed">Home</string>
     <string name="home_cart">My Cart</string>
@@ -61,4 +49,8 @@
     <string name="label_home_create_tour">Create New Tour</string>
     <string name="description_home_create_tour">Share you new experiences with others</string>
     <string name="home_screen_active_tours_label">Active Tours</string>
+    <string name="label_attraction_detail_phone">Contact Phone</string>
+    <string name="label_attraction_detail_mail">Email</string>
+    <string name="label_attraction_detail_working_time">Working Time</string>
+    <string name="label_attraction_detail_address">Address</string>
 </resources>

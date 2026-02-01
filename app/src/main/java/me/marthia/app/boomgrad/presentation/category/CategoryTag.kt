@@ -15,7 +15,7 @@ import me.marthia.app.boomgrad.presentation.components.JetsnackSurface
 import me.marthia.app.boomgrad.presentation.theme.BaseTheme
 
 @Composable
-fun CategoryTag(modifier: Modifier = Modifier, title: String, icon: String = "") {
+fun CategoryTag(modifier: Modifier = Modifier, title: String, icon: Int = R.drawable.icon_leaf_16) {
 
     JetsnackSurface(
         modifier = modifier,
@@ -26,13 +26,17 @@ fun CategoryTag(modifier: Modifier = Modifier, title: String, icon: String = "")
             modifier = Modifier.padding(8.dp),
             leadingIcon = {
                 Icon(
-                    painter = painterResource(R.drawable.icon_leaf_24),
+                    painter = painterResource(icon),
                     tint = Color.Unspecified,
                     contentDescription = "featured",
                 )
             },
             text = {
-                Text(text = title, color = BaseTheme.colors.brand)
+                Text(
+                    text = title,
+                    color = BaseTheme.colors.brand,
+                    style = MaterialTheme.typography.labelMedium
+                )
             },
         )
     }

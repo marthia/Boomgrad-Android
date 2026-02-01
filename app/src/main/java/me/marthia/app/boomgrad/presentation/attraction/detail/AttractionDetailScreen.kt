@@ -1,27 +1,20 @@
 package me.marthia.app.boomgrad.presentation.attraction.detail
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccessTime
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Phone
-import androidx.compose.material.icons.filled.Public
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -32,12 +25,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -48,6 +43,7 @@ import me.marthia.app.boomgrad.domain.model.AttractionOpeningHours
 import me.marthia.app.boomgrad.domain.model.City
 import me.marthia.app.boomgrad.domain.model.Location
 import me.marthia.app.boomgrad.domain.model.LocationType
+import me.marthia.app.boomgrad.presentation.category.CategoryTag
 import me.marthia.app.boomgrad.presentation.components.AppScaffold
 import me.marthia.app.boomgrad.presentation.components.IconText
 import me.marthia.app.boomgrad.presentation.components.JetSnackBackground
@@ -58,7 +54,6 @@ import me.marthia.app.boomgrad.presentation.theme.BaseTheme
 import me.marthia.app.boomgrad.presentation.util.RightToLeftLayout
 import me.marthia.app.boomgrad.presentation.util.debugPlaceholder
 import org.koin.androidx.compose.koinViewModel
-import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -91,27 +86,46 @@ fun AttractionDetailScreen(
 
 
                     category = "تاریخی",
-                    imageUrl = "",
+                    images = listOf(),
                     rating = 4.8f,
                     contactInfo = AttractionContactInfo(
                         phone = "09035135466",
                         email = "marthia@pm.me",
                         website = "marthia.com",
                     ),
-                    openingHours = AttractionOpeningHours(
-                        monday = "8:00 تا 22:30",
-                        tuesday = "8:00 تا 22:30",
-                        wednesday = "8:00 تا 22:30",
-                        thursday = "8:00 تا 22:30",
-                        friday = "8:00 تا 22:30",
-                        saturday = "8:00 تا 22:30",
-                        sunday = "8:00 تا 22:30",
-                    ),
+                    openingHours = listOf(
+                        AttractionOpeningHours(
+                            date = "شنبه ۲۹ آذر",
+                            workingHour = "8:00 تا 22:30",
+                        ),
+                        AttractionOpeningHours(
+                            date = "یکشنبه ۲۹ آذر",
+                            workingHour = "8:00 تا 22:30",
+                        ),
+                        AttractionOpeningHours(
+                            date = "دوشنبه ۲۹ آذر",
+                            workingHour = "8:00 تا 22:30",
+                        ),
+                        AttractionOpeningHours(
+                            date = "سه‌شنبه ۲۹ آذر",
+                            workingHour = "8:00 تا 22:30",
+                        ),
+                        AttractionOpeningHours(
+                            date = "چهارشنبه ۲۹ آذر",
+                            workingHour = "8:00 تا 22:30",
+                        ),
+                        AttractionOpeningHours(
+                            date = "پنج‌شنبه ۲۹ آذر",
+                            workingHour = "8:00 تا 22:30",
+                        ),
+
+                        ),
+                    reviewCount = 160,
                     location = Location(
                         latitude = 41.4,
                         longitude = 41.4,
                         name = "میدان نقش جهان",
-                        description = "نقش جهان آینه شکوه و عظمت ایران و یادگار دوران صفوی با زیبایی هرچه تمام مایه فخر ایران و ایرانی است.",
+                        description = "نقش جهان آینه شکوه و عظمت ایران و یادگار دوران صفوی با زیبایی هرچه تمام مایه فخر ایران و ایرانی است. نقش جهان آینه شکوه و عظمت ایران و یادگار دوران صفوی با زیبایی هرچه تمام مایه فخر ایران و ایرانی است. نقش جهان آینه شکوه و عظمت ایران و یادگار دوران صفوی با زیبایی هرچه تمام مایه فخر ایران و ایرانی است.",
                         address = "اصفهان میدان انقلاب",
                         city = City(
                             id = 1,
@@ -137,6 +151,104 @@ fun AttractionDetailScreen(
     }
 }
 
+
+@Composable
+fun AttractionImages(modifier: Modifier = Modifier, images: List<String>) {
+
+    LazyRow(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(200.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        contentPadding = PaddingValues(8.dp),
+    ) {
+
+        items(images) { imageLink ->
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(imageLink)
+                    .crossfade(true)
+                    .build(),
+                placeholder = debugPlaceholder(debugPreview = R.drawable.placeholder),
+                contentDescription = "contentDescription",
+                modifier = Modifier
+                    .fillMaxWidth(0.9f)
+                    .clip(MaterialTheme.shapes.large),
+                contentScale = ContentScale.FillBounds,
+            )
+
+        }
+    }
+}
+
+@Composable
+fun AttractionGist(
+    modifier: Modifier = Modifier,
+    title: String,
+    reviewCount: Int,
+    rate: Float,
+    category: String,
+    city: String
+) {
+
+    Column(
+        modifier = modifier.padding(horizontal = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(title, style = MaterialTheme.typography.titleLarge)
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.icon_star_20),
+                    contentDescription = "score",
+                    tint = Color.Unspecified
+                )
+                Text(text = "$rate ", style = MaterialTheme.typography.bodySmall)
+
+                Text(
+                    stringResource(R.string.tour_detail_review_count, reviewCount),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = BaseTheme.colors.textHelp
+                )
+            }
+        }
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.Top
+        ) {
+
+            IconText(
+                text = {
+                    Text(
+                        text = city,
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                },
+                leadingIcon = {
+                    Icon(
+                        painter = painterResource(R.drawable.icon_location_16),
+                        contentDescription = "Location",
+                    )
+                },
+            )
+
+            CategoryTag(title = category, icon = R.drawable.icon_leaf_16)
+        }
+
+    }
+}
+
+
 @Composable
 private fun AttractionDetailContent(attraction: Attraction) {
     Column(
@@ -145,253 +257,160 @@ private fun AttractionDetailContent(attraction: Attraction) {
             .verticalScroll(rememberScrollState()),
     ) {
 
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(R.drawable.ali_qapu)
-                .crossfade(true)
-                .build(),
-            placeholder = debugPlaceholder(debugPreview = R.drawable.placeholder),
-            contentDescription = "contentDescription",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-                .clip(MaterialTheme.shapes.large),
-            contentScale = ContentScale.Crop,
+        AttractionImages(images = attraction.images)
+
+        AttractionGist(
+            title = attraction.location.name,
+            reviewCount = attraction.reviewCount,
+            rate = attraction.rating,
+            category = attraction.category,
+            city = "${attraction.location.city.province} , ${attraction.location.city.name}"
         )
 
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
+        Text(
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp),
+            text = attraction.location.description,
+            style = MaterialTheme.typography.bodyMedium.copy(lineHeight = 24.sp),
+            textAlign = TextAlign.Justify,
+        )
 
 
-            Spacer(modifier = Modifier.height(8.dp))
+        AttractionSpecs(
+            modifier = Modifier.padding(16.dp),
+            contactInfo = attraction.contactInfo,
+            address = attraction.location.address
+        )
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = attraction.location.name,
-                    style = MaterialTheme.typography.headlineMedium
-                )
-
-                Row {
-                    Icon(
-                        imageVector = Icons.Default.Star,
-                        contentDescription = "Rating",
-                        tint = BaseTheme.colors.brand
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(
-                        text = "${attraction.rating}",
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            JetsnackSurface(
-                modifier = Modifier.align(Alignment.End),
-                shape = MaterialTheme.shapes.extraLarge,
-                color = BaseTheme.colors.uiContainer,
-            ) {
-                IconText(
-                    modifier = Modifier.padding(8.dp),
-                    leadingIcon = {
-                        Icon(
-                            painter = painterResource(R.drawable.icon_leaf_24),
-                            tint = Color.Unspecified,
-                            contentDescription = "featured",
-                        )
-                    },
-                    text = {
-                        Text(text = attraction.category, color = BaseTheme.colors.brand)
-                    },
-                )
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = attraction.location.description,
-                style = MaterialTheme.typography.bodyMedium
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            ContactInfoSection(attraction)
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            OpeningHoursSection(attraction)
-        }
+        WorkingTimeSection(
+            modifier = Modifier.padding(16.dp),
+            workingTimes = attraction.openingHours
+        )
     }
 }
 
 @Composable
-private fun ContactInfoSection(attraction: Attraction) {
-    ElevatedCard(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = BaseTheme.colors.uiBackground
-        )
+fun AttractionSpecs(
+    modifier: Modifier = Modifier,
+    contactInfo: AttractionContactInfo,
+    address: String
+) {
+
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text = "اطلاعات تماس",
-                style = MaterialTheme.typography.titleMedium
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            AttractionSpecItem(
+                modifier = Modifier.weight(1f),
+                label = stringResource(R.string.label_attraction_detail_phone),
+                labelIcon = R.drawable.ic_phone_16,
+                value = contactInfo.phone
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
-
-            ContactInfoRow(
-                icon = Icons.Default.LocationOn,
-                label = "آدرس",
-                value = attraction.location.address
+            AttractionSpecItem(
+                modifier = Modifier.weight(1f),
+                label = stringResource(R.string.label_attraction_detail_mail),
+                labelIcon = R.drawable.ic_email_16,
+                value = contactInfo.email
             )
-
-            attraction.contactInfo.phone?.let { phone ->
-                Spacer(modifier = Modifier.height(8.dp))
-                ContactInfoRow(
-                    icon = Icons.Default.Phone,
-                    label = "تلفن تماس",
-                    value = phone
-                )
-            }
-
-            attraction.contactInfo.email?.let { email ->
-                Spacer(modifier = Modifier.height(8.dp))
-                ContactInfoRow(
-                    icon = Icons.Default.Email,
-                    label = "ایمیل",
-                    value = email
-                )
-            }
-
-            attraction.contactInfo.website?.let { website ->
-                Spacer(modifier = Modifier.height(8.dp))
-                ContactInfoRow(
-                    icon = Icons.Default.Public,
-                    label = "وبسایت",
-                    value = website
-                )
-            }
         }
+
+        AttractionSpecItem(
+            label = stringResource(R.string.label_attraction_detail_address),
+            labelIcon = R.drawable.icon_location_16,
+            value = address
+        )
+
+
     }
+
 }
 
+
 @Composable
-private fun ContactInfoRow(
-    icon: ImageVector,
+fun AttractionSpecItem(
+    modifier: Modifier = Modifier,
     label: String,
+    labelIcon: Int,
     value: String
 ) {
-    Row {
-        Icon(
-            imageVector = icon,
-            contentDescription = label,
-            tint = BaseTheme.colors.brand
-        )
-        Spacer(modifier = Modifier.width(12.dp))
-        Text(
-            text = value,
-            style = MaterialTheme.typography.bodyMedium
-        )
-//        Column {
-//            Text(
-//                text = label,
-//                style = MaterialTheme.typography.labelSmall,
-//                color = BaseTheme.colors.textSecondary
-//            )
-//
-//        }
+    JetsnackSurface(
+        modifier = modifier,
+        shape = MaterialTheme.shapes.large,
+        border = BorderStroke(width = 2.dp, color = BaseTheme.colors.outline),
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            IconText(
+                leadingIcon = {
+                    Icon(
+                        painter = painterResource(labelIcon),
+                        contentDescription = "Duration",
+                        tint = BaseTheme.colors.textHelp
+                    )
+                },
+                text = {
+                    Text(
+                        text = label,
+                        style = MaterialTheme.typography.labelSmall,
+                        color = BaseTheme.colors.textHelp
+                    )
+                },
+            )
+            Text(
+                text = value,
+                style = MaterialTheme.typography.bodyMedium,
+            )
+        }
     }
 }
 
 @Composable
-private fun OpeningHoursSection(attraction: Attraction) {
-    ElevatedCard(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = BaseTheme.colors.uiBackground
+fun WorkingTimeSection(modifier: Modifier = Modifier, workingTimes: List<AttractionOpeningHours>) {
+    Column(modifier = modifier) {
+        Text(
+            text = stringResource(R.string.label_attraction_detail_working_time),
+            style = MaterialTheme.typography.titleMedium,
         )
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text = "ساعات بازدید",
-                style = MaterialTheme.typography.titleMedium
-            )
 
-            Spacer(modifier = Modifier.height(12.dp))
+        Spacer(Modifier.height(8.dp))
 
-            val calendar = Calendar.getInstance()
-            val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
-            val todayHours = attraction.openingHours.getTodayHours(dayOfWeek)
+        JetsnackSurface(
+            shape = MaterialTheme.shapes.large,
 
-            Card(
-                colors = CardDefaults.cardColors(
-                    containerColor = BaseTheme.colors.uiContainer
-                )
             ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(12.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.AccessTime,
-                        contentDescription = "Today's hours",
-                        tint = BaseTheme.colors.textPrimary
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Column {
+            Column(modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                workingTimes.forEach {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth().padding(horizontal = 12.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
                         Text(
-                            text = "امروز",
-                            style = MaterialTheme.typography.labelMedium,
-                            color = BaseTheme.colors.textPrimary
+                            text = it.date,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = BaseTheme.colors.textHelp,
                         )
                         Text(
-                            text = "تعطیل به علت آلودگی هوا",
+                            text = it.workingHour,
                             style = MaterialTheme.typography.bodyLarge,
-                            color = BaseTheme.colors.error
+                            color = BaseTheme.colors.textSecondary,
                         )
                     }
                 }
             }
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            OpeningHourRow("شنبه", attraction.openingHours.saturday)
-            OpeningHourRow("یکشنبه", attraction.openingHours.sunday)
-            OpeningHourRow("دوشنبه", attraction.openingHours.monday)
-            OpeningHourRow("سه‌شنبه", attraction.openingHours.tuesday)
-            OpeningHourRow("چهارشنبه", attraction.openingHours.wednesday)
-            OpeningHourRow("پنجشنبه", attraction.openingHours.thursday)
-            OpeningHourRow("جمعه", attraction.openingHours.friday)
         }
     }
-}
 
-@Composable
-private fun OpeningHourRow(day: String, hours: String) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            text = day,
-            style = MaterialTheme.typography.bodyMedium,
-            color = BaseTheme.colors.textHelp,
-            modifier = Modifier.weight(1f)
-        )
-        Text(
-            text = hours,
-            style = MaterialTheme.typography.bodyMedium,
-            color = BaseTheme.colors.textSecondary
-        )
-    }
 }
 
 
@@ -405,27 +424,46 @@ private fun PreviewAttraction() {
                     Attraction(
                         id = "",
                         category = "تاریخی",
-                        imageUrl = "",
+                        images = listOf(),
                         rating = 4.8f,
                         contactInfo = AttractionContactInfo(
                             phone = "09035135466",
                             email = "marthia@pm.me",
                             website = "marthia.com",
                         ),
-                        openingHours = AttractionOpeningHours(
-                            monday = "8:00 تا 22:30",
-                            tuesday = "8:00 تا 22:30",
-                            wednesday = "8:00 تا 22:30",
-                            thursday = "8:00 تا 22:30",
-                            friday = "8:00 تا 22:30",
-                            saturday = "8:00 تا 22:30",
-                            sunday = "8:00 تا 22:30",
-                        ),
+                        openingHours = listOf(
+                            AttractionOpeningHours(
+                                date = "شنبه ۲۹ آذر",
+                                workingHour = "8:00 تا 22:30",
+                            ),
+                            AttractionOpeningHours(
+                                date = "یکشنبه ۲۹ آذر",
+                                workingHour = "8:00 تا 22:30",
+                            ),
+                            AttractionOpeningHours(
+                                date = "دوشنبه ۲۹ آذر",
+                                workingHour = "8:00 تا 22:30",
+                            ),
+                            AttractionOpeningHours(
+                                date = "سه‌شنبه ۲۹ آذر",
+                                workingHour = "8:00 تا 22:30",
+                            ),
+                            AttractionOpeningHours(
+                                date = "چهارشنبه ۲۹ آذر",
+                                workingHour = "8:00 تا 22:30",
+                            ),
+                            AttractionOpeningHours(
+                                date = "پنج‌شنبه ۲۹ آذر",
+                                workingHour = "8:00 تا 22:30",
+                            ),
+
+                            ),
+                        reviewCount = 150,
                         location = Location(
                             latitude = 41.4,
                             longitude = 41.4,
                             name = "میدان نقش جهان",
-                            description = "نقش جهان آینه شکوه و عظمت ایران و یادگار دوران صفوی با زیبایی هرچه تمام مایه فخر ایران و ایرانی است.",
+                            description = " نقش جهان آینه شکوه و عظمت ایران و یادگار دوران صفوی با زیبایی هرچه تمام مایه فخر ایران و ایرانی است. نقش جهان آینه شکوه و عظمت ایران و یادگار دوران صفوی با زیبایی هرچه تمام مایه فخر ایران و ایرانی است. نقش جهان آینه شکوه و عظمت ایران و یادگار دوران صفوی با زیبایی هرچه تمام مایه فخر ایران و ایرانی است.",
                             address = "اصفهان میدان انقلاب",
                             city = City(
                                 id = 1,

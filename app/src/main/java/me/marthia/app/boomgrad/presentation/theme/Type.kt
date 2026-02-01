@@ -116,7 +116,7 @@ val Typography = Typography(
     bodyMedium = TextStyle(
         fontFamily = PeydaFont,
         fontSize = 14.sp,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Normal,
         lineHeight = 20.sp,
         letterSpacing = 0.25.sp,
     ),

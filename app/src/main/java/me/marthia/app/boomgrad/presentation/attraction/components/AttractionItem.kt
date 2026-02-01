@@ -43,7 +43,7 @@ fun AttractionItem(
                 .padding(12.dp)
         ) {
             AsyncImage(
-                model = attraction.imageUrl,
+                model = attraction.images,
                 contentDescription = attraction.location.name,
                 modifier = Modifier
                     .size(80.dp),

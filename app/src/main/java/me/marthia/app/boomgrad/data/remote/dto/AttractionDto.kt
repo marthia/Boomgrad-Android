@@ -12,11 +12,13 @@ data class AttractionDto(
     @SerialName("image_url")
     val imageUrl: String?,
     @SerialName("rating")
-    val rating: Float,
+    val rating: Float?,
+    @SerialName("review_count")
+    val reviewCount: Int?,
     @SerialName("contact_info")
     val contactInfo: ContactInfoDto?,
     @SerialName("opening_hours")
-    val openingHours: OpeningHoursDto?,
+    val openingHours: List<OpeningHoursDto>,
     @SerialName("location")
     val location: LocationDto?
 )
@@ -35,20 +37,10 @@ data class ContactInfoDto(
 
 @Serializable
 data class OpeningHoursDto(
-    @SerialName("monday")
-    val monday: String?,
-    @SerialName("tuesday")
-    val tuesday: String?,
-    @SerialName("wednesday")
-    val wednesday: String?,
-    @SerialName("thursday")
-    val thursday: String?,
-    @SerialName("friday")
-    val friday: String?,
-    @SerialName("saturday")
-    val saturday: String?,
-    @SerialName("sunday")
-    val sunday: String?
+    @SerialName("date")
+    val date: String?,
+    @SerialName("working_hour")
+    val workingHour: String?,
 )
 
 @Serializable

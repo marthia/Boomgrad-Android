@@ -74,8 +74,12 @@ import coil.request.ImageRequest
 import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.domain.model.Attraction
 import me.marthia.app.boomgrad.domain.model.AttractionCategory
+import me.marthia.app.boomgrad.domain.model.AttractionOpeningHours
+import me.marthia.app.boomgrad.domain.model.ItineraryStop
 import me.marthia.app.boomgrad.domain.model.Tour
 import me.marthia.app.boomgrad.presentation.FilterSharedElementKey
+import me.marthia.app.boomgrad.presentation.attraction.components.TimeLine
+import me.marthia.app.boomgrad.presentation.attraction.components.TimelineUi
 import me.marthia.app.boomgrad.presentation.category.CategoryTag
 import me.marthia.app.boomgrad.presentation.common.ErrorScreen
 import me.marthia.app.boomgrad.presentation.common.LoadingScreen
@@ -611,7 +615,7 @@ fun TopDestinations(list: List<Attraction>) {
                 ) {
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)
-                            .data(attraction.imageUrl)
+                            .data(attraction.images)
                             .crossfade(true)
                             .build(),
                         placeholder = debugPlaceholder(debugPreview = R.drawable.placeholder_vertical),
