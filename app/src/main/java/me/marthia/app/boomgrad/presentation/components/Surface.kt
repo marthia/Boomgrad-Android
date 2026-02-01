@@ -23,6 +23,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -47,6 +49,7 @@ fun JetsnackSurface(
     color: Color = BaseTheme.colors.uiBackground,
     contentColor: Color = BaseTheme.colors.textSecondary,
     border: BorderStroke? = null,
+    contentAlignment: Alignment = Alignment.TopStart,
     shadowColor : Color = DefaultShadowColor,
     elevation: Dp = 0.dp,
     content: @Composable () -> Unit,
@@ -59,8 +62,8 @@ fun JetsnackSurface(
             .background(
                 color = getBackgroundColorForElevation(color, elevation),
                 shape = shape,
-            )
-            ,
+            ),
+        contentAlignment = contentAlignment
     ) {
         CompositionLocalProvider(LocalContentColor provides contentColor, content = content)
     }

@@ -55,5 +55,8 @@
     <string name="label_attraction_detail_mail">ایمیل</string>
     <string name="label_attraction_detail_working_time">ساعات بازدید</string>
     <string name="label_attraction_detail_address">آدرس</string>
+    <string name="label_home_guide_tours_stat">تورها</string>
+    <string name="label_home_guide_people_signed_up">روزهای این هفته</string>
+    <string name="label_home_guide_people_views">بازدید این ماه</string>
 
 </resources>
