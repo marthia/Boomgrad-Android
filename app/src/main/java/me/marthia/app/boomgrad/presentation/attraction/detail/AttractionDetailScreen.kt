@@ -1,6 +1,7 @@
 package me.marthia.app.boomgrad.presentation.attraction.detail
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,13 +12,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,6 +31,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -49,6 +57,7 @@ import me.marthia.app.boomgrad.presentation.components.IconText
 import me.marthia.app.boomgrad.presentation.components.JetSnackBackground
 import me.marthia.app.boomgrad.presentation.components.JetsnackSurface
 import me.marthia.app.boomgrad.presentation.components.TopBar
+import me.marthia.app.boomgrad.presentation.profile.component.dashedBorder
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
 import me.marthia.app.boomgrad.presentation.theme.BaseTheme
 import me.marthia.app.boomgrad.presentation.util.RightToLeftLayout
@@ -388,11 +397,27 @@ fun WorkingTimeSection(modifier: Modifier = Modifier, workingTimes: List<Attract
             shape = MaterialTheme.shapes.large,
 
             ) {
-            Column(modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                Spacer(Modifier.height(8.dp))
+
+                WorkingHoursNote(
+                    label = "تعطیل به علت آلودگی هوا",
+                    icon = painterResource(R.drawable.ic_info_filled_24),
+                )
+
+                Spacer(Modifier.height(20.dp))
+
                 workingTimes.forEach {
                     Row(
                         modifier = Modifier
-                            .fillMaxWidth().padding(horizontal = 12.dp),
+                            .fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
@@ -406,11 +431,58 @@ fun WorkingTimeSection(modifier: Modifier = Modifier, workingTimes: List<Attract
                             color = BaseTheme.colors.textSecondary,
                         )
                     }
+                    Spacer(Modifier.height(12.dp))
                 }
             }
         }
     }
 
+}
+
+@Composable
+fun WorkingHoursNote(
+    modifier: Modifier = Modifier,
+    label: String,
+    icon: Painter,
+    textColor: Color = BaseTheme.colors.error,
+    iconContainerColor: Color = BaseTheme.colors.iconInteractive,
+    iconTint: Color = BaseTheme.colors.error,
+    containerColor: Color = BaseTheme.colors.errorContainer,
+    borderColor: Color = BaseTheme.colors.error,
+    shape: Shape = RoundedCornerShape(50)
+) {
+
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(color = containerColor, shape = shape)
+            .dashedBorder(color = borderColor, shape = shape),
+
+        verticalAlignment = Alignment.CenterVertically,
+
+        ) {
+
+        Surface(
+            modifier = Modifier
+                .padding(top = 2.dp, start = 2.dp, bottom = 2.dp)
+                .size(48.dp),
+            shape = CircleShape,
+            color = iconContainerColor
+        ) {
+            Icon(
+                modifier = Modifier.padding(12.dp),
+                painter = icon,
+                tint = iconTint,
+                contentDescription = label
+            )
+        }
+
+        Spacer(Modifier.width(8.dp))
+
+        Text(text = label, color = textColor, style = MaterialTheme.typography.bodyLarge)
+
+        Spacer(Modifier.weight(1f))
+    }
 }
 
 
