@@ -42,6 +42,7 @@ import me.marthia.app.boomgrad.domain.model.TourStatus
 import me.marthia.app.boomgrad.presentation.components.AppContainer
 import me.marthia.app.boomgrad.presentation.components.IconText
 import me.marthia.app.boomgrad.presentation.components.JetHorizontalDivider
+import me.marthia.app.boomgrad.presentation.components.JetSnackBackground
 import me.marthia.app.boomgrad.presentation.components.JetsnackButton
 import me.marthia.app.boomgrad.presentation.components.JetsnackCard
 import me.marthia.app.boomgrad.presentation.components.JetsnackSurface
@@ -469,7 +470,8 @@ fun TourItem(modifier: Modifier = Modifier, title: String) {
 @Composable
 private fun PreviewHomeScreenGuide() {
     AppTheme {
-
-        HomeScreen()
+        JetSnackBackground(modifier = Modifier.fillMaxSize()) {
+            HomeScreen()
+        }
     }
 }
