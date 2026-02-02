@@ -30,15 +30,22 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberSearchBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -50,15 +57,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.domain.model.City
 import me.marthia.app.boomgrad.domain.model.County
 import me.marthia.app.boomgrad.domain.model.Province
 import me.marthia.app.boomgrad.presentation.FilterSharedElementKey
-import me.marthia.app.boomgrad.presentation.components.DropDownPicker
+import me.marthia.app.boomgrad.presentation.components.IconText
 import me.marthia.app.boomgrad.presentation.theme.BaseTheme
 import org.koin.compose.viewmodel.koinViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CurrentCityScreen(
     sharedTransitionScope: SharedTransitionScope,
@@ -68,14 +78,10 @@ fun CurrentCityScreen(
 ) {
 
     // State for dropdown data
-    val provinces by viewModel.provinces.collectAsState()
-    val counties by viewModel.counties.collectAsState()
     val cities by viewModel.cities.collectAsState()
 
     // Selected values
-    var selectedProvince by remember { mutableStateOf<Province?>(null) }
-    var selectedCounty by remember { mutableStateOf<County?>(null) }
-    var selectedCity by remember { mutableStateOf<City?>(null) }
+    val searchQuery = remember { mutableStateOf("") }
 
     // Load provinces on first composition
     LaunchedEffect(Unit) {
@@ -135,59 +141,38 @@ fun CurrentCityScreen(
                     style = MaterialTheme.typography.bodyMedium
                 )
 
-                // Province Dropdown
-                DropDownPicker(
-                    label = { Text("Province") },
-                    placeholder = { Text("Select Province") },
-                    items = provinces,
-                    selectedItem = selectedProvince,
-                    onItemSelected = { province ->
-                        selectedProvince = province
-                        selectedCounty = null  // Reset county when province changes
-                        selectedCity = null     // Reset city when province changes
-                        viewModel.getCounty(province.id)
-                    }
-                )
+                SearchBar(state = rememberSearchBarState(), inputField = {
+                    BasicTextField(
+                        value = searchQuery.value,
+                        onValueChange = {
+                            searchQuery.value = it
+                        },
+                        decorationBox = {
+                            IconText(
+                                leadingIcon = {
+                                    Icon(
+                                        imageVector = Icons.Rounded.Search,
+                                        contentDescription = "Search",
+                                        tint = BaseTheme.colors.textHelp,
+                                    )
+                                },
+                                text = {
+                                    Text(
+                                        text = stringResource(R.string.home_screen_search_help_label),
+                                        style = MaterialTheme.typography.labelSmall,
+                                        color = BaseTheme.colors.textHelp,
+                                    )
+                                },
+                            )
+                        },
+                    )
+                })
 
-                // County Dropdown (only enabled when province is selected)
-                DropDownPicker(
-                    label = { Text("County") },
-                    placeholder = { Text("Select County") },
-                    items = counties,
-                    selectedItem = selectedCounty,
-                    enabled = selectedProvince != null,
-                    onItemSelected = { county ->
-                        selectedCounty = county
-                        selectedCity = null  // Reset city when county changes
-                        selectedProvince?.let { province ->
-                            viewModel.getCity(province.id, county.id)
-                        }
+                LazyColumn() {
+                    items(cities) { city ->
+                        Text("${city.province}, ${city.county}")
+                        Text(city.name)
                     }
-                )
-
-                // City Dropdown (only enabled when county is selected)
-                DropDownPicker(
-                    label = { Text("City") },
-                    placeholder = { Text("Select City") },
-                    items = cities,
-                    selectedItem = selectedCity,
-                    enabled = selectedCounty != null,
-                    onItemSelected = { city ->
-                        selectedCity = city
-                    }
-                )
-
-                Button(
-                    onClick = {
-                        selectedCity?.let {
-                            // Handle final selection
-                            onDismiss()
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    enabled = selectedCity != null
-                ) {
-                    Text("Confirm")
                 }
             }
         }

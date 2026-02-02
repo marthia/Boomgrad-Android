@@ -74,12 +74,8 @@ import coil.request.ImageRequest
 import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.domain.model.Attraction
 import me.marthia.app.boomgrad.domain.model.AttractionCategory
-import me.marthia.app.boomgrad.domain.model.AttractionOpeningHours
-import me.marthia.app.boomgrad.domain.model.ItineraryStop
 import me.marthia.app.boomgrad.domain.model.Tour
 import me.marthia.app.boomgrad.presentation.FilterSharedElementKey
-import me.marthia.app.boomgrad.presentation.attraction.components.TimeLine
-import me.marthia.app.boomgrad.presentation.attraction.components.TimelineUi
 import me.marthia.app.boomgrad.presentation.category.CategoryTag
 import me.marthia.app.boomgrad.presentation.common.ErrorScreen
 import me.marthia.app.boomgrad.presentation.common.LoadingScreen
@@ -93,7 +89,6 @@ import me.marthia.app.boomgrad.presentation.components.JetsnackCard
 import me.marthia.app.boomgrad.presentation.components.JetsnackSearch
 import me.marthia.app.boomgrad.presentation.components.JetsnackSurface
 import me.marthia.app.boomgrad.presentation.components.PlainButton
-import me.marthia.app.boomgrad.presentation.home.model.Filter
 import me.marthia.app.boomgrad.presentation.home.model.HomeUiState
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
 import me.marthia.app.boomgrad.presentation.theme.BaseTheme
@@ -171,7 +166,6 @@ private fun HomeScreenContent(
             showCitySelection = {
                 citySelectionVisible = true
             },
-            cityList = listOf(),
             sharedTransitionScope = sharedTransitionScope,
         )
 
@@ -199,7 +193,6 @@ private fun HomeScreenContent(
 @Composable
 fun SearchAll(
     modifier: Modifier = Modifier,
-    cityList: List<Filter>,
     showCitySelection: () -> Unit,
     filtersVisible: Boolean,
     sharedTransitionScope: SharedTransitionScope
