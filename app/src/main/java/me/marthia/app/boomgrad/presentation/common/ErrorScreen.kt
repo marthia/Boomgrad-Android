@@ -8,12 +8,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import coil.compose.AsyncImage
 import me.marthia.app.boomgrad.R
-import me.marthia.app.boomgrad.presentation.components.JetSnackBackground
+import me.marthia.app.boomgrad.presentation.components.BackgroundElement
 
 @Composable
 fun ErrorScreen() {
 
-    JetSnackBackground() {
+    BackgroundElement() {
 
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             AsyncImage(model = R.drawable.error, contentDescription = "Error image")

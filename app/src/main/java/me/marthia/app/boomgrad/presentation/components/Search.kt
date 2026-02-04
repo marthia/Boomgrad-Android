@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
-import me.marthia.app.boomgrad.presentation.theme.BaseTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
 
 @Composable
 fun JetsnackSearch(
@@ -23,12 +23,12 @@ fun JetsnackSearch(
     modifier: Modifier = Modifier,
     shape: Shape = SearchBarDefaults.inputFieldShape,
     colors: SearchBarColors = SearchBarDefaults.colors(
-        containerColor = BaseTheme.colors.uiBackground,
-        dividerColor = BaseTheme.colors.outline,
+        containerColor = Theme.colors.materialTheme.surface,
+        dividerColor = Theme.colors.materialTheme.outline,
         inputFieldColors = inputFieldColors(
-            focusedContainerColor = BaseTheme.colors.uiBackground,
-            unfocusedContainerColor = BaseTheme.colors.uiBackground,
-            disabledContainerColor = BaseTheme.colors.uiBackground,
+            focusedContainerColor = Theme.colors.materialTheme.surfaceContainerHighest,
+            unfocusedContainerColor = Theme.colors.materialTheme.surfaceContainerLow,
+            disabledContainerColor = Theme.colors.materialTheme.surfaceContainerLowest,
         ),
     ),
     tonalElevation: Dp = SearchBarDefaults.TonalElevation,

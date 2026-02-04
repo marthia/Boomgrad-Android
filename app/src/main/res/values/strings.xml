@@ -56,4 +56,7 @@
     <string name="label_home_guide_tours_stat">Tours</string>
     <string name="label_home_guide_people_signed_up">This Week</string>
     <string name="label_home_guide_people_views">Views</string>
+    <string name="description_terms_and_conditions_1">With Login/Register you accept</string>
+    <string name="description_terms_and_conditions_2">Terms And Conditions</string>
+    <string name="description_terms_and_conditions_3">of using our service.</string>
 </resources>

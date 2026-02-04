@@ -11,15 +11,15 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
-import me.marthia.app.boomgrad.presentation.theme.BaseTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
 
 
 @Composable
-fun JetSnackBackground(
+fun BackgroundElement(
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
-    gradient: List<Color> = BaseTheme.colors.uiBackgroundGradient,
-    contentColor: Color = BaseTheme.colors.textSecondary,
+    gradient: List<Color> = Theme.colors.uiBackgroundGradient,
+    contentColor: Color = Theme.colors.materialTheme.onSurfaceVariant,
     content: @Composable () -> Unit,
 ) {
     Box(
@@ -38,8 +38,8 @@ fun JetSnackBackground(
 fun AppContainer(
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
-    gradient: List<Color> = BaseTheme.colors.uiContainerGradient,
-    contentColor: Color = BaseTheme.colors.textSecondary,
+    gradient: List<Color> = Theme.colors.uiContainerGradient,
+    contentColor: Color = Theme.colors.materialTheme.onSurfaceVariant,
     content: @Composable () -> Unit,
 ) {
     Box(

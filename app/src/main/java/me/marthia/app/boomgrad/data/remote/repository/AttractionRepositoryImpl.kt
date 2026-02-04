@@ -36,15 +36,6 @@ class AttractionRepositoryImpl(
         }
     }
 
-    override suspend fun getMockAttractions(): Result<List<MockAttraction>> {
-        return try {
-            val response = FakeAttractionDataSource.getAll(context)
-            Result.success(response)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
-
     override suspend fun getAttractionById(id: String): Result<Attraction> {
         return try {
             val attraction = apiService.getAttractionById(id).toDomain()

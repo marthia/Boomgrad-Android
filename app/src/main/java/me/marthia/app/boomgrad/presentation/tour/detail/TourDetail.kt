@@ -54,14 +54,14 @@ import me.marthia.app.boomgrad.domain.model.TourStatus
 import me.marthia.app.boomgrad.presentation.common.ErrorScreen
 import me.marthia.app.boomgrad.presentation.common.LoadingScreen
 import me.marthia.app.boomgrad.presentation.components.AppScaffold
+import me.marthia.app.boomgrad.presentation.components.BackgroundElement
+import me.marthia.app.boomgrad.presentation.components.CardElement
 import me.marthia.app.boomgrad.presentation.components.IconText
-import me.marthia.app.boomgrad.presentation.components.JetSnackBackground
-import me.marthia.app.boomgrad.presentation.components.JetsnackCard
-import me.marthia.app.boomgrad.presentation.components.JetsnackSurface
 import me.marthia.app.boomgrad.presentation.components.QuantitySelector
+import me.marthia.app.boomgrad.presentation.components.SurfaceElement
 import me.marthia.app.boomgrad.presentation.home.Itinerary
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
-import me.marthia.app.boomgrad.presentation.theme.BaseTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
 import me.marthia.app.boomgrad.presentation.util.ViewState
 import me.marthia.app.boomgrad.presentation.util.debugPlaceholder
 import org.koin.androidx.compose.koinViewModel
@@ -190,7 +190,7 @@ fun TourGist(modifier: Modifier = Modifier, title: String, reviewCount: Int, rat
             Text(
                 stringResource(R.string.tour_detail_review_count, reviewCount),
                 style = MaterialTheme.typography.bodySmall,
-                color = BaseTheme.colors.textHelp
+                color = Theme.colors.textHelp
             )
         }
     }
@@ -198,7 +198,7 @@ fun TourGist(modifier: Modifier = Modifier, title: String, reviewCount: Int, rat
 
 @Composable
 fun TourGuideInfo(modifier: Modifier = Modifier, guideInfo: Guide) {
-    JetsnackCard(modifier = modifier, elevation = 0.dp) {
+    CardElement(modifier = modifier, elevation = 0.dp) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -220,13 +220,13 @@ fun TourGuideInfo(modifier: Modifier = Modifier, guideInfo: Guide) {
                     Text(
                         stringResource(R.string.tour_detail_guide_label),
                         style = MaterialTheme.typography.labelSmall,
-                        color = BaseTheme.colors.textHelp
+                        color = Theme.colors.textHelp
                     )
                     Text(
                         text = guideInfo.fullName,
                         style = MaterialTheme.typography.titleSmall,
-                        color = BaseTheme.colors.textSecondary
-                    )
+
+                        )
                 }
             }
 
@@ -242,8 +242,8 @@ fun TourGuideInfo(modifier: Modifier = Modifier, guideInfo: Guide) {
                     Text(
                         text = "${guideInfo.averageRating}",
                         style = MaterialTheme.typography.labelLarge,
-                        color = BaseTheme.colors.textSecondary
-                    )
+
+                        )
                 },
             )
         }
@@ -262,7 +262,7 @@ fun Description(modifier: Modifier = Modifier, description: String) {
             text = description,
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Justify,
-            color = BaseTheme.colors.textHelp,
+            color = Theme.colors.textHelp,
         )
     }
 }
@@ -298,10 +298,10 @@ fun Highlights(modifier: Modifier = Modifier, highlights: List<String>) {
 
 @Composable
 fun TourSpecItem(modifier: Modifier = Modifier, label: String, labelIcon: Int, value: String) {
-    JetsnackSurface(
+    SurfaceElement(
         modifier = modifier,
         shape = MaterialTheme.shapes.large,
-        border = BorderStroke(width = 2.dp, color = BaseTheme.colors.outline),
+        border = BorderStroke(width = 2.dp, color = Theme.colors.materialTheme.outline),
     ) {
         Column(
             modifier = Modifier
@@ -314,14 +314,14 @@ fun TourSpecItem(modifier: Modifier = Modifier, label: String, labelIcon: Int, v
                     Icon(
                         painter = painterResource(labelIcon),
                         contentDescription = "Duration",
-                        tint = BaseTheme.colors.textHelp
+                        tint = Theme.colors.textHelp
                     )
                 },
                 text = {
                     Text(
                         text = label,
                         style = MaterialTheme.typography.labelSmall,
-                        color = BaseTheme.colors.textHelp
+                        color = Theme.colors.textHelp
                     )
                 },
             )
@@ -405,7 +405,7 @@ fun Prerequisites(modifier: Modifier = Modifier, prerequisites: List<String>) {
                     Icon(
                         modifier = Modifier.size(8.dp),
                         imageVector = Icons.Rounded.FiberManualRecord,
-                        tint = BaseTheme.colors.textHelp,
+                        tint = Theme.colors.textHelp,
                         contentDescription = "highlight",
                     )
                 },
@@ -413,7 +413,7 @@ fun Prerequisites(modifier: Modifier = Modifier, prerequisites: List<String>) {
                     Text(
                         text = item,
                         style = MaterialTheme.typography.bodySmall,
-                        color = BaseTheme.colors.textHelp
+                        color = Theme.colors.textHelp
                     )
                 },
             )
@@ -453,14 +453,14 @@ fun Price(price: String) {
             Text(
                 stringResource(R.string.tour_detail_price_per_person),
                 style = MaterialTheme.typography.bodyMedium,
-                color = BaseTheme.colors.textHelp
+                color = Theme.colors.textHelp
             )
             Text(text = price, style = MaterialTheme.typography.bodyLarge)
         }
         Spacer(Modifier.height(8.dp))
 
 
-        JetsnackSurface(
+        SurfaceElement(
             shape = MaterialTheme.shapes.medium,
         ) {
             Row(
@@ -481,9 +481,9 @@ fun Price(price: String) {
             }
         }
 
-        JetsnackSurface(
+        SurfaceElement(
             shape = MaterialTheme.shapes.medium,
-            color = BaseTheme.colors.uiFloated,
+            color = Theme.colors.materialTheme.surfaceContainerHighest,
         ) {
             Row(
                 modifier = Modifier
@@ -495,12 +495,12 @@ fun Price(price: String) {
                 Text(
                     text = stringResource(R.string.tour_detail_total_price),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = BaseTheme.colors.textHelp
+                    color = Theme.colors.textHelp
                 )
                 Text( // todo fix me this might be buggy : should adopt price locale
                     text = "${price.toInt() * countState.intValue}",
                     style = MaterialTheme.typography.titleLarge,
-                    color = BaseTheme.colors.brand
+                    color = Theme.colors.materialTheme.primary
                 )
 
             }
@@ -523,7 +523,7 @@ private fun PreviewTourDetail() {
 
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
 
-            JetSnackBackground(modifier = Modifier.fillMaxSize()) {
+            BackgroundElement(modifier = Modifier.fillMaxSize()) {
                 TourDetailContent(
                     modifier = Modifier.systemBarsPadding(),
                     tour = Tour(

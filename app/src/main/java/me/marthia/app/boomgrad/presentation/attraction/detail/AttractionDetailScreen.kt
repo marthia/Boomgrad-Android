@@ -53,13 +53,13 @@ import me.marthia.app.boomgrad.domain.model.Location
 import me.marthia.app.boomgrad.domain.model.LocationType
 import me.marthia.app.boomgrad.presentation.category.CategoryTag
 import me.marthia.app.boomgrad.presentation.components.AppScaffold
+import me.marthia.app.boomgrad.presentation.components.BackgroundElement
 import me.marthia.app.boomgrad.presentation.components.IconText
-import me.marthia.app.boomgrad.presentation.components.JetSnackBackground
-import me.marthia.app.boomgrad.presentation.components.JetsnackSurface
+import me.marthia.app.boomgrad.presentation.components.SurfaceElement
 import me.marthia.app.boomgrad.presentation.components.TopBar
 import me.marthia.app.boomgrad.presentation.profile.component.dashedBorder
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
-import me.marthia.app.boomgrad.presentation.theme.BaseTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
 import me.marthia.app.boomgrad.presentation.util.RightToLeftLayout
 import me.marthia.app.boomgrad.presentation.util.debugPlaceholder
 import org.koin.androidx.compose.koinViewModel
@@ -225,7 +225,7 @@ fun AttractionGist(
                 Text(
                     stringResource(R.string.tour_detail_review_count, reviewCount),
                     style = MaterialTheme.typography.bodySmall,
-                    color = BaseTheme.colors.textHelp
+                    color = Theme.colors.textHelp
                 )
             }
         }
@@ -348,10 +348,10 @@ fun AttractionSpecItem(
     labelIcon: Int,
     value: String
 ) {
-    JetsnackSurface(
+    SurfaceElement(
         modifier = modifier,
         shape = MaterialTheme.shapes.large,
-        border = BorderStroke(width = 2.dp, color = BaseTheme.colors.outline),
+        border = BorderStroke(width = 2.dp, color = Theme.colors.materialTheme.outline),
     ) {
         Column(
             modifier = Modifier
@@ -364,14 +364,14 @@ fun AttractionSpecItem(
                     Icon(
                         painter = painterResource(labelIcon),
                         contentDescription = "Duration",
-                        tint = BaseTheme.colors.textHelp
+                        tint = Theme.colors.textHelp
                     )
                 },
                 text = {
                     Text(
                         text = label,
                         style = MaterialTheme.typography.labelSmall,
-                        color = BaseTheme.colors.textHelp
+                        color = Theme.colors.textHelp
                     )
                 },
             )
@@ -393,7 +393,7 @@ fun WorkingTimeSection(modifier: Modifier = Modifier, workingTimes: List<Attract
 
         Spacer(Modifier.height(8.dp))
 
-        JetsnackSurface(
+        SurfaceElement(
             shape = MaterialTheme.shapes.large,
 
             ) {
@@ -423,12 +423,11 @@ fun WorkingTimeSection(modifier: Modifier = Modifier, workingTimes: List<Attract
                         Text(
                             text = it.date,
                             style = MaterialTheme.typography.bodySmall,
-                            color = BaseTheme.colors.textHelp,
+                            color = Theme.colors.textHelp,
                         )
                         Text(
                             text = it.workingHour,
                             style = MaterialTheme.typography.bodyLarge,
-                            color = BaseTheme.colors.textSecondary,
                         )
                     }
                     Spacer(Modifier.height(12.dp))
@@ -444,11 +443,11 @@ fun WorkingHoursNote(
     modifier: Modifier = Modifier,
     label: String,
     icon: Painter,
-    textColor: Color = BaseTheme.colors.error,
-    iconContainerColor: Color = BaseTheme.colors.iconInteractive,
-    iconTint: Color = BaseTheme.colors.error,
-    containerColor: Color = BaseTheme.colors.errorContainer,
-    borderColor: Color = BaseTheme.colors.error,
+    textColor: Color = Theme.colors.materialTheme.onErrorContainer,
+    iconContainerColor: Color = Theme.colors.materialTheme.onError,
+    iconTint: Color = Theme.colors.materialTheme.error,
+    containerColor: Color = Theme.colors.materialTheme.errorContainer,
+    borderColor: Color = Theme.colors.materialTheme.error,
     shape: Shape = RoundedCornerShape(50)
 ) {
 
@@ -491,7 +490,7 @@ fun WorkingHoursNote(
 private fun PreviewAttraction() {
     AppTheme() {
         RightToLeftLayout {
-            JetSnackBackground() {
+            BackgroundElement() {
                 AttractionDetailContent(
                     Attraction(
                         id = "",

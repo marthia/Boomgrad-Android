@@ -1,9 +1,7 @@
 package me.marthia.app.boomgrad.domain.model
 
-import kotlinx.serialization.Serializable
 
-
-@Serializable
 data class Login(
-    val token: String
+    val token: String,
+    val refreshToken: String
 )

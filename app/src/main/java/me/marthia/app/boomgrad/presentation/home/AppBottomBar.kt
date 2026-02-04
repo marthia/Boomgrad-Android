@@ -58,14 +58,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import androidx.core.os.ConfigurationCompat
 import me.marthia.app.boomgrad.presentation.components.AppContainer
-import me.marthia.app.boomgrad.presentation.components.JetsnackSurface
+import me.marthia.app.boomgrad.presentation.components.SurfaceElement
 import me.marthia.app.boomgrad.presentation.navigation.HomeSections
 import me.marthia.app.boomgrad.presentation.spatialExpressiveSpring
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
-import me.marthia.app.boomgrad.presentation.theme.BaseTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
 import java.util.Locale
 import kotlin.math.roundToInt
-
 
 
 @Composable
@@ -75,8 +74,8 @@ fun AppBottomBar(
     navigateToRoute: (String) -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(50),
-    gradient: List<Color> = BaseTheme.colors.uiContainerGradient,
-    contentColor: Color = BaseTheme.colors.textSecondary,
+    gradient: List<Color> = Theme.colors.uiContainerGradient,
+    contentColor: Color = Theme.colors.materialTheme.onPrimaryContainer,
 ) {
     val routes = remember { tabs.map { it.route } }
     val currentSection = tabs.first { it.route == currentRoute }
@@ -96,7 +95,8 @@ fun AppBottomBar(
             modifier = Modifier.clip(shape = shape),
         ) {
             val configuration = LocalConfiguration.current
-            val currentLocale: Locale = ConfigurationCompat.getLocales(configuration).get(0) ?: Locale.getDefault()
+            val currentLocale: Locale =
+                ConfigurationCompat.getLocales(configuration).get(0) ?: Locale.getDefault()
 
             tabs.forEach { section ->
                 val selected = section == currentSection
@@ -114,10 +114,10 @@ fun AppBottomBar(
                 AppBottomNavigationItem(
                     icon = {
                         if (!selected) {
-                            JetsnackSurface(
+                            SurfaceElement(
                                 shape = CircleShape,
-                                contentColor = BaseTheme.colors.iconSecondary,
-                                color = BaseTheme.colors.uiBackground,
+                                contentColor = Theme.colors.materialTheme.surfaceDim,
+                                color = Theme.colors.materialTheme.background,
                             ) {
                                 Icon(
                                     modifier = Modifier.padding(8.dp),
@@ -129,7 +129,7 @@ fun AppBottomBar(
                             Icon(
                                 modifier = Modifier.padding(8.dp),
                                 painter = painterResource(id = section.selectedIcon),
-                                tint = BaseTheme.colors.iconInteractive,
+                                tint = Theme.colors.materialTheme.surface,
                                 contentDescription = text,
                             )
                         }
@@ -137,7 +137,7 @@ fun AppBottomBar(
                     text = {
                         Text(
                             text = text,
-                            color = BaseTheme.colors.textInteractive,
+                            color = Theme.colors.materialTheme.surface,
                             style = MaterialTheme.typography.labelMedium,
                             maxLines = 1,
                         )
@@ -213,16 +213,17 @@ private fun AppBottomNavLayout(
         val selectedWidth = 2 * unselectedWidth
         val indicatorMeasurable = measurables.first { it.layoutId == "indicator" }
 
-        val itemPlaceables = measurables.filterNot { it == indicatorMeasurable }.mapIndexed { index, measurable ->
-            // Animate item's width based upon the selection amount
-            val width = lerp(unselectedWidth, selectedWidth, selectionFractions[index].value)
-            measurable.measure(
-                constraints.copy(
-                    minWidth = width,
-                    maxWidth = width,
-                ),
-            )
-        }
+        val itemPlaceables =
+            measurables.filterNot { it == indicatorMeasurable }.mapIndexed { index, measurable ->
+                // Animate item's width based upon the selection amount
+                val width = lerp(unselectedWidth, selectedWidth, selectionFractions[index].value)
+                measurable.measure(
+                    constraints.copy(
+                        minWidth = width,
+                        maxWidth = width,
+                    ),
+                )
+            }
         val indicatorPlaceable = indicatorMeasurable.measure(
             constraints.copy(
                 minWidth = selectedWidth,
@@ -375,7 +376,7 @@ private fun MeasureScope.placeTextAndIcon(
 
 @Composable
 private fun JetsnackBottomNavIndicator(
-    backgroundGradient: List<Color> = BaseTheme.colors.interactivePrimary,
+    backgroundGradient: List<Color> = Theme.colors.interactivePrimary,
     shape: Shape = BottomNavIndicatorShape,
 ) {
     Spacer(

@@ -22,6 +22,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
@@ -38,7 +39,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
-import me.marthia.app.boomgrad.presentation.theme.BaseTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
 
 @Composable
 fun JetsnackGradientTintedIconButton(
@@ -46,28 +47,28 @@ fun JetsnackGradientTintedIconButton(
     onClick: () -> Unit,
     contentDescription: String?,
     modifier: Modifier = Modifier,
-    colors: List<Color> = BaseTheme.colors.interactiveSecondary,
+    colors: List<Color> = Theme.colors.interactiveSecondary,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
 
     // This should use a layer + srcIn but needs investigation
     val border = Modifier.fadeInDiagonalGradientBorder(
         showBorder = true,
-        colors = BaseTheme.colors.interactiveSecondary,
+        colors = Theme.colors.interactiveSecondary,
         shape = CircleShape,
     )
     val pressed by interactionSource.collectIsPressedAsState()
     val background = if (pressed) {
         Modifier.offsetGradientBackground(colors, 200f, 0f)
     } else {
-        Modifier.background(BaseTheme.colors.uiBackground)
+        Modifier.background(Theme.colors.materialTheme.background)
     }
-    val blendMode = if (BaseTheme.colors.isDark) BlendMode.Darken else BlendMode.Plus
+    val blendMode = if (isSystemInDarkTheme()) BlendMode.Darken else BlendMode.Plus
     val modifierColor = if (pressed) {
         Modifier.diagonalGradientTint(
             colors = listOf(
-                BaseTheme.colors.textSecondary,
-                BaseTheme.colors.textSecondary,
+                Theme.colors.materialTheme.surfaceDim,
+                Theme.colors.materialTheme.surfaceDim,
             ),
             blendMode = blendMode,
         )

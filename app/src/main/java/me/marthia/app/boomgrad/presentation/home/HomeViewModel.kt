@@ -2,6 +2,7 @@ package me.marthia.app.boomgrad.presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,19 +22,12 @@ import me.marthia.app.boomgrad.presentation.util.ViewState
 
 class HomeViewModel(
     private val getCity: GetCityUseCase,
-    private val getCounty: GetCountyUseCase,
-    private val getProvince: GetProvinceUseCase,
     private val getCategories: GetAttractionCategoryUseCase,
     private val getForYouTours: GetForYouToursUseCase,
     private val getTopAttractions: GetTopAttractionsUseCase,
     private val getWeekRecommended: GetWeekRecommendedUseCase,
 ) : ViewModel() {
 
-    private val _provinces = MutableStateFlow<List<Province>>(emptyList())
-    val provinces: StateFlow<List<Province>> = _provinces.asStateFlow()
-
-    private val _counties = MutableStateFlow<List<County>>(emptyList())
-    val counties: StateFlow<List<County>> = _counties.asStateFlow()
 
     private val _cities = MutableStateFlow<List<City>>(emptyList())
     val cities: StateFlow<List<City>> = _cities.asStateFlow()
@@ -44,28 +38,6 @@ class HomeViewModel(
 
     private val _uiState = MutableStateFlow<ViewState<HomeUiState>>(ViewState.Idle)
     val uiState: StateFlow<ViewState<HomeUiState>> = _uiState.asStateFlow()
-
-    fun getProvince() {
-        viewModelScope.launch {
-            val result = getProvince.invoke()
-            result.onSuccess { provinces ->
-                _provinces.value = provinces
-            }.onFailure { error ->
-                _error.value = "Failed to load provinces"
-            }
-        }
-    }
-
-    fun getCounty(provinceId: Long) {
-        viewModelScope.launch {
-            val result = getCounty.invoke(GetCountyUseCase.Params(provinceId = provinceId))
-            result.onSuccess { counties ->
-                _counties.value = counties
-            }.onFailure { error ->
-                _error.value = "Failed to load counties"
-            }
-        }
-    }
 
     fun getCity(provinceId: Long, countyId: Long) {
         viewModelScope.launch {
@@ -80,30 +52,30 @@ class HomeViewModel(
         }
     }
 
+    init {
+        getAll()
+    }
+
     fun getAll() {
-
-        // todo need to use flow and combine them
         viewModelScope.launch {
-            getForYouTours.invoke().onSuccess { forYouTours ->
+            val forYouToursDeferred = async { getForYouTours.invoke() }
+            val topAttractionsDeferred = async { getTopAttractions.invoke() }
+            val weekRecommendedDeferred = async { getWeekRecommended.invoke() }
+            val categoriesDeferred = async { getCategories.invoke() }
 
-                getTopAttractions.invoke().onSuccess { topAttractions ->
-                    getWeekRecommended.invoke().onSuccess { weekRecommended ->
+            val forYouTours = forYouToursDeferred.await().getOrNull() ?: return@launch
+            val topAttractions = topAttractionsDeferred.await().getOrNull() ?: return@launch
+            val weekRecommended = weekRecommendedDeferred.await().getOrNull() ?: return@launch
+            val categories = categoriesDeferred.await().getOrNull() ?: return@launch
 
-                        getCategories.invoke().onSuccess { categories ->
-
-                            _uiState.value = ViewState.Success(
-                                HomeUiState(
-                                    categories = categories,
-                                    forYouTours = forYouTours,
-                                    topAttractions = topAttractions,
-                                    weekRecommended = weekRecommended
-                                )
-                            )
-                        }
-                    }
-
-                }
-            }
+            _uiState.value = ViewState.Success(
+                HomeUiState(
+                    categories = categories,
+                    forYouTours = forYouTours,
+                    topAttractions = topAttractions,
+                    weekRecommended = weekRecommended
+                )
+            )
         }
     }
 

@@ -147,7 +147,7 @@ dependencies {
     implementation(libs.gms.location)
 
     implementation("com.google.accompanist:accompanist-permissions:0.37.3")
-
+    implementation("androidx.datastore:datastore-preferences:1.1.4")
 
     implementation(libs.androidx.constraintlayout)
 

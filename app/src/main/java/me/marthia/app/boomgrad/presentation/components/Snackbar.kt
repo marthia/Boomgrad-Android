@@ -23,24 +23,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import me.marthia.app.boomgrad.presentation.theme.BaseTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
 
 /**
  * An alternative to [androidx.compose.material3.Snackbar] utilizing
- * [me.marthia.app.boomgrad.presentation.theme.JetsnackColors]
+ * [me.marthia.app.boomgrad.presentation.theme.AppColorScheme]
  */
 @Composable
-fun JetsnackSnackbar(
-    snackbarData: SnackbarData,
+fun SnackBarElement(
+    snackBarData: SnackbarData,
     modifier: Modifier = Modifier,
     actionOnNewLine: Boolean = false,
     shape: Shape = MaterialTheme.shapes.small,
-    backgroundColor: Color = BaseTheme.colors.uiBackground,
-    contentColor: Color = BaseTheme.colors.textSecondary,
-    actionColor: Color = BaseTheme.colors.brand,
+    backgroundColor: Color = Theme.colors.materialTheme.surface,
+    contentColor: Color = Theme.colors.materialTheme.onSurfaceVariant,
+    actionColor: Color = Theme.colors.materialTheme.primary,
 ) {
     Snackbar(
-        snackbarData = snackbarData,
+        snackbarData = snackBarData,
         modifier = modifier,
         actionOnNewLine = actionOnNewLine,
         shape = shape,

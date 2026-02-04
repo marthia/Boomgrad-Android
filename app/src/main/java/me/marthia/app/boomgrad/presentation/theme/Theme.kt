@@ -20,6 +20,8 @@ import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
@@ -31,65 +33,133 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.core.view.WindowCompat
 
-private val LightColorPalette = JetsnackColors(
-    brand = Green8,
-    brandSecondary = Hana7,
-    secondaryContainer= Khaki1,
-    uiBackground = Green0,
-    uiContainer = Green8.copy(0.15f),
+private val LightColorPalette = AppColorScheme(
+    materialTheme = lightColorScheme(
+        // Primary colors - using your brand green
+        primary = Green8,
+        onPrimary = Neutral0, // White text on green
+        primaryContainer = Green8.copy(alpha = 0.15f), // Light green container
+        onPrimaryContainer = DarkGreen11, // Dark green text on light container
+        inversePrimary = Green4, // For dark theme contrast
+
+        // Secondary colors - using your Hana/Khaki accent
+        secondary = Hana7,
+        onSecondary = Neutral0, // White text on Hana
+        secondaryContainer = Khaki1,
+        onSecondaryContainer = Hana7,
+
+        // Tertiary colors - using your Turquoise accent
+        tertiary = Turquoise8,
+        onTertiary = Neutral0,
+        tertiaryContainer = Turquoise8.copy(alpha = 0.25f),
+        onTertiaryContainer = Turquoise8,
+
+        // Background colors
+        background = Green0, // Your uiBackground
+        onBackground = Green8, // Your textPrimary
+
+        // Surface colors - creating hierarchy
+        surface = Neutral0, // Your surface (white)
+        onSurface = Green8, // Your textPrimary
+        surfaceVariant = Green1, // Light variant
+        onSurfaceVariant = Neutral7, // Your textSecondary
+        surfaceTint = Green8, // Tint overlay
+
+        // Surface containers - creating elevation levels
+        surfaceDim = Neutral8, // Darkest surface
+        surfaceBright = Neutral0, // Brightest (white)
+        surfaceContainerLowest = Neutral0, // Level 0
+        surfaceContainerLow = Green0, // Level 1 - very light green tint
+        surfaceContainer = Green1, // Level 2 - light green tint
+        surfaceContainerHigh = Green2, // Level 3 - your outline color
+        surfaceContainerHighest = Green3, // Level 4 - your uiFloated
+
+        // Inverse colors (for dark elements on light theme)
+        inverseSurface = Green8,
+        inverseOnSurface = Neutral0,
+
+        // Error colors
+        error = FunctionalRed5,
+        onError = Neutral0,
+        errorContainer = FunctionalRed1,
+        onErrorContainer = FunctionalRed5,
+
+        // Outline colors
+        outline = Color(0xFFE4F3F2), // Your uiBorder
+        outlineVariant = Khaki4, // Your outlineSecondary
+
+        // Scrim for modals/dialogs
+        scrim = Color.Black.copy(alpha = 0.32f),
+    ),
+    textHelp = Color(0xFF545454),
+    uiBorder = Grey0,
     uiBackgroundGradient = listOf(Turquoise8.copy(alpha = 0.25f), Turquoise0),
     uiContainerGradient = listOf(Green8.copy(0.15f), Green1),
-    uiBorder = Grey0,
-    uiFloated = Color(0xFFDEF1F0),
-    textField = Grey0.copy(alpha = 0.40f),
-    textSecondary = Neutral7,
-    textPrimary = Green8,
-    textHelp = Color(0xFF545454),
-    textInteractive = Neutral0,
-    textLink = Green9,
-    iconSecondary = Neutral7,
-    iconInteractive = Neutral0,
-    iconInteractiveInactive = Neutral1,
-    error = FunctionalRed5,
-    outlineSecondary = Hana1,
-    errorContainer = FunctionalRed1,
-    outline = Color(0xFFE4F3F2),
-    gradient2_1 = listOf(Green8, Color(0xff00B8B5)),
-    gradient2_2 = listOf(Turquoise4.copy(alpha = 0.4f), Green4.copy(alpha = 0.4f)),
-    gradient9_10 = listOf(Turquoise4, Green4),
-    gradient98_96 = listOf(Turquoise8, Green8),
-    isDark = false,
-)
+    gradientGreen8Green3 = listOf(Green8, Color(0xff00B8B5)),
+    gradientTurq4Green4 = listOf(Turquoise4.copy(alpha = 0.4f), Green4.copy(alpha = 0.4f)),
+    gradientTurqaa4Green4 = listOf(Turquoise4, Green4),
+    gradientTurq8Green8 = listOf(Turquoise8, Green8),
 
-private val DarkColorPalette = JetsnackColors(
-    brand = DarkGreen4,
-    brandSecondary = Hana11,
-    secondaryContainer= Hana8,
-    uiBackground = Neutral8,
-    uiContainer = DarkGreen2,
+
+    )
+
+private val DarkColorPalette = AppColorScheme(
+    materialTheme = darkColorScheme(
+        primary = Green4,
+        onPrimary = Green9,
+        primaryContainer = Green8,
+        onPrimaryContainer = Green1,
+        inversePrimary = Green8,
+
+        secondary = Hana7,
+        onSecondary = Color(0xFF4A2800),
+        secondaryContainer = Color(0xFF6B3C00),
+        onSecondaryContainer = Khaki1,
+
+        tertiary = Turquoise4,
+        onTertiary = Color(0xFF003735),
+        tertiaryContainer = Color(0xFF005350),
+        onTertiaryContainer = Turquoise0,
+
+        background = Color(0xFF191C1B),
+        onBackground = Color(0xFFE1E3E0),
+
+        surface = Color(0xFF191C1B),
+        onSurface = Color(0xFFE1E3E0),
+        surfaceVariant = Color(0xFF3F4945),
+        onSurfaceVariant = Color(0xFFBEC9C4),
+        surfaceTint = Green4,
+
+        surfaceDim = Color(0xFF191C1B),
+        surfaceBright = Color(0xFF3F4240),
+        surfaceContainerLowest = Color(0xFF0F1311),
+        surfaceContainerLow = Color(0xFF1A1D1C),
+        surfaceContainer = Color(0xFF1E2120),
+        surfaceContainerHigh = Color(0xFF282B2A),
+        surfaceContainerHighest = Color(0xFF333635),
+
+        inverseSurface = Color(0xFFE1E3E0),
+        inverseOnSurface = Color(0xFF2E312F),
+
+        error = Color(0xFFFFB4AB),
+        onError = Color(0xFF690005),
+        errorContainer = Color(0xFF93000A),
+        onErrorContainer = Color(0xFFFFDAD6),
+
+        outline = Green7,
+        outlineVariant = Color(0xFF3F4945),
+
+        scrim = Color.Black,
+    ),
+    textHelp = Neutral1,
+    uiBorder = Neutral3,
     uiBackgroundGradient = listOf(DarkGreen11, DarkGreen6),
     uiContainerGradient = listOf(DarkGreen8, DarkGreen5),
-    uiBorder = Neutral3,
-    uiFloated = FunctionalDarkGrey,
-    textField = Grey0.copy(alpha = 0.40f),
-    textPrimary = DarkGreen4,
-    textSecondary = Neutral0,
-    textHelp = Neutral1,
-    textInteractive = Neutral7,
-    textLink = DarkGreen5,
-    iconPrimary = DarkGreen11,
-    iconSecondary = Neutral0,
-    iconInteractive = Neutral7,
-    iconInteractiveInactive = Neutral6,
-    error = FunctionalRedDark,
-    errorContainer = FunctionalRedDark1,
-    outline = Green7,
-    outlineSecondary = Hana8,
-    gradient98_96 = listOf(DarkGreen10, DarkGreen6),
-    gradient2_1 = listOf(DarkGreen10, DarkGreen6),
-    gradient2_2 = listOf(DarkGreen6.copy(alpha = 0.4f), DarkGreen4.copy(alpha = 0.4f)),
-    gradient9_10 = listOf(DarkGreen11, DarkGreen6),
-    isDark = true,
+    gradientTurq8Green8 = listOf(DarkGreen10, DarkGreen6),
+    gradientGreen8Green3 = listOf(DarkGreen10, DarkGreen6),
+    gradientTurq4Green4 = listOf(DarkGreen6.copy(alpha = 0.4f), DarkGreen4.copy(alpha = 0.4f)),
+    gradientTurqaa4Green4 = listOf(DarkGreen11, DarkGreen6),
+
 )
 
 @Composable
@@ -108,10 +178,10 @@ fun AppTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable ()
 
     CompositionLocalProvider(
         LocalLayoutDirection provides layoutDirection,
-        LocalJetsnackColors provides colors,
+        LocalAppColorScheme provides colors,
     ) {
         MaterialTheme(
-            colorScheme = debugColors(darkTheme),
+            colorScheme = colors.materialTheme,
             typography = Typography,
             shapes = Shapes,
             content = content,
@@ -119,94 +189,31 @@ fun AppTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable ()
     }
 }
 
-object BaseTheme {
-    val colors: JetsnackColors
+object Theme {
+    val colors: AppColorScheme
         @Composable
-        get() = LocalJetsnackColors.current
+        get() = LocalAppColorScheme.current
 }
 
 /**
- * Jetsnack custom Color Palette
+ * AppColors custom Color Palette
  */
 @Immutable
-data class JetsnackColors(
-    val gradient2_1: List<Color>,
-    val gradient2_2: List<Color>,
-    val gradient9_10: List<Color>,
-    val gradient98_96: List<Color>,
-    val outline: Color,
-    val outlineSecondary: Color,
-    val secondaryContainer: Color,
-    val brand: Color,
-    val textField: Color,
-    val brandSecondary: Color,
-    val uiBackground: Color,
+data class AppColorScheme(
+    val materialTheme: ColorScheme,
+    val textHelp: Color,
+    val uiBorder: Color,
+    val gradientGreen8Green3: List<Color>,
+    val gradientTurq4Green4: List<Color>,
+    val gradientTurqaa4Green4: List<Color>,
+    val gradientTurq8Green8: List<Color>,
     val uiBackgroundGradient: List<Color>,
     val uiContainerGradient: List<Color>,
-    val uiBorder: Color,
-    val uiFloated: Color,
-    val uiContainer: Color,
-    val interactivePrimary: List<Color> = gradient2_1,
-    val interactiveSecondary: List<Color> = gradient2_2,
-    val interactiveMask: List<Color> = gradient2_2,
-    val textPrimary: Color = brand,
-    val textSecondary: Color,
-    val textHelp: Color,
-    val textInteractive: Color,
-    val textLink: Color,
-    val iconPrimary: Color = brand,
-    val iconSecondary: Color,
-    val iconInteractive: Color,
-    val iconInteractiveInactive: Color,
-    val error: Color,
-    val errorContainer: Color,
-    val notificationBadge: Color = error,
-    val isDark: Boolean,
+    val interactivePrimary: List<Color> = gradientGreen8Green3,
+    val interactiveSecondary: List<Color> = gradientTurq4Green4,
+    val interactiveMask: List<Color> = gradientTurq4Green4,
 )
 
-private val LocalJetsnackColors = staticCompositionLocalOf<JetsnackColors> {
+private val LocalAppColorScheme = staticCompositionLocalOf<AppColorScheme> {
     error("No JetsnackColorPalette provided")
 }
-
-/**
- * A Material [Colors] implementation which sets all colors to [debugColor] to discourage usage of
- * [MaterialTheme.colorScheme] in preference to [BaseTheme.colors].
- */
-fun debugColors(darkTheme: Boolean, debugColor: Color = Color.Magenta) = ColorScheme(
-    primary = debugColor,
-    onPrimary = debugColor,
-    primaryContainer = debugColor,
-    onPrimaryContainer = debugColor,
-    inversePrimary = debugColor,
-    secondary = debugColor,
-    onSecondary = debugColor,
-    secondaryContainer = debugColor,
-    onSecondaryContainer = debugColor,
-    tertiary = debugColor,
-    onTertiary = debugColor,
-    tertiaryContainer = debugColor,
-    onTertiaryContainer = debugColor,
-    background = debugColor,
-    onBackground = debugColor,
-    surface = debugColor,
-    onSurface = debugColor,
-    surfaceVariant = debugColor,
-    onSurfaceVariant = debugColor,
-    surfaceTint = debugColor,
-    inverseSurface = debugColor,
-    inverseOnSurface = debugColor,
-    error = debugColor,
-    onError = debugColor,
-    errorContainer = debugColor,
-    onErrorContainer = debugColor,
-    outline = debugColor,
-    outlineVariant = debugColor,
-    scrim = debugColor,
-    surfaceBright = debugColor,
-    surfaceDim = debugColor,
-    surfaceContainer = debugColor,
-    surfaceContainerHigh = debugColor,
-    surfaceContainerHighest = debugColor,
-    surfaceContainerLow = debugColor,
-    surfaceContainerLowest = debugColor,
-)

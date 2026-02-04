@@ -29,19 +29,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
-import me.marthia.app.boomgrad.presentation.theme.BaseTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
 
 @Composable
-fun JetsnackCard(
+fun CardElement(
     modifier: Modifier = Modifier,
     shape: Shape = MaterialTheme.shapes.large,
-    color: Color = BaseTheme.colors.uiBackground,
-    contentColor: Color = BaseTheme.colors.textPrimary,
+    color: Color = Theme.colors.materialTheme.surface,
+    contentColor: Color = Theme.colors.materialTheme.onSurfaceVariant,
     border: BorderStroke? = null,
     elevation: Dp = 0.dp,
     content: @Composable () -> Unit,
 ) {
-    JetsnackSurface(
+    SurfaceElement(
         modifier = modifier,
         shape = shape,
         color = color,
@@ -58,7 +58,7 @@ fun JetsnackCard(
 @Composable
 private fun CardPreview() {
     AppTheme {
-        JetsnackCard {
+        CardElement {
             Text(text = "Demo", modifier = Modifier.padding(16.dp))
         }
     }

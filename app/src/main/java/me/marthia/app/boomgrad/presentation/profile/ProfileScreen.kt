@@ -36,10 +36,10 @@ import me.marthia.app.boomgrad.domain.model.Profile
 import me.marthia.app.boomgrad.presentation.common.ErrorScreen
 import me.marthia.app.boomgrad.presentation.common.LoadingScreen
 import me.marthia.app.boomgrad.presentation.components.AppScaffold
-import me.marthia.app.boomgrad.presentation.components.JetSnackBackground
+import me.marthia.app.boomgrad.presentation.components.BackgroundElement
 import me.marthia.app.boomgrad.presentation.profile.component.LinkItem
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
-import me.marthia.app.boomgrad.presentation.theme.BaseTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
 import me.marthia.app.boomgrad.presentation.util.ViewState
 import me.marthia.app.boomgrad.presentation.util.debugPlaceholder
 import org.koin.androidx.compose.koinViewModel
@@ -49,7 +49,6 @@ fun ProfileScreen(
     viewModel: ProfileViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
 
     when (uiState) {
         is ViewState.Loading -> LoadingScreen()
@@ -134,10 +133,10 @@ private fun Links() {
         LinkItem(
             label = stringResource(R.string.label_profile_logout),
             icon = painterResource(R.drawable.icon_logout_red_24),
-            containerColor = BaseTheme.colors.errorContainer,
-            iconContainerColor = BaseTheme.colors.iconInteractive,
-            iconTint = BaseTheme.colors.error,
-            textColor = BaseTheme.colors.error,
+            containerColor = Theme.colors.materialTheme.errorContainer,
+            iconContainerColor = Theme.colors.materialTheme.surface,
+            iconTint = Theme.colors.materialTheme.error,
+            textColor = Theme.colors.materialTheme.error,
             navigateIconVisible = false
         )
     }
@@ -150,7 +149,7 @@ private fun Logout() {
 }
 
 
-@Preview("default", showBackground = true, showSystemUi = true)
+@Preview("default", showBackground = true, showSystemUi = true, locale = "fa")
 @Preview("dark theme", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Preview("large font", fontScale = 2f)
 @Composable
@@ -159,7 +158,7 @@ private fun PreviewProfile() {
 
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
 
-            JetSnackBackground(modifier = Modifier.fillMaxSize()) {
+            BackgroundElement(modifier = Modifier.fillMaxSize()) {
                 ProfileScreen(
                     modifier = Modifier.systemBarsPadding(), state = ProfileUiState(
                         item = Profile(

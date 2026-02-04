@@ -1,11 +1,14 @@
 package me.marthia.app.boomgrad.data.remote.repository
 
-import me.marthia.app.boomgrad.data.remote.api.LoginApiService
+import kotlinx.coroutines.flow.first
 import me.marthia.app.boomgrad.data.local.TokenManager
 import me.marthia.app.boomgrad.data.mapper.toDomain
+import me.marthia.app.boomgrad.data.remote.api.LoginApiService
+import me.marthia.app.boomgrad.data.remote.util.NetworkFailure
+import me.marthia.app.boomgrad.data.remote.util.toNetworkFailure
 import me.marthia.app.boomgrad.domain.model.Login
-import me.marthia.app.boomgrad.domain.model.Sms
 import me.marthia.app.boomgrad.domain.repository.LoginRepository
+import timber.log.Timber
 
 
 class LoginRepositoryImpl(
@@ -14,25 +17,32 @@ class LoginRepositoryImpl(
 ) : LoginRepository {
 
     override suspend fun login(email: String, password: String): Result<Login> {
-        val response = apiService.login(email, password)
-        return response.map { response -> response.data.toDomain() }
+        return runCatching {
+            val response = apiService.login(email, password).getOrThrow()
+            val loginData = response.data.toDomain()
+
+            tokenManager.saveTokens(
+                accessToken = loginData.token,
+                refreshToken = loginData.refreshToken
+            )
+
+            loginData
+        }.onFailure { error ->
+            Timber.e(error, "Login failed: ${error.message}")
+        }.recoverCatching { error ->
+            // Convert exception and re-throw as NetworkFailure
+            throw when (error) {
+                is NetworkFailure -> error
+                else -> error.toNetworkFailure()
+            }
+        }
     }
 
-    override suspend fun checkSmsCode(code: String): Sms {
-        val response = apiService.checkSmsCode(code)
-
-        return Sms(
-            status = response.getOrNull()?.status?.equals("success", true),
-            message = response.getOrNull()?.message,
-            token = response.getOrNull()?.result?.token ?: ""
-        )
+    override suspend fun getToken(): String {
+        return tokenManager.getAccessToken().first().orEmpty()
     }
 
-    override fun getToken(): String? {
-        return tokenManager.getToken()
-    }
-
-    override fun clearToken() {
-        tokenManager.clearToken()
+    override suspend fun clearToken() {
+        tokenManager.clearTokens()
     }
 }

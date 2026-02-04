@@ -22,7 +22,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import me.marthia.app.boomgrad.domain.model.ItineraryStop
-import me.marthia.app.boomgrad.presentation.theme.BaseTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
 
 
 enum class LineType {
@@ -43,8 +43,8 @@ fun ItineraryItem(
 ) {
     val circleRadius = 6.dp
     val lineWidth = 2.dp
-    val circleColor = BaseTheme.colors.brand
-    val lineColor = BaseTheme.colors.brand
+    val circleColor = Theme.colors.materialTheme.primary
+    val lineColor = Theme.colors.materialTheme.primary
     val density = LocalDensity.current
 
     val parentHeight = remember { mutableStateOf(1.dp) }
@@ -115,7 +115,7 @@ fun ItineraryItem(
                 Text(
                     text = it,
                     style = MaterialTheme.typography.bodySmall,
-                    color = BaseTheme.colors.textHelp,
+                    color = Theme.colors.textHelp,
                     modifier = Modifier.padding(top = 4.dp),
                 )
             }
@@ -123,7 +123,7 @@ fun ItineraryItem(
                 text = destination,
                 style = MaterialTheme.typography.bodyLarge,
                 color = if (lineType == LineType.FIRST || lineType == LineType.LAST)
-                    BaseTheme.colors.textPrimary else BaseTheme.colors.iconSecondary,
+                    Theme.colors.materialTheme.primary else Theme.colors.materialTheme.surfaceDim,
             )
 
         }

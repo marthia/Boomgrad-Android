@@ -14,7 +14,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowForward
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -30,9 +29,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import me.marthia.app.boomgrad.R
-import me.marthia.app.boomgrad.presentation.components.JetSnackBackground
+import me.marthia.app.boomgrad.presentation.components.BackgroundElement
+import me.marthia.app.boomgrad.presentation.components.SurfaceElement
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
-import me.marthia.app.boomgrad.presentation.theme.BaseTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
 
 @Composable
 fun LinkItem(
@@ -41,9 +41,9 @@ fun LinkItem(
     icon: Painter,
     navigateIconVisible: Boolean = true,
     textColor: Color = Color.Unspecified,
-    iconContainerColor: Color = BaseTheme.colors.uiContainer,
-    iconTint: Color = BaseTheme.colors.iconPrimary,
-    containerColor: Color = BaseTheme.colors.iconInteractive,
+    iconContainerColor: Color = Theme.colors.materialTheme.primaryContainer,
+    iconTint: Color = Theme.colors.materialTheme.primary,
+    containerColor: Color = Theme.colors.materialTheme.surface,
     shape: Shape = RoundedCornerShape(50)
 ) {
     Row(
@@ -56,7 +56,7 @@ fun LinkItem(
 
         ) {
 
-        Surface(
+        SurfaceElement(
             modifier = Modifier
                 .padding(top = 2.dp, start = 2.dp, bottom = 2.dp)
                 .size(48.dp),
@@ -93,7 +93,7 @@ private fun PreviewLinkItem() {
     AppTheme {
 
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
-            JetSnackBackground(modifier = Modifier.fillMaxSize()) {
+            BackgroundElement(modifier = Modifier.fillMaxSize()) {
                 LinkItem(
                     modifier = Modifier.padding(top = 45.dp),
                     label = stringResource(R.string.label_profile_edit),

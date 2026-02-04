@@ -19,7 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
-import me.marthia.app.boomgrad.presentation.theme.BaseTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
 
 @Composable
 fun TopBar(
@@ -27,7 +27,11 @@ fun TopBar(
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit = {}, // required only if using generic navigationIcon
     navigationIcon: @Composable () -> Unit = {
-        IconButton(onClick = onBackClick, shape = CircleShape, colors = IconButtonDefaults.filledIconButtonColors(containerColor = BaseTheme.colors.iconInteractive)) {
+        IconButton(
+            onClick = onBackClick,
+            shape = CircleShape,
+            colors = IconButtonDefaults.filledIconButtonColors(containerColor = Theme.colors.materialTheme.surface)
+        ) {
             Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back")
         }
     },
@@ -37,10 +41,10 @@ fun TopBar(
     colors: TopAppBarColors = TopAppBarDefaults.topAppBarColors(
         containerColor = Color.Transparent,
         scrolledContainerColor = Color.Transparent,
-        navigationIconContentColor = BaseTheme.colors.iconSecondary,
-        titleContentColor = BaseTheme.colors.textSecondary,
-        actionIconContentColor = BaseTheme.colors.iconSecondary,
-        subtitleContentColor = BaseTheme.colors.textHelp,
+        navigationIconContentColor = Theme.colors.materialTheme.onSurfaceVariant,
+        titleContentColor = Theme.colors.materialTheme.onSurfaceVariant,
+        actionIconContentColor = Theme.colors.materialTheme.onSurfaceVariant,
+        subtitleContentColor = Theme.colors.textHelp,
     ),
     scrollBehavior: TopAppBarScrollBehavior? = null,
 ) {

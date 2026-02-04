@@ -6,16 +6,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import me.marthia.app.boomgrad.data.remote.repository.MockAttraction
 import me.marthia.app.boomgrad.domain.model.Attraction
 import me.marthia.app.boomgrad.domain.usecase.attraction.GetAttractionsUseCase
-import me.marthia.app.boomgrad.domain.usecase.attraction.GetMockAttractionUseCase
 import me.marthia.app.boomgrad.presentation.util.ViewState
 
 
 class AttractionsViewModel(
     private val getAttractionsUseCase: GetAttractionsUseCase,
-    private val getMockAttractionUseCase: GetMockAttractionUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<ViewState<AttractionsUiState>>(ViewState.Idle)
@@ -30,7 +27,7 @@ class AttractionsViewModel(
     fun loadAttractions() {
         viewModelScope.launch {
             _uiState.value = ViewState.Loading
-            getMockAttractionUseCase()
+            getAttractionsUseCase()
                 .onSuccess { attractions ->
                     _uiState.value = ViewState.Success(AttractionsUiState(mockList = attractions))
                 }
@@ -44,6 +41,6 @@ class AttractionsViewModel(
 }
 
 data class AttractionsUiState(
-    val mockList: List<MockAttraction> = listOf(),
+    val mockList: List<Attraction> = listOf(),
     val list: List<Attraction> = listOf()
 )

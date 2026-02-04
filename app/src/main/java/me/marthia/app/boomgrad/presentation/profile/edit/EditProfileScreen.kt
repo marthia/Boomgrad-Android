@@ -26,11 +26,11 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import me.marthia.app.boomgrad.R
-import me.marthia.app.boomgrad.presentation.components.JetSnackBackground
+import me.marthia.app.boomgrad.presentation.components.BackgroundElement
 import me.marthia.app.boomgrad.presentation.components.JetsnackButton
-import me.marthia.app.boomgrad.presentation.components.JetsnackTextField
+import me.marthia.app.boomgrad.presentation.components.TextFieldElement
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
-import me.marthia.app.boomgrad.presentation.theme.BaseTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
 import me.marthia.app.boomgrad.presentation.util.ViewState
 import me.marthia.app.boomgrad.presentation.util.debugPlaceholder
 
@@ -52,14 +52,14 @@ fun EditProfileScreen(modifier: Modifier = Modifier) {
 
         ProfilePicture()
 
-        JetsnackTextField(
+        TextFieldElement(
             modifier = Modifier.fillMaxWidth(),
             value = "",
             label = {
                 Text(
                     text = stringResource(R.string.label_edit_profile_fullname),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = BaseTheme.colors.textSecondary
+
                 )
             },
             placeholder = {
@@ -67,13 +67,13 @@ fun EditProfileScreen(modifier: Modifier = Modifier) {
             },
             onValueChange = {},
         )
-        JetsnackTextField(
+        TextFieldElement(
             modifier = Modifier.fillMaxWidth(), value = "",
             label = {
                 Text(
                     text = stringResource(R.string.label_edit_profile_email),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = BaseTheme.colors.textSecondary
+
                 )
             },
             placeholder = {
@@ -82,13 +82,13 @@ fun EditProfileScreen(modifier: Modifier = Modifier) {
             onValueChange = {},
         )
 
-        JetsnackTextField(
+        TextFieldElement(
             modifier = Modifier.fillMaxWidth(), value = "",
             label = {
                 Text(
                     text = stringResource(R.string.label_edit_profile_phone),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = BaseTheme.colors.textSecondary
+
                 )
             },
             placeholder = {
@@ -105,7 +105,7 @@ fun EditProfileScreen(modifier: Modifier = Modifier) {
                 .fillMaxWidth()
                 .padding(bottom = 24.dp, start = 16.dp, end = 16.dp, top = 48.dp),
             innerRowModifier = Modifier.fillMaxWidth(),
-            backgroundGradient = BaseTheme.colors.interactivePrimary,
+            backgroundGradient = Theme.colors.interactivePrimary,
             enabled = true,
             contentPadding = PaddingValues(
                 horizontal = 16.dp,
@@ -153,7 +153,7 @@ private fun PreviewEditProfile() {
 
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
 
-            JetSnackBackground(modifier = Modifier.fillMaxSize()) {
+            BackgroundElement(modifier = Modifier.fillMaxSize()) {
                 EditProfileScreen(Modifier)
             }
         }

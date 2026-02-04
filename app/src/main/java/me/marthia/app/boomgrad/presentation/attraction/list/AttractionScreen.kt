@@ -1,5 +1,6 @@
 package me.marthia.app.boomgrad.presentation.attraction.list
 
+import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -31,15 +33,20 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import me.marthia.app.boomgrad.R
-import me.marthia.app.boomgrad.data.remote.repository.MockAttraction
+import me.marthia.app.boomgrad.domain.model.Attraction
+import me.marthia.app.boomgrad.domain.model.AttractionContactInfo
+import me.marthia.app.boomgrad.domain.model.AttractionOpeningHours
+import me.marthia.app.boomgrad.domain.model.City
+import me.marthia.app.boomgrad.domain.model.Location
+import me.marthia.app.boomgrad.domain.model.LocationType
 import me.marthia.app.boomgrad.presentation.common.ErrorScreen
 import me.marthia.app.boomgrad.presentation.common.LoadingScreen
 import me.marthia.app.boomgrad.presentation.components.AppScaffold
 import me.marthia.app.boomgrad.presentation.components.IconText
-import me.marthia.app.boomgrad.presentation.components.JetSnackBackground
-import me.marthia.app.boomgrad.presentation.components.JetsnackCard
+import me.marthia.app.boomgrad.presentation.components.BackgroundElement
+import me.marthia.app.boomgrad.presentation.components.CardElement
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
-import me.marthia.app.boomgrad.presentation.theme.BaseTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
 import me.marthia.app.boomgrad.presentation.util.ViewState
 import me.marthia.app.boomgrad.presentation.util.debugPlaceholder
 import org.koin.androidx.compose.koinViewModel
@@ -76,11 +83,11 @@ fun AttractionList(
 @Composable
 fun AttractionList(
     modifier: Modifier = Modifier,
-    state: List<MockAttraction>,
+    state: List<Attraction>,
     onAttractionSelected: (Long) -> Unit
 ) {
 
-    JetSnackBackground(modifier = modifier.fillMaxSize()) {
+    BackgroundElement(modifier = modifier.fillMaxSize()) {
         LazyColumn(
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -95,10 +102,10 @@ fun AttractionList(
 @Composable
 fun AttractionListItem(
     modifier: Modifier = Modifier,
-    item: MockAttraction,
+    item: Attraction,
     onAttractionSelected: (Long) -> Unit
 ) {
-    JetsnackCard(
+    CardElement(
         modifier = modifier.clickable { onAttractionSelected(-1) },
         elevation = 0.dp,
     ) {
@@ -115,7 +122,7 @@ fun AttractionListItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 AsyncImage(
-                    item.image,
+                    model = item.images.first(),
                     contentDescription = "attraction image",
                     placeholder = debugPlaceholder(debugPreview = R.drawable.placeholder),
                     modifier = Modifier
@@ -125,14 +132,14 @@ fun AttractionListItem(
                 )
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(
-                        text = item.title,
+                        text = item.location.name,
                         style = MaterialTheme.typography.titleSmall,
-                        color = BaseTheme.colors.textSecondary
+
                     )
                     Text(
-                        text = item.address,
+                        text = item.location.address,
                         style = MaterialTheme.typography.labelSmall,
-                        color = BaseTheme.colors.textHelp,
+                        color = Theme.colors.textHelp,
                         overflow = TextOverflow.Ellipsis
                     )
                 }
@@ -151,7 +158,7 @@ fun AttractionListItem(
                     Text(
                         "4.8",
                         style = MaterialTheme.typography.labelLarge,
-                        color = BaseTheme.colors.textSecondary
+
                     )
                 },
             )
@@ -161,15 +168,53 @@ fun AttractionListItem(
 
 
 @Preview("default", showBackground = true, showSystemUi = true)
-//@Preview("dark theme", uiMode = Configuration.UI_MODE_NIGHT_YES)
-//@Preview("large font", fontScale = 2f)
+@Preview("dark theme", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview("large font", fontScale = 2f)
 @Composable
 private fun PreviewCategory() {
     AppTheme {
 
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
 
-//            AttractionList(modifier = Modifier.systemBarsPadding(), {})
+            AttractionList(
+                modifier = Modifier.systemBarsPadding(), listOf<Attraction>(
+                    Attraction(
+                        id = "id",
+                        category = "category",
+                        images = listOf("https://picsum.photos/400", "https://picsum.photos/400"),
+                        rating = 4.8f,
+                        reviewCount = 45,
+                        contactInfo = AttractionContactInfo(
+                            phone = "090312345678",
+                            email = "",
+                            website = "info@kal.com"
+                        ),
+                        openingHours = listOf(
+                            AttractionOpeningHours(
+                                date = "۱۸ فروردین ۱۳۹۰",
+                                workingHour = "۸ تا ۱۴"
+                            )
+                        ),
+                        location = Location(
+                            id = 1,
+                            name = "میدان نقش جهان",
+                            description = "description",
+                            latitude = 52.1232,
+                            longitude = 30.123123,
+                            type = LocationType.ATTRACTION,
+                            address = "خیابان استانداری خیابان سپه بانک ملی ایران ورودی میدان نقش جهان",
+                            city = City(
+                                id = 1,
+                                name = "اصفهان",
+                                county = "اصفهان",
+                                province = "اصفهان"
+                            ),
+                        ),
+                        isFavorite = true,
+                    )
+                ),
+                onAttractionSelected = { }
+            )
         }
     }
 }

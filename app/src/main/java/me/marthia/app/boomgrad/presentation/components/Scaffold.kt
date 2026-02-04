@@ -40,11 +40,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import me.marthia.app.boomgrad.presentation.theme.BaseTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
 import java.util.UUID
 
 /**
- * Wrap Material [androidx.compose.material3.Scaffold] and set [BaseTheme] colors.
+ * Wrap Material [androidx.compose.material3.Scaffold] and set [Theme] colors.
  */
 @Composable
 fun AppScaffold(
@@ -55,8 +55,8 @@ fun AppScaffold(
     snackbarHost: @Composable (SnackbarHostState) -> Unit = { SnackbarHost(it) },
     floatingActionButton: @Composable (() -> Unit) = {},
     floatingActionButtonPosition: FabPosition = FabPosition.End,
-    backgroundColor: List<Color> = BaseTheme.colors.uiBackgroundGradient,
-    contentColor: Color = BaseTheme.colors.textSecondary,
+    backgroundColor: List<Color> = Theme.colors.uiBackgroundGradient,
+    contentColor: Color = Theme.colors.materialTheme.onSurfaceVariant,
     content: @Composable (PaddingValues) -> Unit,
 ) {
 

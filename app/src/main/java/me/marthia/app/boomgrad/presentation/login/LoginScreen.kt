@@ -22,17 +22,24 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.LinkAnnotation
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withLink
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.presentation.components.AppScaffold
-import me.marthia.app.boomgrad.presentation.components.JetSnackBackground
+import me.marthia.app.boomgrad.presentation.components.BackgroundElement
 import me.marthia.app.boomgrad.presentation.components.JetsnackButton
-import me.marthia.app.boomgrad.presentation.components.JetsnackTextField
+import me.marthia.app.boomgrad.presentation.components.TextFieldElement
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
-import me.marthia.app.boomgrad.presentation.theme.BaseTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
 import me.marthia.app.boomgrad.presentation.util.KeyboardAware
-import me.marthia.app.boomgrad.presentation.util.RightToLeftLayout
 import me.marthia.app.boomgrad.presentation.util.ViewState
 import org.koin.androidx.compose.koinViewModel
 
@@ -120,7 +127,7 @@ fun LoginCard(
 
         Spacer(Modifier.height(24.dp))
 
-        JetsnackTextField(
+        TextFieldElement(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
@@ -148,7 +155,7 @@ fun LoginCard(
             },
         )
 
-        JetsnackTextField(
+        TextFieldElement(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
@@ -182,8 +189,8 @@ fun LoginCard(
                 .fillMaxWidth()
                 .padding(bottom = 24.dp, start = 16.dp, end = 16.dp, top = 48.dp),
             innerRowModifier = Modifier.fillMaxWidth(),
-            backgroundGradient = BaseTheme.colors.interactivePrimary,
-            enabled = username.isNotBlank() && password.isNotBlank() && viewState !is ViewState.Loading,
+            backgroundGradient = Theme.colors.gradientTurq8Green8,
+            enabled = true/*username.isNotBlank() && password.isNotBlank() && viewState !is ViewState.Loading*/,
             contentPadding = PaddingValues(
                 horizontal = 16.dp,
                 vertical = 8.dp
@@ -202,21 +209,64 @@ fun LoginCard(
                 )
             }
         }
+        TermsAndConditionsText(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp), onTermsClick = {
+
+        })
     }
 
 }
 
 
-@Preview(showBackground = true, showSystemUi = true, backgroundColor = 0XFFE7F2FE)
+@Composable
+fun TermsAndConditionsText(
+    modifier: Modifier = Modifier,
+    onTermsClick: () -> Unit,
+) {
+    val annotatedText = buildAnnotatedString {
+        append(stringResource(R.string.description_terms_and_conditions_1))
+        append(" ")
+
+        // Create the link annotation
+        val linkAnnotation = LinkAnnotation.Clickable(
+            tag = "terms",
+            styles = TextLinkStyles(
+                style = SpanStyle(
+                    color = MaterialTheme.colorScheme.primary,
+                    textDecoration = TextDecoration.Underline,
+                    fontWeight = FontWeight.Medium
+                )
+            ),
+            linkInteractionListener = {
+                onTermsClick()
+            }
+        )
+
+        // Apply the link to the text
+        withLink(linkAnnotation) {
+            append(stringResource(R.string.description_terms_and_conditions_2)) // "شرایط و قوانین"
+        }
+
+        append(" ")
+
+        append(stringResource(R.string.description_terms_and_conditions_3))
+    }
+
+    Text(
+        text = annotatedText,
+        modifier = modifier,
+        style = MaterialTheme.typography.bodyMedium.copy(
+            textAlign = TextAlign.Center
+        )
+    )
+}
+
+
+@Preview(showBackground = true, showSystemUi = true, locale = "fa")
 @Composable
 private fun PreviewLoginScreen() {
     AppTheme {
-
-        RightToLeftLayout {
-            JetSnackBackground(modifier = Modifier.fillMaxSize()) {
-                LoginScreenContent(viewState = ViewState.Idle) { _, _ ->
-
-                }
+        BackgroundElement(modifier = Modifier.fillMaxSize()) {
+            LoginScreenContent(viewState = ViewState.Idle) { _, _ ->
             }
         }
     }

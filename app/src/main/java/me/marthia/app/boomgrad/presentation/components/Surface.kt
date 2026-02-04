@@ -24,7 +24,6 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -35,22 +34,22 @@ import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import me.marthia.app.boomgrad.presentation.theme.BaseTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
 import kotlin.math.ln
 
 /**
  * An alternative to [androidx.compose.material3.Surface] utilizing
- * [me.marthia.app.boomgrad.presentation.theme.JetsnackColors]
+ * [me.marthia.app.boomgrad.presentation.theme.AppColorScheme]
  */
 @Composable
-fun JetsnackSurface(
+fun SurfaceElement(
     modifier: Modifier = Modifier,
     shape: Shape = RectangleShape,
-    color: Color = BaseTheme.colors.uiBackground,
-    contentColor: Color = BaseTheme.colors.textSecondary,
+    color: Color = Theme.colors.materialTheme.surface,
+    contentColor: Color = Theme.colors.materialTheme.onSurfaceVariant,
     border: BorderStroke? = null,
     contentAlignment: Alignment = Alignment.TopStart,
-    shadowColor : Color = DefaultShadowColor,
+    shadowColor: Color = DefaultShadowColor,
     elevation: Dp = 0.dp,
     content: @Composable () -> Unit,
 ) {
@@ -72,8 +71,8 @@ fun JetsnackSurface(
 @Composable
 private fun getBackgroundColorForElevation(color: Color, elevation: Dp): Color {
     return if (elevation > 0.dp // && https://issuetracker.google.com/issues/161429530
-        // JetsnackTheme.colors.isDark //&&
-        // color == JetsnackTheme.colors.uiBackground
+    // JetsnackTheme.colors.isDark //&&
+    // color == JetsnackTheme.colors.uiBackground
     ) {
         color.withElevation(elevation)
     } else {

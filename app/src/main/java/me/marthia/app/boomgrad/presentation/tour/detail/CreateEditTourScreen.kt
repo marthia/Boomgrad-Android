@@ -37,12 +37,12 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.presentation.components.IconText
-import me.marthia.app.boomgrad.presentation.components.JetSnackBackground
-import me.marthia.app.boomgrad.presentation.components.JetsnackCard
-import me.marthia.app.boomgrad.presentation.components.JetsnackTextField
+import me.marthia.app.boomgrad.presentation.components.BackgroundElement
+import me.marthia.app.boomgrad.presentation.components.CardElement
+import me.marthia.app.boomgrad.presentation.components.TextFieldElement
 import me.marthia.app.boomgrad.presentation.profile.component.dashedBorder
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
-import me.marthia.app.boomgrad.presentation.theme.BaseTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
 import me.marthia.app.boomgrad.presentation.util.debugPlaceholder
 
 @Composable
@@ -68,7 +68,7 @@ fun CreateEditTour(modifier: Modifier = Modifier) {
     var demographicExpanded by remember { mutableStateOf(false) }
 
 
-    JetsnackCard(
+    CardElement(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),
@@ -83,17 +83,17 @@ fun CreateEditTour(modifier: Modifier = Modifier) {
             Text(
                 text = "اطلاعات پایه",
                 style = MaterialTheme.typography.titleMedium,
-                color = BaseTheme.colors.textSecondary
+
             )
 
-            JetsnackTextField(
+            TextFieldElement(
                 modifier = Modifier.fillMaxWidth(),
                 value = "",
                 label = {
                     Text(
                         text = "عنوان تور",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = BaseTheme.colors.textSecondary
+
                     )
                 },
                 placeholder = {
@@ -102,13 +102,13 @@ fun CreateEditTour(modifier: Modifier = Modifier) {
                 onValueChange = {},
             )
 
-            JetsnackTextField(
+            TextFieldElement(
                 modifier = Modifier.fillMaxWidth(), value = "",
                 label = {
                     Text(
                         text = "زیر عنوان",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = BaseTheme.colors.textSecondary
+
                     )
                 },
                 placeholder = {
@@ -117,7 +117,7 @@ fun CreateEditTour(modifier: Modifier = Modifier) {
                 onValueChange = {},
             )
 
-            JetsnackTextField(
+            TextFieldElement(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
@@ -127,7 +127,7 @@ fun CreateEditTour(modifier: Modifier = Modifier) {
                     Text(
                         text = "شهر",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = BaseTheme.colors.textSecondary
+
                     )
                 },
                 value = "انتخاب کنید",
@@ -141,7 +141,7 @@ fun CreateEditTour(modifier: Modifier = Modifier) {
                 onValueChange = {},
             )
 
-            JetsnackTextField(
+            TextFieldElement(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
@@ -151,7 +151,7 @@ fun CreateEditTour(modifier: Modifier = Modifier) {
                     Text(
                         text = "نوع تور",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = BaseTheme.colors.textSecondary
+
                     )
                 },
                 value = "انتخاب کنید",
@@ -165,7 +165,7 @@ fun CreateEditTour(modifier: Modifier = Modifier) {
                 onValueChange = {},
             )
 
-            JetsnackTextField(
+            TextFieldElement(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
@@ -175,7 +175,7 @@ fun CreateEditTour(modifier: Modifier = Modifier) {
                     Text(
                         text = "سطح سختی",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = BaseTheme.colors.textSecondary
+
                     )
                 },
                 value = "انتخاب کنید",
@@ -195,7 +195,7 @@ fun CreateEditTour(modifier: Modifier = Modifier) {
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
 
-                JetsnackTextField(
+                TextFieldElement(
                     modifier = Modifier
                         .weight(1f)
                         .clickable {
@@ -205,7 +205,7 @@ fun CreateEditTour(modifier: Modifier = Modifier) {
                         Text(
                             text = "سطح سختی",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = BaseTheme.colors.textSecondary
+
                         )
                     },
                     value = "انتخاب کنید",
@@ -219,13 +219,13 @@ fun CreateEditTour(modifier: Modifier = Modifier) {
                     onValueChange = {},
                 )
 
-                JetsnackTextField(
+                TextFieldElement(
                     modifier = Modifier.weight(1f), value = "",
                     label = {
                         Text(
                             text = "مدت زمان",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = BaseTheme.colors.textSecondary
+
                         )
                     },
                     placeholder = {
@@ -252,25 +252,25 @@ fun Schedules() {
         Text(
             text = "تاریخ (های) برگزاری تور",
             style = MaterialTheme.typography.labelLarge,
-            color = BaseTheme.colors.textSecondary
+
         )
 
         IconText(text = {
             Text(
                 text = "افزودن تاریخ برگزاری",
                 style = MaterialTheme.typography.titleMedium,
-                color = BaseTheme.colors.textPrimary
+                color = Theme.colors.materialTheme.primary
             )
         }, leadingIcon = {
             Icon(
                 painter = painterResource(R.drawable.ic_due_date_24),
-                tint = BaseTheme.colors.iconPrimary,
+                tint = Theme.colors.materialTheme.primary,
                 contentDescription = "due date"
             )
         })
     }
 
-    JetsnackCard(
+    CardElement(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),
@@ -281,13 +281,13 @@ fun Schedules() {
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            JetsnackTextField(
+            TextFieldElement(
                 modifier = Modifier.fillMaxWidth(), value = "",
                 label = {
                     Text(
                         text = "تاریخ تور*",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = BaseTheme.colors.textSecondary
+
                     )
                 },
                 placeholder = {
@@ -297,19 +297,19 @@ fun Schedules() {
                 leadingIcon = {
                     Icon(
                         painter = painterResource(R.drawable.ic_due_date_24),
-                        tint = BaseTheme.colors.iconPrimary,
+                        tint = Theme.colors.materialTheme.primary,
                         contentDescription = "due date"
                     )
                 }
             )
 
-            JetsnackTextField(
+            TextFieldElement(
                 modifier = Modifier.fillMaxWidth(), value = "",
                 label = {
                     Text(
                         text = "زمان شروع*",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = BaseTheme.colors.textSecondary
+
                     )
                 },
                 placeholder = {
@@ -318,7 +318,7 @@ fun Schedules() {
                 leadingIcon = {
                     Icon(
                         painter = painterResource(R.drawable.ic_due_time_24),
-                        tint = BaseTheme.colors.iconPrimary,
+                        tint = Theme.colors.materialTheme.primary,
                         contentDescription = "due date"
                     )
                 },
@@ -333,7 +333,7 @@ fun Schedules() {
 
 @Composable
 fun PriceAndCapacity() {
-    JetsnackCard(
+    CardElement(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),
@@ -348,7 +348,7 @@ fun PriceAndCapacity() {
             Text(
                 text = "قیمت و ظرفیت",
                 style = MaterialTheme.typography.titleMedium,
-                color = BaseTheme.colors.textSecondary
+
             )
 
             Row(
@@ -356,13 +356,13 @@ fun PriceAndCapacity() {
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
 
-                JetsnackTextField(
+                TextFieldElement(
                     modifier = Modifier.weight(1f), value = "",
                     label = {
                         Text(
                             text = "قیمت (تومان)*",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = BaseTheme.colors.textSecondary
+
                         )
                     },
                     placeholder = {
@@ -371,13 +371,13 @@ fun PriceAndCapacity() {
                     onValueChange = {},
                 )
 
-                JetsnackTextField(
+                TextFieldElement(
                     modifier = Modifier.weight(1f), value = "",
                     label = {
                         Text(
                             text = "ظرفیت*",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = BaseTheme.colors.textSecondary
+
                         )
                     },
                     placeholder = {
@@ -387,13 +387,13 @@ fun PriceAndCapacity() {
                 )
             }
 
-            JetsnackTextField(
+            TextFieldElement(
                 modifier = Modifier.weight(1f), value = "",
                 label = {
                     Text(
                         text = "سیاست لغو",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = BaseTheme.colors.textSecondary
+
                     )
                 },
                 placeholder = {
@@ -408,7 +408,7 @@ fun PriceAndCapacity() {
 
 @Composable
 fun TourImages() {
-    JetsnackCard(
+    CardElement(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),
@@ -423,7 +423,7 @@ fun TourImages() {
             Text(
                 text = "تصاویر تور",
                 style = MaterialTheme.typography.titleMedium,
-                color = BaseTheme.colors.textSecondary
+
             )
             Column(
                 modifier = Modifier
@@ -431,7 +431,7 @@ fun TourImages() {
                     .height(200.dp)
                     .padding(16.dp)
                     .dashedBorder(
-                        color = BaseTheme.colors.brand,
+                        color = Theme.colors.materialTheme.primary,
                         shape = MaterialTheme.shapes.medium
                     ),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -442,13 +442,13 @@ fun TourImages() {
                 Text(
                     text = "آپلود تصویر جدید",
                     style = MaterialTheme.typography.titleMedium,
-                    color = BaseTheme.colors.textSecondary
+
                 )
 
                 Text(
                     text = "۲/۱۰ - حداکثر ۵ مگابایت",
                     style = MaterialTheme.typography.bodySmall,
-                    color = BaseTheme.colors.textHelp
+                    color = Theme.colors.textHelp
                 )
             }
 
@@ -476,7 +476,7 @@ fun TourImages() {
 
 @Composable
 fun MiscInfo(modifier: Modifier = Modifier) {
-    JetsnackCard(
+    CardElement(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),
@@ -491,16 +491,16 @@ fun MiscInfo(modifier: Modifier = Modifier) {
             Text(
                 text = "تصاویر تور",
                 style = MaterialTheme.typography.titleMedium,
-                color = BaseTheme.colors.textSecondary
+
             )
 
-            JetsnackTextField(
+            TextFieldElement(
                 modifier = Modifier.fillMaxWidth(), value = "",
                 label = {
                     Text(
                         text = "زیر عنوان",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = BaseTheme.colors.textSecondary
+
                     )
                 },
                 placeholder = {
@@ -509,13 +509,13 @@ fun MiscInfo(modifier: Modifier = Modifier) {
                 onValueChange = {},
             )
 
-            JetsnackTextField(
+            TextFieldElement(
                 modifier = Modifier.fillMaxWidth(), value = "",
                 label = {
                     Text(
                         text = "زیر عنوان",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = BaseTheme.colors.textSecondary
+
                     )
                 },
                 placeholder = {
@@ -536,7 +536,7 @@ private fun PreviewCreateEditTour() {
 
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
 
-            JetSnackBackground(modifier = Modifier.fillMaxSize()) {
+            BackgroundElement(modifier = Modifier.fillMaxSize()) {
                 CreateEditTourScreen()
             }
         }

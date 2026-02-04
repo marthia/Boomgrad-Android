@@ -6,7 +6,7 @@ class ClearTokenUseCase(
     private val repo: LoginRepository
 ) {
 
-    operator fun invoke() {
+    suspend operator fun invoke() {
         repo.clearToken()
     }
 }

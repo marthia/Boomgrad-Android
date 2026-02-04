@@ -46,7 +46,7 @@ class LoginViewModel(
     }
 
     fun clearError() {
-        clearToken.invoke()
+        viewModelScope.launch { clearToken.invoke() }
         _loginState.value = ViewState.Idle
     }
 

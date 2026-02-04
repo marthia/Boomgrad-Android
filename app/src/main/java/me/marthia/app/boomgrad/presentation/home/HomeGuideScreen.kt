@@ -42,12 +42,12 @@ import me.marthia.app.boomgrad.domain.model.TourStatus
 import me.marthia.app.boomgrad.presentation.components.AppContainer
 import me.marthia.app.boomgrad.presentation.components.IconText
 import me.marthia.app.boomgrad.presentation.components.JetHorizontalDivider
-import me.marthia.app.boomgrad.presentation.components.JetSnackBackground
+import me.marthia.app.boomgrad.presentation.components.BackgroundElement
 import me.marthia.app.boomgrad.presentation.components.JetsnackButton
-import me.marthia.app.boomgrad.presentation.components.JetsnackCard
-import me.marthia.app.boomgrad.presentation.components.JetsnackSurface
+import me.marthia.app.boomgrad.presentation.components.CardElement
+import me.marthia.app.boomgrad.presentation.components.SurfaceElement
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
-import me.marthia.app.boomgrad.presentation.theme.BaseTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
 import me.marthia.app.boomgrad.presentation.util.debugPlaceholder
 
 @Composable
@@ -207,18 +207,18 @@ private fun TopBar(modifier: Modifier = Modifier) {
             Text(
                 text = "محسن رضایی",
                 style = MaterialTheme.typography.titleSmall,
-                color = BaseTheme.colors.textSecondary
+
             )
 
-            JetsnackSurface(
-                color = BaseTheme.colors.uiContainer,
+            SurfaceElement(
+                color = Theme.colors.materialTheme.primaryContainer,
                 shape = MaterialTheme.shapes.small
             ) {
                 Text(
                     modifier = Modifier.padding(4.dp),
                     text = "راهنمای رسمی",
                     style = MaterialTheme.typography.titleSmall,
-                    color = BaseTheme.colors.textPrimary
+                    color = Theme.colors.materialTheme.primary
                 )
             }
         }
@@ -235,8 +235,8 @@ fun CreateTour(modifier: Modifier = Modifier) {
             .height(100.dp),
 
         shape = MaterialTheme.shapes.large,
-        gradient = BaseTheme.colors.gradient98_96,
-        contentColor = BaseTheme.colors.textInteractive
+        gradient = Theme.colors.gradientTurq8Green8,
+        contentColor = Theme.colors.materialTheme.surface
     ) {
         Row(
             modifier = Modifier
@@ -258,18 +258,18 @@ fun CreateTour(modifier: Modifier = Modifier) {
                 )
             }
 
-            JetsnackSurface(
+            SurfaceElement(
                 Modifier
                     .size(40.dp)
                     .align(Alignment.CenterVertically),
                 shape = CircleShape,
                 contentAlignment = Alignment.Center,
-                color = BaseTheme.colors.secondaryContainer
+                color = Theme.colors.materialTheme.secondaryContainer
             ) {
                 Icon(
                     modifier = Modifier.size(28.dp),
                     imageVector = Icons.Rounded.Add,
-                    tint = BaseTheme.colors.brandSecondary,
+                    tint = Theme.colors.materialTheme.secondary,
                     contentDescription = stringResource(id = R.string.label_home_create_tour)
                 )
             }
@@ -308,11 +308,11 @@ fun Stats(modifier: Modifier = Modifier) {
 
 @Composable
 fun StatItem(modifier: Modifier = Modifier, label: String, labelIcon: Int, value: String) {
-    JetsnackSurface(
+    SurfaceElement(
         modifier = modifier.height(120.dp),
         shape = MaterialTheme.shapes.large,
-        color = BaseTheme.colors.secondaryContainer,
-        border = BorderStroke(width = 2.dp, color = BaseTheme.colors.outlineSecondary),
+        color = Theme.colors.materialTheme.secondaryContainer,
+        border = BorderStroke(width = 2.dp, color = Theme.colors.materialTheme.outlineVariant),
     ) {
         Column(
             modifier = Modifier
@@ -324,7 +324,7 @@ fun StatItem(modifier: Modifier = Modifier, label: String, labelIcon: Int, value
             Icon(
                 painter = painterResource(labelIcon),
                 contentDescription = "Duration",
-                tint = BaseTheme.colors.brandSecondary
+                tint = Theme.colors.materialTheme.secondary
             )
 
             Text(text = value, style = MaterialTheme.typography.titleMedium)
@@ -332,7 +332,7 @@ fun StatItem(modifier: Modifier = Modifier, label: String, labelIcon: Int, value
             Text(
                 text = label,
                 style = MaterialTheme.typography.labelSmall,
-                color = BaseTheme.colors.textHelp
+                color = Theme.colors.textHelp
             )
         }
     }
@@ -376,7 +376,7 @@ private fun ActiveTours(modifier: Modifier = Modifier, list: List<Tour>) {
 @Composable
 fun TourItem(modifier: Modifier = Modifier, title: String) {
 
-    JetsnackCard(color = BaseTheme.colors.iconInteractive) {
+    CardElement(color = Theme.colors.materialTheme.surface) {
         Column(modifier = Modifier.padding(12.dp)) {
             Row(
                 modifier = Modifier
@@ -389,7 +389,7 @@ fun TourItem(modifier: Modifier = Modifier, title: String) {
                         modifier = Modifier,
                         text = title,
                         style = MaterialTheme.typography.titleMedium,
-                        color = BaseTheme.colors.textSecondary
+
                     )
 
                     Row {
@@ -398,7 +398,7 @@ fun TourItem(modifier: Modifier = Modifier, title: String) {
                                 Text(
                                     "18 دی",
                                     style = MaterialTheme.typography.bodySmall,
-                                    color = BaseTheme.colors.textHelp
+                                    color = Theme.colors.textHelp
                                 )
                             },
                             leadingIcon = {
@@ -416,7 +416,7 @@ fun TourItem(modifier: Modifier = Modifier, title: String) {
                                 Text(
                                     "8:00",
                                     style = MaterialTheme.typography.bodySmall,
-                                    color = BaseTheme.colors.textHelp
+                                    color = Theme.colors.textHelp
                                 )
                             },
                             leadingIcon = {
@@ -430,15 +430,15 @@ fun TourItem(modifier: Modifier = Modifier, title: String) {
                     }
                 }
 
-                JetsnackSurface(
-                    color = BaseTheme.colors.uiContainer,
+                SurfaceElement(
+                    color = Theme.colors.materialTheme.surface,
                     shape = MaterialTheme.shapes.small
                 ) {
                     Text(
                         modifier = Modifier.padding(4.dp),
                         text = "در حال رزرو",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = BaseTheme.colors.textPrimary
+                        color = Theme.colors.materialTheme.primary
                     )
                 }
 
@@ -452,7 +452,7 @@ fun TourItem(modifier: Modifier = Modifier, title: String) {
                     modifier = Modifier.padding(4.dp),
                     text = "18 رزرو از ۲۰ ظرفیت رزرو",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = BaseTheme.colors.textHelp
+                    color = Theme.colors.textHelp
                 )
                 JetsnackButton(
                     onClick = {},
@@ -470,7 +470,7 @@ fun TourItem(modifier: Modifier = Modifier, title: String) {
 @Composable
 private fun PreviewHomeScreenGuide() {
     AppTheme {
-        JetSnackBackground(modifier = Modifier.fillMaxSize()) {
+        BackgroundElement(modifier = Modifier.fillMaxSize()) {
             HomeScreen()
         }
     }

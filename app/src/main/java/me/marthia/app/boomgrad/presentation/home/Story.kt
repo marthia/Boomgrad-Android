@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -21,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import me.marthia.app.boomgrad.R
-import me.marthia.app.boomgrad.presentation.theme.BaseTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
 import me.marthia.app.boomgrad.presentation.util.debugPlaceholder
 
 @Composable
@@ -37,7 +36,7 @@ fun Story(modifier: Modifier = Modifier, title: String, image: String) {
                 .size(84.dp)
                 .border(
                     width = 2.dp,
-                    color = BaseTheme.colors.brand,
+                    color = Theme.colors.materialTheme.primary,
                     shape = CircleShape,
                 )
                 .padding(5.dp), // 2dp border + 3dp gap

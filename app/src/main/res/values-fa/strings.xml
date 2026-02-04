@@ -58,5 +58,8 @@
     <string name="label_home_guide_tours_stat">تورها</string>
     <string name="label_home_guide_people_signed_up">روزهای این هفته</string>
     <string name="label_home_guide_people_views">بازدید این ماه</string>
+    <string name="description_terms_and_conditions_1">"با ورود یا ثبت‌نام، شما "</string>
+    <string name="description_terms_and_conditions_2">شرایط و قوانین</string>
+    <string name="description_terms_and_conditions_3">استفاده از خدمات را می‌پذیرید.</string>
 
 </resources>

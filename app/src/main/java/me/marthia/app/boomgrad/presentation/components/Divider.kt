@@ -29,12 +29,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
-import me.marthia.app.boomgrad.presentation.theme.BaseTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
 
 @Composable
 fun JetHorizontalDivider(
     modifier: Modifier = Modifier,
-    color: Color = BaseTheme.colors.uiBorder,
+    color: Color = Theme.colors.materialTheme.outline,
     thickness: Dp = 1.dp,
 ) {
     HorizontalDivider(
@@ -47,7 +47,7 @@ fun JetHorizontalDivider(
 @Composable
 fun JetVerticalDivider(
     modifier: Modifier = Modifier,
-    color: Color = BaseTheme.colors.uiBorder,
+    color: Color = Theme.colors.materialTheme.outline,
     thickness: Dp = 1.dp,
 ) {
     VerticalDivider(

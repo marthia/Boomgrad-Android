@@ -52,7 +52,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -60,12 +59,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import me.marthia.app.boomgrad.R
-import me.marthia.app.boomgrad.domain.model.City
-import me.marthia.app.boomgrad.domain.model.County
-import me.marthia.app.boomgrad.domain.model.Province
 import me.marthia.app.boomgrad.presentation.FilterSharedElementKey
 import me.marthia.app.boomgrad.presentation.components.IconText
-import me.marthia.app.boomgrad.presentation.theme.BaseTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
 import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -85,7 +81,7 @@ fun CurrentCityScreen(
 
     // Load provinces on first composition
     LaunchedEffect(Unit) {
-        viewModel.getProvince()
+        viewModel.getCity(1, 1) // todo defaults to isfahan
     }
 
     Box(
@@ -125,7 +121,7 @@ fun CurrentCityScreen(
                         indication = null,
                         interactionSource = remember { MutableInteractionSource() },
                     ) { /* prevent dismiss */ }
-                    .background(BaseTheme.colors.uiFloated)
+                    .background(Theme.colors.materialTheme.surfaceContainerHighest)
                     .padding(horizontal = 24.dp, vertical = 16.dp)
                     .skipToLookaheadSize(),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -153,14 +149,14 @@ fun CurrentCityScreen(
                                     Icon(
                                         imageVector = Icons.Rounded.Search,
                                         contentDescription = "Search",
-                                        tint = BaseTheme.colors.textHelp,
+                                        tint = Theme.colors.textHelp,
                                     )
                                 },
                                 text = {
                                     Text(
                                         text = stringResource(R.string.home_screen_search_help_label),
                                         style = MaterialTheme.typography.labelSmall,
-                                        color = BaseTheme.colors.textHelp,
+                                        color = Theme.colors.textHelp,
                                     )
                                 },
                             )

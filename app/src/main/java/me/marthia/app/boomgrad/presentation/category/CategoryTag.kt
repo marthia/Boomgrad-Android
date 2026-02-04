@@ -11,16 +11,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.presentation.components.IconText
-import me.marthia.app.boomgrad.presentation.components.JetsnackSurface
-import me.marthia.app.boomgrad.presentation.theme.BaseTheme
+import me.marthia.app.boomgrad.presentation.components.SurfaceElement
+import me.marthia.app.boomgrad.presentation.theme.Theme
 
 @Composable
 fun CategoryTag(modifier: Modifier = Modifier, title: String, icon: Int = R.drawable.icon_leaf_16) {
 
-    JetsnackSurface(
+    SurfaceElement(
         modifier = modifier,
         shape = MaterialTheme.shapes.extraLarge,
-        color = BaseTheme.colors.uiContainer,
+        color = Theme.colors.materialTheme.primaryContainer,
     ) {
         IconText(
             modifier = Modifier.padding(8.dp),
@@ -34,7 +34,7 @@ fun CategoryTag(modifier: Modifier = Modifier, title: String, icon: Int = R.draw
             text = {
                 Text(
                     text = title,
-                    color = BaseTheme.colors.brand,
+                    color = Theme.colors.materialTheme.primary,
                     style = MaterialTheme.typography.labelMedium
                 )
             },

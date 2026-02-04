@@ -44,12 +44,12 @@ import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.presentation.components.AppScaffold
 import me.marthia.app.boomgrad.presentation.components.IconText
 import me.marthia.app.boomgrad.presentation.components.JetHorizontalDivider
-import me.marthia.app.boomgrad.presentation.components.JetSnackBackground
-import me.marthia.app.boomgrad.presentation.components.JetsnackCard
-import me.marthia.app.boomgrad.presentation.components.JetsnackFilledIconButton
+import me.marthia.app.boomgrad.presentation.components.BackgroundElement
+import me.marthia.app.boomgrad.presentation.components.CardElement
+import me.marthia.app.boomgrad.presentation.components.FilledIconButtonElement
 import me.marthia.app.boomgrad.presentation.components.QuantitySelector
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
-import me.marthia.app.boomgrad.presentation.theme.BaseTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
 import me.marthia.app.boomgrad.presentation.util.debugPlaceholder
 
 @Composable
@@ -98,7 +98,7 @@ fun CartScreen(modifier: Modifier = Modifier,
 
 @Composable
 private fun CartItem(modifier: Modifier = Modifier) {
-    JetsnackCard(modifier = modifier) {
+    CardElement(modifier = modifier) {
 
         Column() {
 
@@ -128,7 +128,6 @@ private fun CartItem(modifier: Modifier = Modifier) {
                             appendLine()
                             append("هر نفر ۱۲۰۰ تومان")
                         },
-                        color = BaseTheme.colors.textSecondary,
                         style = MaterialTheme.typography.titleSmall,
                     )
 
@@ -155,7 +154,7 @@ private fun CartItem(modifier: Modifier = Modifier) {
 
                 Spacer(Modifier.width(8.dp))
 
-                JetsnackFilledIconButton(onClick = {}) {
+                FilledIconButtonElement(onClick = {}) {
                     Icon(Icons.Rounded.DeleteForever, "Delete")
                 }
             }
@@ -190,12 +189,12 @@ private fun CartItem(modifier: Modifier = Modifier) {
                 Text(
                     "جمع کل",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = BaseTheme.colors.textHelp,
+                    color = Theme.colors.textHelp,
                 )
                 Text(
                     "۱۲۰,۰۰۰ تومان",
                     style = MaterialTheme.typography.titleMedium,
-                    color = BaseTheme.colors.brand,
+                    color = Theme.colors.materialTheme.primary,
                 )
 
             }
@@ -206,7 +205,7 @@ private fun CartItem(modifier: Modifier = Modifier) {
 
 @Composable
 fun CartOverview(modifier: Modifier = Modifier) {
-    JetsnackCard(modifier = modifier) {
+    CardElement(modifier = modifier) {
 
         Column(
             modifier = Modifier
@@ -216,7 +215,6 @@ fun CartOverview(modifier: Modifier = Modifier) {
             Text(
                 "خلاصه سفارش",
                 style = MaterialTheme.typography.titleMedium,
-                color = BaseTheme.colors.textSecondary
             )
 
             Spacer(Modifier.height(16.dp))
@@ -229,12 +227,11 @@ fun CartOverview(modifier: Modifier = Modifier) {
                 Text(
                     "جمع تورها",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = BaseTheme.colors.textHelp
+                    color = Theme.colors.textHelp
                 )
                 Text(
                     "۱۲۶۹۹۰ تومان",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = BaseTheme.colors.textSecondary
                 )
             }
 
@@ -246,12 +243,11 @@ fun CartOverview(modifier: Modifier = Modifier) {
                 Text(
                     "هزینه سرویس",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = BaseTheme.colors.textHelp
+                    color = Theme.colors.textHelp
                 )
                 Text(
                     "۱۲۶۹۹۰ تومان",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = BaseTheme.colors.textSecondary
                 )
             }
 
@@ -269,12 +265,12 @@ fun CartOverview(modifier: Modifier = Modifier) {
                 Text(
                     "مجموع نهایی",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = BaseTheme.colors.textHelp
+                    color = Theme.colors.textHelp
                 )
                 Text(
                     "۱۲۶۹۹۰ تومان",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = BaseTheme.colors.textPrimary
+                    color = Theme.colors.materialTheme.primary
                 )
             }
         }
@@ -291,7 +287,7 @@ fun CancellationPolicy(modifier: Modifier = Modifier) {
         "کمتر از ۲۴ ساعت قبل از شروع تور: عدم بازگشت وجه",
     )
 
-    JetsnackCard(modifier = modifier) {
+    CardElement(modifier = modifier) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -300,7 +296,6 @@ fun CancellationPolicy(modifier: Modifier = Modifier) {
             Text(
                 "سیاست لغو",
                 style = MaterialTheme.typography.titleMedium,
-                color = BaseTheme.colors.textSecondary
             )
             Spacer(Modifier.height(8.dp))
 
@@ -319,7 +314,6 @@ fun CancellationPolicy(modifier: Modifier = Modifier) {
                         Text(
                             item,
                             style = MaterialTheme.typography.bodyMedium,
-                            color = BaseTheme.colors.textSecondary,
                         )
                     },
                 )
@@ -337,7 +331,7 @@ private fun PreviewCart() {
 
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
 
-            JetSnackBackground(modifier = Modifier.fillMaxSize()) {
+            BackgroundElement(modifier = Modifier.fillMaxSize()) {
                 CartScreen(modifier = Modifier.systemBarsPadding(), PaddingValues(0.dp))
             }
         }

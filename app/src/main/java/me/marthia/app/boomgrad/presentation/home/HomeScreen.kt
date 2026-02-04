@@ -82,16 +82,16 @@ import me.marthia.app.boomgrad.presentation.common.LoadingScreen
 import me.marthia.app.boomgrad.presentation.components.AppScaffold
 import me.marthia.app.boomgrad.presentation.components.IconText
 import me.marthia.app.boomgrad.presentation.components.JetHorizontalDivider
-import me.marthia.app.boomgrad.presentation.components.JetSnackBackground
+import me.marthia.app.boomgrad.presentation.components.BackgroundElement
 import me.marthia.app.boomgrad.presentation.components.JetVerticalDivider
 import me.marthia.app.boomgrad.presentation.components.JetsnackButton
-import me.marthia.app.boomgrad.presentation.components.JetsnackCard
+import me.marthia.app.boomgrad.presentation.components.CardElement
 import me.marthia.app.boomgrad.presentation.components.JetsnackSearch
-import me.marthia.app.boomgrad.presentation.components.JetsnackSurface
+import me.marthia.app.boomgrad.presentation.components.SurfaceElement
 import me.marthia.app.boomgrad.presentation.components.PlainButton
 import me.marthia.app.boomgrad.presentation.home.model.HomeUiState
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
-import me.marthia.app.boomgrad.presentation.theme.BaseTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
 import me.marthia.app.boomgrad.presentation.theme.HanaGreen8
 import me.marthia.app.boomgrad.presentation.util.ViewState
 import me.marthia.app.boomgrad.presentation.util.debugPlaceholder
@@ -222,14 +222,14 @@ fun SearchAll(
                                     Icon(
                                         imageVector = Icons.Rounded.Search,
                                         contentDescription = "Search",
-                                        tint = BaseTheme.colors.textHelp,
+                                        tint = Theme.colors.textHelp,
                                     )
                                 },
                                 text = {
                                     Text(
                                         text = stringResource(R.string.home_screen_search_help_label),
                                         style = MaterialTheme.typography.labelSmall,
-                                        color = BaseTheme.colors.textHelp,
+                                        color = Theme.colors.textHelp,
                                     )
                                 },
                             )
@@ -377,7 +377,7 @@ fun Recommended(list: List<Tour>) {
             },
         )
         HorizontalPager(state = pagerState) { index ->
-            JetsnackCard(contentColor = BaseTheme.colors.textSecondary) {
+            CardElement {
 
                 Column(modifier = Modifier.padding(16.dp)) {
                     RecommendedImages(
@@ -536,24 +536,24 @@ fun ForYou(list: List<Tour>, onTourSelected: (Long) -> Unit) {
                         Text(
                             text = item.title,
                             style = MaterialTheme.typography.titleMedium,
-                            color = BaseTheme.colors.textInteractive,
+                            color = Theme.colors.materialTheme.surface,
                         )
                         JetHorizontalDivider(
                             modifier = Modifier.padding(vertical = 8.dp),
-                            color = BaseTheme.colors.uiBorder
+                            color = Theme.colors.materialTheme.outline
                         )
                         IconText(
                             text = {
                                 Text(
                                     text = item.city.name,
-                                    color = BaseTheme.colors.textInteractive
+                                    color = Theme.colors.materialTheme.surface
                                 )
                             },
                             leadingIcon = {
 
-                                JetsnackSurface(
+                                SurfaceElement(
                                     shape = CircleShape,
-                                    color = BaseTheme.colors.uiBackground,
+                                    color = Theme.colors.materialTheme.background,
                                 ) {
                                     Icon(
                                         modifier = Modifier.padding(8.dp),
@@ -625,7 +625,7 @@ fun TopDestinations(list: List<Attraction>) {
                             .offset(y = (-24).dp)
                             .border(
                                 width = 1.dp,
-                                color = BaseTheme.colors.uiBackground,
+                                color = Theme.colors.materialTheme.background,
                                 shape = CircleShape,
                             )
                             .background(HanaGreen8, CircleShape)
@@ -657,7 +657,7 @@ private fun PreviewHomeScreen() {
 
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
             SharedTransitionLayout {
-                JetSnackBackground(modifier = Modifier.fillMaxSize()) {
+                BackgroundElement(modifier = Modifier.fillMaxSize()) {
                     HomeScreenContent(
                         modifier = Modifier.systemBarsPadding(),
                         sharedTransitionScope = this@SharedTransitionLayout,

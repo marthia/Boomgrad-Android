@@ -16,7 +16,6 @@
 
 package me.marthia.app.boomgrad.presentation.components
 
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -41,8 +40,8 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import me.marthia.app.boomgrad.R
-import me.marthia.app.boomgrad.presentation.theme.BaseTheme
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
 
 
 @Composable
@@ -60,12 +59,12 @@ fun QuantitySelector(
         JetsnackButton(
             onClick = { if (count.intValue > 0) count.intValue -= 1 },
             shape = MaterialTheme.shapes.small,
-            contentColor = BaseTheme.colors.brand,
+            contentColor = Theme.colors.materialTheme.primary,
             backgroundGradient = listOf(
-                BaseTheme.colors.uiBackground,
-                BaseTheme.colors.uiBackground
+                Theme.colors.materialTheme.background,
+                Theme.colors.materialTheme.background
             ),
-            border = BorderStroke(width = 2.dp, color = BaseTheme.colors.uiBorder),
+            border = BorderStroke(width = 2.dp, color = Theme.colors.uiBorder),
             contentPadding = PaddingValues(8.dp),
         ) {
             Icon(
@@ -84,7 +83,7 @@ fun QuantitySelector(
                 text = "$it",
                 style = MaterialTheme.typography.titleSmall,
                 fontSize = 18.sp,
-                color = BaseTheme.colors.textPrimary,
+                color = Theme.colors.materialTheme.primary,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.widthIn(min = 24.dp),
             )
@@ -97,8 +96,10 @@ fun QuantitySelector(
             contentPadding = PaddingValues(8.dp),
             onClick = { count.intValue += 1 },
         ) {
-            Icon(painter = painterResource(id = R.drawable.icon_add_24),
-                contentDescription = "add")
+            Icon(
+                painter = painterResource(id = R.drawable.icon_add_24),
+                contentDescription = "add"
+            )
         }
     }
 }
@@ -107,7 +108,7 @@ fun QuantitySelector(
 @Composable
 fun QuantitySelectorPreviewRtl2() {
     AppTheme {
-        JetsnackSurface {
+        SurfaceElement {
             CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
                 QuantitySelector()
             }

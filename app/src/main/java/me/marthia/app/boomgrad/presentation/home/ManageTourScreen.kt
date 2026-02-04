@@ -30,13 +30,13 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import me.marthia.app.boomgrad.R
+import me.marthia.app.boomgrad.presentation.components.BackgroundElement
+import me.marthia.app.boomgrad.presentation.components.CardElement
 import me.marthia.app.boomgrad.presentation.components.IconText
 import me.marthia.app.boomgrad.presentation.components.JetHorizontalDivider
-import me.marthia.app.boomgrad.presentation.components.JetSnackBackground
-import me.marthia.app.boomgrad.presentation.components.JetsnackCard
-import me.marthia.app.boomgrad.presentation.components.JetsnackSurface
+import me.marthia.app.boomgrad.presentation.components.SurfaceElement
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
-import me.marthia.app.boomgrad.presentation.theme.BaseTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
 import me.marthia.app.boomgrad.presentation.util.debugPlaceholder
 
 @Composable
@@ -102,26 +102,25 @@ fun TopBar(modifier: Modifier = Modifier, title: String, description: String) {
                 modifier = Modifier,
                 text = title,
                 style = MaterialTheme.typography.titleMedium,
-                color = BaseTheme.colors.textSecondary
-            )
+
+                )
 
             Text(
                 modifier = Modifier,
                 text = description,
                 style = MaterialTheme.typography.bodyMedium,
-                color = BaseTheme.colors.textHelp
+                color = Theme.colors.textHelp
             )
 
         }
-        JetsnackSurface(
-            color = BaseTheme.colors.uiContainer,
+        SurfaceElement(
             shape = MaterialTheme.shapes.small
         ) {
             Text(
                 modifier = Modifier.padding(4.dp),
                 text = "در حال رزرو",
                 style = MaterialTheme.typography.bodyMedium,
-                color = BaseTheme.colors.textPrimary
+                color = Theme.colors.materialTheme.primary
             )
         }
     }
@@ -129,7 +128,7 @@ fun TopBar(modifier: Modifier = Modifier, title: String, description: String) {
 
 @Composable
 fun Features(modifier: Modifier = Modifier) {
-    JetsnackCard(modifier = modifier.padding(12.dp)) {
+    CardElement(modifier = modifier.padding(12.dp)) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -142,19 +141,18 @@ fun Features(modifier: Modifier = Modifier) {
                     Text(
                         "تاریخ:",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = BaseTheme.colors.textHelp
+                        color = Theme.colors.textHelp
                     )
 
                     Text(
                         "28 بهمن",
-                        color = BaseTheme.colors.textSecondary,
                         style = MaterialTheme.typography.labelMedium
                     )
                 },
                 leadingIcon = {
                     Icon(
                         painter = painterResource(R.drawable.ic_due_date_24),
-                        tint = BaseTheme.colors.textHelp,
+                        tint = Theme.colors.textHelp,
                         contentDescription = "Due Date"
                     )
                 })
@@ -167,18 +165,18 @@ fun Features(modifier: Modifier = Modifier) {
                     Text(
                         "ساعت شروع:",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = BaseTheme.colors.textHelp
+                        color = Theme.colors.textHelp
                     )
 
                     Text(
-                        "۸ صبح", color = BaseTheme.colors.textSecondary,
+                        "۸ صبح",
                         style = MaterialTheme.typography.labelMedium
                     )
                 },
                 leadingIcon = {
                     Icon(
                         painter = painterResource(R.drawable.ic_due_time_24),
-                        tint = BaseTheme.colors.textHelp,
+                        tint = Theme.colors.textHelp,
                         contentDescription = "Due Date"
                     )
                 })
@@ -191,19 +189,18 @@ fun Features(modifier: Modifier = Modifier) {
                     Text(
                         "مکان:",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = BaseTheme.colors.textHelp
+                        color = Theme.colors.textHelp
                     )
 
                     Text(
                         "تهران روبری ساختمان سردرباغ ملی خیابان فردوسی",
-                        color = BaseTheme.colors.textSecondary,
                         style = MaterialTheme.typography.labelMedium
                     )
                 },
                 leadingIcon = {
                     Icon(
                         painter = painterResource(R.drawable.ic_location_24),
-                        tint = BaseTheme.colors.textHelp,
+                        tint = Theme.colors.textHelp,
                         contentDescription = "Due Date"
                     )
                 })
@@ -216,18 +213,18 @@ fun Features(modifier: Modifier = Modifier) {
                     Text(
                         "مدت زمان تور:",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = BaseTheme.colors.textHelp
+                        color = Theme.colors.textHelp
                     )
 
                     Text(
-                        "4 ساعت", color = BaseTheme.colors.textSecondary,
+                        "4 ساعت",
                         style = MaterialTheme.typography.labelMedium
                     )
                 },
                 leadingIcon = {
                     Icon(
                         painter = painterResource(R.drawable.ic_duration_24),
-                        tint = BaseTheme.colors.textHelp,
+                        tint = Theme.colors.textHelp,
                         contentDescription = "Due Date"
                     )
                 })
@@ -240,18 +237,18 @@ fun Features(modifier: Modifier = Modifier) {
                     Text(
                         "ظرفیت:",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = BaseTheme.colors.textHelp
+                        color = Theme.colors.textHelp
                     )
 
                     Text(
-                        "12 نفر", color = BaseTheme.colors.textSecondary,
+                        "12 نفر",
                         style = MaterialTheme.typography.labelMedium
                     )
                 },
                 leadingIcon = {
                     Icon(
                         painter = painterResource(R.drawable.ic_profile_user_24),
-                        tint = BaseTheme.colors.textHelp,
+                        tint = Theme.colors.textHelp,
                         contentDescription = "Due Date"
                     )
                 })
@@ -264,18 +261,18 @@ fun Features(modifier: Modifier = Modifier) {
                     Text(
                         "قیمت",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = BaseTheme.colors.textHelp
+                        color = Theme.colors.textHelp
                     )
 
                     Text(
-                        "۲۵۰ تومان", color = BaseTheme.colors.textSecondary,
+                        "۲۵۰ تومان",
                         style = MaterialTheme.typography.labelMedium
                     )
                 },
                 leadingIcon = {
                     Icon(
                         painter = painterResource(R.drawable.ic_dollar_square_24),
-                        tint = BaseTheme.colors.textHelp,
+                        tint = Theme.colors.textHelp,
                         contentDescription = "Due Date"
                     )
                 })
@@ -289,10 +286,10 @@ fun Features(modifier: Modifier = Modifier) {
 fun Price(modifier: Modifier = Modifier, price: String) {
 
 
-    JetsnackSurface(
+    SurfaceElement(
         modifier = modifier,
         shape = MaterialTheme.shapes.medium,
-        color = BaseTheme.colors.uiFloated,
+        color = Theme.colors.materialTheme.surfaceContainerHighest,
     ) {
         Row(
             modifier = Modifier
@@ -306,12 +303,12 @@ fun Price(modifier: Modifier = Modifier, price: String) {
                 Text(
                     text = stringResource(R.string.tour_detail_total_price),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = BaseTheme.colors.textHelp
+                    color = Theme.colors.textHelp
                 )
                 Text(
                     text = "۱۴ رزرو * ۲۵۰ تومان",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = BaseTheme.colors.textHelp
+                    color = Theme.colors.textHelp
                 )
             }
             Column(horizontalAlignment = Alignment.End) {
@@ -319,12 +316,12 @@ fun Price(modifier: Modifier = Modifier, price: String) {
                 Text(
                     text = "$price میلیون تومان ",
                     style = MaterialTheme.typography.titleLarge,
-                    color = BaseTheme.colors.textSecondary
-                )
+
+                    )
                 Text(
                     text = "۵ رزرو باقیمانده",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = BaseTheme.colors.textHelp
+                    color = Theme.colors.textHelp
                 )
             }
         }
@@ -339,8 +336,8 @@ fun Participants(modifier: Modifier = Modifier) {
             modifier = Modifier.padding(start = 8.dp),
             text = "لیست رزروهای ۱۵ آذر(۸ رزرو)",
             style = MaterialTheme.typography.titleSmall,
-            color = BaseTheme.colors.textSecondary
-        )
+
+            )
 
         repeat(5) {
             TouristContactInfo()
@@ -350,11 +347,11 @@ fun Participants(modifier: Modifier = Modifier) {
 
 @Composable
 fun TouristContactInfo(modifier: Modifier = Modifier) {
-    JetsnackSurface(
+    SurfaceElement(
         modifier = modifier,
         shape = MaterialTheme.shapes.medium,
         color = Color.White,
-        border = BorderStroke(width = 1.dp, color = BaseTheme.colors.outline)
+        border = BorderStroke(width = 1.dp, color = Theme.colors.materialTheme.outline)
     ) {
         Row(
             modifier = Modifier
@@ -369,7 +366,7 @@ fun TouristContactInfo(modifier: Modifier = Modifier) {
                     Text(
                         text = "کاظم جان قربان",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = BaseTheme.colors.textHelp
+                        color = Theme.colors.textHelp
                     )
                 }, leadingIcon = {
 
@@ -380,7 +377,7 @@ fun TouristContactInfo(modifier: Modifier = Modifier) {
                     Text(
                         text = "09131234567",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = BaseTheme.colors.textHelp
+                        color = Theme.colors.textHelp
                     )
                 }, leadingIcon = {
 
@@ -392,12 +389,12 @@ fun TouristContactInfo(modifier: Modifier = Modifier) {
                 Text(
                     text = "۴",
                     style = MaterialTheme.typography.titleLarge,
-                    color = BaseTheme.colors.textSecondary
-                )
+
+                    )
                 Text(
                     text = "۲ بزرگسال ۲ خردسال",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = BaseTheme.colors.textHelp
+                    color = Theme.colors.textHelp
                 )
             }
         }
@@ -409,7 +406,7 @@ fun TouristContactInfo(modifier: Modifier = Modifier) {
 @Composable
 private fun PreviewManageTour() {
     AppTheme {
-        JetSnackBackground(modifier = Modifier.fillMaxSize()) {
+        BackgroundElement(modifier = Modifier.fillMaxSize()) {
             ManageTourScreen(Modifier)
         }
     }

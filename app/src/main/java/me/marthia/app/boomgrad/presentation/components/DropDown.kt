@@ -17,7 +17,6 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -29,7 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import me.marthia.app.boomgrad.presentation.home.model.Filter
-import me.marthia.app.boomgrad.presentation.theme.BaseTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
 
 @Composable
 fun DropDown(
@@ -40,10 +39,10 @@ fun DropDown(
 
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
         label()
-        JetsnackSurface(
+        SurfaceElement(
             modifier = Modifier.fillMaxWidth(),
             shape = MaterialTheme.shapes.medium,
-            color = BaseTheme.colors.textField,
+            color = Theme.colors.materialTheme.surface,
         ) {
             Row(
                 modifier = Modifier
@@ -111,7 +110,7 @@ fun <T : Any> DropDownPicker(
 
     Box(modifier = modifier.fillMaxWidth()) {
         // Button to trigger the dropdown
-        JetsnackTextField(
+        TextFieldElement(
             value = selectedItem?.let { itemText(it) } ?: "",
             onValueChange = {},
             readOnly = true,

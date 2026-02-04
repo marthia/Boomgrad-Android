@@ -47,12 +47,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import me.marthia.app.boomgrad.presentation.attraction.detail.AttractionDetailScreen
 import me.marthia.app.boomgrad.presentation.components.AppScaffold
-import me.marthia.app.boomgrad.presentation.components.JetsnackSnackbar
+import me.marthia.app.boomgrad.presentation.components.SnackBarElement
 import me.marthia.app.boomgrad.presentation.components.rememberJetsnackScaffoldState
 import me.marthia.app.boomgrad.presentation.home.AppBottomBar
 import me.marthia.app.boomgrad.presentation.login.LoginScreen
-import me.marthia.app.boomgrad.presentation.login.otp.OtpScreen
-import me.marthia.app.boomgrad.presentation.navigation.Arguments
 import me.marthia.app.boomgrad.presentation.navigation.HomeSections
 import me.marthia.app.boomgrad.presentation.navigation.MainDestinations
 import me.marthia.app.boomgrad.presentation.navigation.Routes
@@ -124,19 +122,6 @@ fun JetsnackApp() {
                     composable(Routes.LOGIN) {
                         LoginScreen(jetsnackNavController::upPress)
                     }
-
-                    composable(
-                        route = "${Routes.OTP}/{${Arguments.OTP_PHONE}}",
-                        arguments = listOf(
-                            navArgument(Arguments.OTP_PHONE) {
-                                type = NavType.StringType
-                            },
-                        ),
-                    ) { from ->
-                        val arguments = requireNotNull(from.arguments)
-                        val phone = arguments.getString(Arguments.OTP_PHONE, "-1")
-                        OtpScreen(navBackStackEntry = from, phone = phone)
-                    }
                 }
             }
         }
@@ -192,7 +177,7 @@ fun MainContainer(
             SnackbarHost(
                 hostState = it,
                 modifier = Modifier.systemBarsPadding(),
-                snackbar = { snackbarData -> JetsnackSnackbar(snackbarData) },
+                snackbar = { snackbarData -> SnackBarElement(snackbarData) },
             )
         },
         snackBarHostState = jetsnackScaffoldState.snackBarHostState,

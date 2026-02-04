@@ -50,7 +50,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
-import me.marthia.app.boomgrad.presentation.theme.BaseTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
 
 @Composable
 fun JetsnackButton(
@@ -61,14 +61,14 @@ fun JetsnackButton(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     shape: Shape = ButtonShape,
     border: BorderStroke? = null,
-    disabledBackgroundGradient: List<Color> = BaseTheme.colors.interactiveSecondary,
-    backgroundGradient: List<Color> = BaseTheme.colors.interactivePrimary,
-    contentColor: Color = BaseTheme.colors.textInteractive,
-    disabledContentColor: Color = BaseTheme.colors.textHelp,
+    disabledBackgroundGradient: List<Color> = Theme.colors.interactiveSecondary,
+    backgroundGradient: List<Color> = Theme.colors.interactivePrimary,
+    contentColor: Color = Theme.colors.materialTheme.surface,
+    disabledContentColor: Color = Theme.colors.materialTheme.surfaceDim,
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     content: @Composable RowScope.() -> Unit,
 ) {
-    JetsnackSurface(
+    SurfaceElement(
         shape = shape,
         color = Color.Transparent,
         contentColor = if (enabled) contentColor else disabledContentColor,
@@ -119,12 +119,12 @@ fun PlainButton(
     border: BorderStroke? = null,
     disabledBackground: Color = Color.Transparent,
     background: Color = Color.Transparent,
-    contentColor: Color = BaseTheme.colors.textSecondary,
-    disabledContentColor: Color = BaseTheme.colors.textHelp,
+    contentColor: Color = Theme.colors.materialTheme.onSurfaceVariant,
+    disabledContentColor: Color = Theme.colors.textHelp,
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     content: @Composable RowScope.() -> Unit,
 ) {
-    JetsnackSurface(
+    SurfaceElement(
         shape = shape,
         color = Color.Transparent,
         contentColor = if (enabled) contentColor else disabledContentColor,
@@ -161,22 +161,22 @@ fun PlainButton(
 }
 
 @Composable
-fun JetsnackFilledIconButton(
+fun FilledIconButtonElement(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     shape: Shape = ButtonShape,
     border: BorderStroke? = null,
-    containerColor: Color = BaseTheme.colors.uiContainer,
-    disabledBackgroundGradient: Color = BaseTheme.colors.iconInteractive,
-    contentColor: Color = BaseTheme.colors.brand,
-    disabledContentColor: Color = BaseTheme.colors.textHelp,
+    containerColor: Color = Theme.colors.materialTheme.primaryContainer,
+    disabledBackgroundGradient: Color = Theme.colors.materialTheme.surfaceContainerLowest,
+    contentColor: Color = Theme.colors.materialTheme.primary,
+    disabledContentColor: Color = Theme.colors.textHelp,
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     content: @Composable BoxScope.() -> Unit,
 ) {
 
-    JetsnackSurface(
+    SurfaceElement(
         shape = shape,
         color = Color.Transparent,
         contentColor = if (enabled) contentColor else disabledContentColor,

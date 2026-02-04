@@ -33,10 +33,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
-import me.marthia.app.boomgrad.presentation.theme.BaseTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
 
 @Composable
-fun JetsnackTextField(
+fun TextFieldElement(
 
     value: String,
     onValueChange: (String) -> Unit,
@@ -61,49 +61,49 @@ fun JetsnackTextField(
     interactionSource: MutableInteractionSource? = null,
     shape: Shape = MaterialTheme.shapes.medium,
     colors: TextFieldColors = TextFieldDefaults.colors(
-        focusedTextColor = BaseTheme.colors.textHelp,
-        unfocusedTextColor = BaseTheme.colors.textHelp,
-        disabledTextColor = BaseTheme.colors.textHelp,
-        errorTextColor = BaseTheme.colors.textHelp,
-        focusedContainerColor = BaseTheme.colors.uiContainer,
-        unfocusedContainerColor = BaseTheme.colors.textField,
-        disabledContainerColor = BaseTheme.colors.textHelp,
-        errorContainerColor = BaseTheme.colors.textHelp,
-        cursorColor = BaseTheme.colors.textHelp,
-        errorCursorColor = BaseTheme.colors.textHelp,
+        focusedTextColor = Theme.colors.materialTheme.surfaceDim,
+        unfocusedTextColor = Theme.colors.textHelp,
+        disabledTextColor = Theme.colors.textHelp,
+        errorTextColor = Theme.colors.textHelp,
+        focusedContainerColor = Theme.colors.materialTheme.secondaryContainer,
+        unfocusedContainerColor = Theme.colors.materialTheme.secondaryContainer,
+        disabledContainerColor = Theme.colors.materialTheme.secondaryContainer,
+        errorContainerColor = Theme.colors.textHelp,
+        cursorColor = Theme.colors.textHelp,
+        errorCursorColor = Theme.colors.textHelp,
         selectionColors = null,
         focusedIndicatorColor = Color.Transparent,
         unfocusedIndicatorColor = Color.Transparent,
-        disabledIndicatorColor = BaseTheme.colors.textHelp,
-        errorIndicatorColor = BaseTheme.colors.textHelp,
-        focusedLeadingIconColor = BaseTheme.colors.textHelp,
-        unfocusedLeadingIconColor = BaseTheme.colors.textHelp,
-        disabledLeadingIconColor = BaseTheme.colors.textHelp,
-        errorLeadingIconColor = BaseTheme.colors.textHelp,
-        focusedTrailingIconColor = BaseTheme.colors.textHelp,
-        unfocusedTrailingIconColor = BaseTheme.colors.textHelp,
-        disabledTrailingIconColor = BaseTheme.colors.textHelp,
-        errorTrailingIconColor = BaseTheme.colors.textHelp,
-        focusedLabelColor = BaseTheme.colors.textHelp,
-        unfocusedLabelColor = BaseTheme.colors.textHelp,
-        disabledLabelColor = BaseTheme.colors.textHelp,
-        errorLabelColor = BaseTheme.colors.textHelp,
-        focusedPlaceholderColor = BaseTheme.colors.textField,
-        unfocusedPlaceholderColor = BaseTheme.colors.textHelp,
-        disabledPlaceholderColor = BaseTheme.colors.textHelp,
-        errorPlaceholderColor = BaseTheme.colors.textHelp,
-        focusedSupportingTextColor = BaseTheme.colors.textHelp,
-        unfocusedSupportingTextColor = BaseTheme.colors.textHelp,
-        disabledSupportingTextColor = BaseTheme.colors.textHelp,
-        errorSupportingTextColor = BaseTheme.colors.textHelp,
-        focusedPrefixColor = BaseTheme.colors.textHelp,
-        unfocusedPrefixColor = BaseTheme.colors.textHelp,
-        disabledPrefixColor = BaseTheme.colors.textHelp,
-        errorPrefixColor = BaseTheme.colors.textHelp,
-        focusedSuffixColor = BaseTheme.colors.textHelp,
-        unfocusedSuffixColor = BaseTheme.colors.textHelp,
-        disabledSuffixColor = BaseTheme.colors.textHelp,
-        errorSuffixColor = BaseTheme.colors.textHelp,
+        disabledIndicatorColor = Theme.colors.textHelp,
+        errorIndicatorColor = Theme.colors.textHelp,
+        focusedLeadingIconColor = Theme.colors.textHelp,
+        unfocusedLeadingIconColor = Theme.colors.textHelp,
+        disabledLeadingIconColor = Theme.colors.textHelp,
+        errorLeadingIconColor = Theme.colors.textHelp,
+        focusedTrailingIconColor = Theme.colors.textHelp,
+        unfocusedTrailingIconColor = Theme.colors.textHelp,
+        disabledTrailingIconColor = Theme.colors.textHelp,
+        errorTrailingIconColor = Theme.colors.textHelp,
+        focusedLabelColor = Theme.colors.textHelp,
+        unfocusedLabelColor = Theme.colors.textHelp,
+        disabledLabelColor = Theme.colors.textHelp,
+        errorLabelColor = Theme.colors.textHelp,
+        focusedPlaceholderColor = Theme.colors.materialTheme.surfaceDim,
+        unfocusedPlaceholderColor = Theme.colors.textHelp,
+        disabledPlaceholderColor = Theme.colors.textHelp,
+        errorPlaceholderColor = Theme.colors.textHelp,
+        focusedSupportingTextColor = Theme.colors.textHelp,
+        unfocusedSupportingTextColor = Theme.colors.textHelp,
+        disabledSupportingTextColor = Theme.colors.textHelp,
+        errorSupportingTextColor = Theme.colors.textHelp,
+        focusedPrefixColor = Theme.colors.textHelp,
+        unfocusedPrefixColor = Theme.colors.textHelp,
+        disabledPrefixColor = Theme.colors.textHelp,
+        errorPrefixColor = Theme.colors.textHelp,
+        focusedSuffixColor = Theme.colors.textHelp,
+        unfocusedSuffixColor = Theme.colors.textHelp,
+        disabledSuffixColor = Theme.colors.textHelp,
+        errorSuffixColor = Theme.colors.textHelp,
 
         ),
 ) {
@@ -147,7 +147,7 @@ fun DecoratedTextField(
     enabled: Boolean = true,
     keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
     keyboardActions: KeyboardActions = KeyboardActions(),
-    color: Color = BaseTheme.colors.uiContainer,
+    color: Color = Theme.colors.materialTheme.surface,
     shape: Shape = RoundedCornerShape(4.dp),
     onValueChange: (String) -> Unit,
 ) {
@@ -202,7 +202,7 @@ fun DecoratedTextField(
 @Composable
 private fun PreviewTextField() {
     AppTheme() {
-        JetsnackTextField(
+        TextFieldElement(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),

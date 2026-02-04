@@ -39,9 +39,9 @@ import me.marthia.app.boomgrad.presentation.common.ErrorScreen
 import me.marthia.app.boomgrad.presentation.common.LoadingScreen
 import me.marthia.app.boomgrad.presentation.components.AppScaffold
 import me.marthia.app.boomgrad.presentation.components.IconText
-import me.marthia.app.boomgrad.presentation.components.JetSnackBackground
+import me.marthia.app.boomgrad.presentation.components.BackgroundElement
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
-import me.marthia.app.boomgrad.presentation.theme.BaseTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
 import me.marthia.app.boomgrad.presentation.util.ViewState
 import org.koin.androidx.compose.koinViewModel
 
@@ -156,7 +156,7 @@ fun TripItem(modifier: Modifier = Modifier, tourTitle: String, dueTime: String, 
         Text(
             text = tourTitle,
             style = MaterialTheme.typography.titleMedium,
-            color = BaseTheme.colors.textSecondary
+
         )
 
         Spacer(Modifier.height(16.dp))
@@ -186,7 +186,7 @@ fun TripItem(modifier: Modifier = Modifier, tourTitle: String, dueTime: String, 
             Text(
                 text = count,
                 style = MaterialTheme.typography.bodyLarge,
-                color = BaseTheme.colors.textSecondary
+
             )
         }
     }
@@ -202,7 +202,7 @@ private fun PreviewMyTrips() {
 
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
 
-            JetSnackBackground(modifier = Modifier.fillMaxSize()) {
+            BackgroundElement(modifier = Modifier.fillMaxSize()) {
 
                 MyTripsScreen(modifier = Modifier, state = MyTripsUiState("خالی"))
             }
