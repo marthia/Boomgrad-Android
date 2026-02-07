@@ -45,4 +45,11 @@ class LoginRepositoryImpl(
     override suspend fun clearToken() {
         tokenManager.clearTokens()
     }
+
+
+    // TODO change this to check user id instead of token
+    // because we will have guest token
+    override suspend fun isLogin(): Boolean {
+        return tokenManager.getAccessTokenOnce() != null
+    }
 }

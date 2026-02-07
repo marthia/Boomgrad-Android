@@ -14,23 +14,20 @@ import me.marthia.app.boomgrad.domain.repository.TourRepository
 class TourRepositoryImpl(
     private val api: TourApiService
 ) : TourRepository {
+
     override suspend fun getList(): Result<List<Tour>> {
-        return try {
-            val response = api.getTours()
-            val tours = response.toDomainList()
-            Result.success(tours)
-        } catch (e: Exception) {
-            Result.failure(e)
+        return runCatching {
+            api.getTours().getOrThrow()
+        }.map { response ->
+            response.content.toDomainList()
         }
     }
 
     override suspend fun getTourDetail(tourId: Long): Result<Tour> {
-        return try {
-            val response = api.getTourById(tourId)
-            val tour = response.toDomain()
-            Result.success(tour)
-        } catch (e: Exception) {
-            Result.failure(e)
+        return runCatching {
+            api.getTourById(tourId).getOrThrow()
+        }.map { dto ->
+            dto.toDomain()
         }
     }
 }

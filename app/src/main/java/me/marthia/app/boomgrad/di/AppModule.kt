@@ -20,7 +20,7 @@ val appModule = module {
     viewModel { AttractionDetailViewModel(get(), get()) }
     viewModel { FavoritesViewModel(repository = get()) }
     viewModel { SearchViewModel(get()) }
-    viewModel { ProfileViewModel(get()) }
+    viewModel { ProfileViewModel(get(), get()) }
     viewModel { LoginViewModel(get(), get(), SnackbarManager) }
 
     viewModel {

@@ -5,8 +5,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import me.marthia.app.boomgrad.data.mapper.toDomain
 import me.marthia.app.boomgrad.data.remote.api.AttractionApiService
+import me.marthia.app.boomgrad.data.remote.util.NetworkFailure
+import me.marthia.app.boomgrad.data.remote.util.toNetworkFailure
 import me.marthia.app.boomgrad.domain.model.Attraction
 import me.marthia.app.boomgrad.domain.repository.AttractionRepository
+import timber.log.Timber
 
 class AttractionRepositoryImpl(
     private val apiService: AttractionApiService,
@@ -17,41 +20,59 @@ class AttractionRepositoryImpl(
     private val _favoriteAttractions = MutableStateFlow<List<Attraction>>(emptyList())
 
     override suspend fun getAttractions(): Result<List<Attraction>> {
-        return try {
-            val response = apiService.getAttractions()
-            val attractions = response.attractions.map { it.toDomain() }
-            Result.success(attractions)
-        } catch (e: Exception) {
-            Result.failure(e)
+        return runCatching {
+            val response = apiService.getAttractions().getOrThrow()
+            response.content.map { it.toDomain() }
+        }.onFailure { error ->
+            Timber.e(error, "getAttractions failed : ${error.message}")
+        }.recoverCatching { error ->
+            // Convert exception and re-throw as NetworkFailure
+            throw when (error) {
+                is NetworkFailure -> error
+                else -> error.toNetworkFailure()
+            }
         }
     }
 
     override suspend fun getTopAttractions(): Result<List<Attraction>> {
-        return try {
-            val response = apiService.getAttractions()
-            val attractions = response.attractions.map { it.toDomain() }
-            Result.success(attractions)
-        } catch (e: Exception) {
-            Result.failure(e)
+        return runCatching {
+            val response = apiService.getAttractions().getOrThrow()
+            response.content.map { it.toDomain() }
+        }.onFailure { error ->
+            Timber.e(error, "getTopAttractions failed : ${error.message}")
+        }.recoverCatching { error ->
+            throw when (error) {
+                is NetworkFailure -> error
+                else -> error.toNetworkFailure()
+            }
         }
     }
 
     override suspend fun getAttractionById(id: String): Result<Attraction> {
-        return try {
-            val attraction = apiService.getAttractionById(id).toDomain()
-            Result.success(attraction)
-        } catch (e: Exception) {
-            Result.failure(e)
+        return runCatching {
+            apiService.getAttractionById(id).getOrThrow().toDomain()
+        }.onFailure { error ->
+            Timber.e(error, "getAttraction of id $id failed : ${error.message}")
+        }.recoverCatching { error ->
+            throw when (error) {
+                is NetworkFailure -> error
+                else -> error.toNetworkFailure()
+            }
         }
     }
 
     override suspend fun searchAttractions(query: String): Result<List<Attraction>> {
-        return try {
-            val response = apiService.searchAttractions(query)
-            val attractions = response.attractions.map { it.toDomain() }
-            Result.success(attractions)
-        } catch (e: Exception) {
-            Result.failure(e)
+        return runCatching {
+            val response = apiService.searchAttractions(query).getOrThrow()
+            response.content.map { it.toDomain() }
+        }.onFailure { error ->
+            Timber.e(error, "search Attractions with query $query failed : ${error.message}")
+        }.recoverCatching { error ->
+            // Convert exception and re-throw as NetworkFailure
+            throw when (error) {
+                is NetworkFailure -> error
+                else -> error.toNetworkFailure()
+            }
         }
     }
 

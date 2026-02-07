@@ -2,6 +2,7 @@ package me.marthia.app.boomgrad.presentation.profile
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,6 +27,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -37,6 +40,7 @@ import me.marthia.app.boomgrad.presentation.common.ErrorScreen
 import me.marthia.app.boomgrad.presentation.common.LoadingScreen
 import me.marthia.app.boomgrad.presentation.components.AppScaffold
 import me.marthia.app.boomgrad.presentation.components.BackgroundElement
+import me.marthia.app.boomgrad.presentation.components.JetsnackButton
 import me.marthia.app.boomgrad.presentation.profile.component.LinkItem
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
 import me.marthia.app.boomgrad.presentation.theme.Theme
@@ -46,25 +50,51 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ProfileScreen(
-    viewModel: ProfileViewModel = koinViewModel()
+    viewModel: ProfileViewModel = koinViewModel(),
+    onNavigateToLogin: () -> Unit
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    when (uiState) {
-        is ViewState.Loading -> LoadingScreen()
-        is ViewState.Error -> ErrorScreen()
-        is ViewState.Success -> {
+    if (viewModel.isLogin()) {
+        LaunchedEffect(viewModel) { viewModel.loadProfileDetails(14) } // fixme
+        val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-            AppScaffold() {
-                ProfileScreen(
-                    modifier = Modifier
-                        .padding(it),
-                    state = (uiState as ViewState.Success<ProfileUiState>).value
+        when (uiState) {
+            is ViewState.Loading -> LoadingScreen()
+            is ViewState.Error -> ErrorScreen()
+            is ViewState.Success -> {
+
+                AppScaffold() {
+                    ProfileScreen(
+                        modifier = Modifier
+                            .padding(it),
+                        state = (uiState as ViewState.Success<ProfileUiState>).value
+                    )
+                }
+            }
+
+            else -> {}
+        }
+    } else {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    "برای نمایش پروفایل، پیشنهاد تورهای شخصی‌سازی شده، نظردهی و رزرو تور وارد شوید.",
+                    textAlign = TextAlign.Center
                 )
+                JetsnackButton(onClick = {
+                    onNavigateToLogin()
+                }) {
+                    Text("ثبت نام / ورود")
+                }
             }
         }
-
-        else -> {}
     }
 
 }

@@ -24,6 +24,7 @@ import io.ktor.http.withCharset
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import me.marthia.app.boomgrad.data.local.TokenManager
+import me.marthia.app.boomgrad.data.remote.dto.BaseResponse
 import me.marthia.app.boomgrad.data.remote.dto.RefreshTokenRequest
 import me.marthia.app.boomgrad.data.remote.dto.TokenResponse
 import org.koin.dsl.module
@@ -93,19 +94,23 @@ val networkModule = module {
                     }
 
                     refreshTokens {
-                        val refreshToken = tokenManager.getRefreshTokenOnce() ?: return@refreshTokens null
+                        val refreshToken =
+                            tokenManager.getRefreshTokenOnce() ?: return@refreshTokens null
 
-                        val response: TokenResponse = client.post("${ApiConfig.HOST}${ApiConfig.BASE_PATH}/auth/refresh") {
+                        val response: BaseResponse<TokenResponse> = client.post("auth/refresh") {
                             markAsRefreshTokenRequest()
                             contentType(ContentType.Application.Json)
                             setBody(RefreshTokenRequest(refreshToken))
-                        }.body()
+                        }.body<BaseResponse<TokenResponse>>()
 
-                        tokenManager.saveTokens(response.accessToken, response.refreshToken)
+                        tokenManager.saveTokens(
+                            response.data.accessToken,
+                            response.data.refreshToken
+                        )
 
                         BearerTokens(
-                            accessToken = response.accessToken,
-                            refreshToken = response.refreshToken
+                            accessToken = response.data.accessToken,
+                            refreshToken = response.data.refreshToken
                         )
                     }
                 }

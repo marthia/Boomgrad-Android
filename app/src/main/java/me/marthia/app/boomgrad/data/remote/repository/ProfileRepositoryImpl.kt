@@ -8,8 +8,8 @@ import me.marthia.app.boomgrad.domain.repository.ProfileRepository
 class ProfileRepositoryImpl(private val api: ProfileApiService) : ProfileRepository {
 
 
-    override suspend fun getProfile(): Result<Profile> {
-        val response = api.profileInfo()
-        return response.map { it.toDomain() }
+    override suspend fun getProfile(userId: Long): Result<Profile> {
+        val response = api.profileInfo(userId = userId)
+        return response.map { it.data.toDomain() }
     }
 }

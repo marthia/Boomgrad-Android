@@ -5,7 +5,7 @@ import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import me.marthia.app.boomgrad.data.remote.dto.AttractionDto
-import me.marthia.app.boomgrad.data.remote.dto.AttractionsResponse
+import me.marthia.app.boomgrad.data.remote.dto.BaseListResponse
 
 class AttractionApiServiceImpl(
     private val client: HttpClient
@@ -14,26 +14,26 @@ class AttractionApiServiceImpl(
     override suspend fun getAttractions(
         page: Int,
         limit: Int
-    ): AttractionsResponse {
-        return client.get("attractions") {
+    ): Result<BaseListResponse<AttractionDto>> {
+        return client.safeGet("attractions") {
             parameter("page", page)
             parameter("limit", limit)
-        }.body()
+        }
     }
 
     override suspend fun getAttractionById(
         id: String
-    ): AttractionDto {
-        return client.get("attractions/$id").body()
+    ): Result<AttractionDto> {
+        return client.safeGet("attractions/$id")
     }
 
     override suspend fun searchAttractions(
         query: String,
         limit: Int
-    ): AttractionsResponse {
-        return client.get("attractions/search") {
+    ): Result<BaseListResponse<AttractionDto>> {
+        return client.safeGet("attractions/search") {
             parameter("q", query)
             parameter("limit", limit)
-        }.body()
+        }
     }
 }

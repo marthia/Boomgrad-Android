@@ -20,25 +20,7 @@ class MyTripsViewModel(
     val uiState: StateFlow<ViewState<MyTripsUiState>> = _uiState.asStateFlow()
 
 
-    init {
-        loadAttractions()
-    }
 
-    // mock version
-    fun loadAttractions() {
-        viewModelScope.launch {
-            _uiState.value = ViewState.Loading
-            getProfile.invoke()
-                .onSuccess { profile ->
-                    _uiState.value = ViewState.Success(MyTripsUiState(item = "profile"))
-                }
-                .onFailure { _uiState.value = ViewState.Error(it) }
-        }
-    }
-
-    fun retry() {
-        loadAttractions()
-    }
 }
 
 data class MyTripsUiState(

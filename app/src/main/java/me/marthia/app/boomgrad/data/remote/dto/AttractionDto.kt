@@ -42,11 +42,3 @@ data class OpeningHoursDto(
     @SerialName("working_hour")
     val workingHour: String?,
 )
-
-@Serializable
-data class AttractionsResponse(
-    @SerialName("attractions")
-    val attractions: List<AttractionDto>,
-    @SerialName("total")
-    val total: Int
-)

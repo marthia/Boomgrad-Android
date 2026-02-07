@@ -78,8 +78,14 @@ fun JetsnackApp() {
                     ) { backStackEntry ->
                         MainContainer(
                             onSnackSelected = jetsnackNavController::navigateToSnackDetail,
-                            onTourSelected = { _, _ -> jetsnackNavController.navigateToLogin() },
+                            onTourSelected = { tourId, from ->
+                                jetsnackNavController.navigateToTourDetail(
+                                    tourId = tourId,
+                                    from = from
+                                )
+                            },
                             onAttractionSelected = jetsnackNavController::navigateToAttraction,
+                            onNavigateToLogin = jetsnackNavController::navigateToLogin,
                         )
                     }
 
@@ -133,6 +139,7 @@ fun MainContainer(
     modifier: Modifier = Modifier,
     onSnackSelected: (Long, String, NavBackStackEntry) -> Unit,
     onTourSelected: (Long, NavBackStackEntry) -> Unit,
+    onNavigateToLogin: () -> Unit,
     onAttractionSelected: (Long, NavBackStackEntry) -> Unit,
 ) {
     val jetsnackScaffoldState = rememberJetsnackScaffoldState()
@@ -190,6 +197,7 @@ fun MainContainer(
                 onSnackSelected = onSnackSelected,
                 onTourSelected = onTourSelected,
                 onAttractionSelected = onAttractionSelected,
+                onNavigateToLogin = onNavigateToLogin,
                 modifier = Modifier
                     .padding(padding)
                     .consumeWindowInsets(padding),

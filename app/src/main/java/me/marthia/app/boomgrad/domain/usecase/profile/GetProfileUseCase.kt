@@ -8,7 +8,7 @@ import me.marthia.app.boomgrad.domain.repository.ProfileRepository
 class GetProfileUseCase(
     private val repository: ProfileRepository
 ) {
-    suspend operator fun invoke(): Result<Profile> {
-        return repository.getProfile()
+    suspend operator fun invoke(userId: Long): Result<Profile> {
+        return repository.getProfile(userId = userId)
     }
 }

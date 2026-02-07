@@ -25,7 +25,6 @@ import me.marthia.app.boomgrad.presentation.LocalNavAnimatedVisibilityScope
 import me.marthia.app.boomgrad.presentation.attraction.list.AttractionList
 import me.marthia.app.boomgrad.presentation.cart.CartScreen
 import me.marthia.app.boomgrad.presentation.home.HomeScreen
-import me.marthia.app.boomgrad.presentation.login.LoginScreen
 import me.marthia.app.boomgrad.presentation.nonSpatialExpressiveSpring
 import me.marthia.app.boomgrad.presentation.profile.ProfileScreen
 
@@ -63,10 +62,10 @@ fun NavGraphBuilder.composableWithCompositionLocal(
 fun NavGraphBuilder.addHomeGraph(
     onSnackSelected: (Long, String, NavBackStackEntry) -> Unit,
     onTourSelected: (Long, NavBackStackEntry) -> Unit,
+    onNavigateToLogin: () -> Unit,
     onAttractionSelected: (Long, NavBackStackEntry) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var isLogin by mutableStateOf(false)
     composable(HomeSections.FEED.route) { from ->
         HomeScreen(onTourSelected = { id -> onTourSelected(id, from) })
     }
@@ -88,12 +87,7 @@ fun NavGraphBuilder.addHomeGraph(
 
 
     composable(HomeSections.PROFILE.route) {
-        if (isLogin)
-            ProfileScreen()
-        else
-            LoginScreen {
-                isLogin = true
-            }
+        ProfileScreen(onNavigateToLogin = onNavigateToLogin)
     }
 }
 

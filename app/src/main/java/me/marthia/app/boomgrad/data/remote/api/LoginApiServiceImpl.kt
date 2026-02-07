@@ -9,22 +9,29 @@ import io.ktor.http.contentType
 import me.marthia.app.boomgrad.data.remote.dto.BaseResponse
 import me.marthia.app.boomgrad.data.remote.dto.TokenResponse
 import me.marthia.app.boomgrad.data.remote.dto.LoginRequestBody
+import me.marthia.app.boomgrad.data.remote.dto.RegisterRequestBody
 import me.marthia.app.boomgrad.data.remote.util.toNetworkFailure
 
 class LoginApiServiceImpl(
     private val client: HttpClient,
 ) : LoginApiService {
 
-    override suspend fun login(email: String, password: String): Result<BaseResponse<TokenResponse>> {
-        return try {
-            val response = client.post("auth/login") {
-                contentType(ContentType.Application.Json)
-                setBody(LoginRequestBody(email = email, password = password))
-            }.body<BaseResponse<TokenResponse>>()
+    override suspend fun login(
+        email: String,
+        password: String
+    ): Result<BaseResponse<TokenResponse>> {
+        return client.safePost("auth/login") {
+            contentType(ContentType.Application.Json)
+            setBody(LoginRequestBody(email, password))
+        }
+    }
 
-            Result.success(response)
-        } catch (e: Exception) {
-            Result.failure(e.toNetworkFailure())
+    override suspend fun register(
+        request: RegisterRequestBody
+    ): Result<BaseResponse<TokenResponse>> {
+        return client.safePost("auth/register") {
+            contentType(ContentType.Application.Json)
+            setBody(request)
         }
     }
 

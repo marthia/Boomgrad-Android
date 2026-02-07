@@ -32,6 +32,7 @@ import me.marthia.app.boomgrad.domain.usecase.category.GetAttractionCategoryUseC
 import me.marthia.app.boomgrad.domain.usecase.common.GetCityUseCase
 import me.marthia.app.boomgrad.domain.usecase.common.GetCountyUseCase
 import me.marthia.app.boomgrad.domain.usecase.common.GetProvinceUseCase
+import me.marthia.app.boomgrad.domain.usecase.login.CheckAuthorizationUseCase
 import me.marthia.app.boomgrad.domain.usecase.login.ClearTokenUseCase
 import me.marthia.app.boomgrad.domain.usecase.login.LoginUseCase
 import me.marthia.app.boomgrad.domain.usecase.profile.GetProfileUseCase
@@ -78,6 +79,7 @@ val repositoryModule = module {
     single<GetCountyUseCase> { GetCountyUseCase(get()) }
     single<GetCityUseCase> { GetCityUseCase(get()) }
     single<GetProfileUseCase> { GetProfileUseCase(get()) }
+    single<CheckAuthorizationUseCase> { CheckAuthorizationUseCase(get()) }
 
     single<GetAttractionCategoryUseCase> { GetAttractionCategoryUseCase(get()) }
     single<GetForYouToursUseCase> { GetForYouToursUseCase(get()) }
