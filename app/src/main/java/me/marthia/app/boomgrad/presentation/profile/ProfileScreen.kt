@@ -40,7 +40,7 @@ import me.marthia.app.boomgrad.presentation.common.ErrorScreen
 import me.marthia.app.boomgrad.presentation.common.LoadingScreen
 import me.marthia.app.boomgrad.presentation.components.AppScaffold
 import me.marthia.app.boomgrad.presentation.components.BackgroundElement
-import me.marthia.app.boomgrad.presentation.components.JetsnackButton
+import me.marthia.app.boomgrad.presentation.components.ButtonElement
 import me.marthia.app.boomgrad.presentation.profile.component.LinkItem
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
 import me.marthia.app.boomgrad.presentation.theme.Theme
@@ -88,7 +88,7 @@ fun ProfileScreen(
                     "برای نمایش پروفایل، پیشنهاد تورهای شخصی‌سازی شده، نظردهی و رزرو تور وارد شوید.",
                     textAlign = TextAlign.Center
                 )
-                JetsnackButton(onClick = {
+                ButtonElement(onClick = {
                     onNavigateToLogin()
                 }) {
                     Text("ثبت نام / ورود")

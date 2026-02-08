@@ -61,5 +61,8 @@
     <string name="description_terms_and_conditions_1">"با ورود یا ثبت‌نام، شما "</string>
     <string name="description_terms_and_conditions_2">شرایط و قوانین</string>
     <string name="description_terms_and_conditions_3">استفاده از خدمات را می‌پذیرید.</string>
+    <string name="description_error">مسیر رو گم کردیم!</string>
+    <string name="label_error_return">برگردیم</string>
+    <string name="description_empty">شهر خلوته</string>
 
 </resources>

@@ -119,6 +119,8 @@ dependencies {
 
     // Paging
     implementation(libs.paging.compose)
+    implementation(libs.paging.runtime)
+    implementation(libs.paging.common.ktx)
 
     // WorkManager
     implementation(libs.work.runtime.ktx)

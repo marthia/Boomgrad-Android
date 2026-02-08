@@ -2,6 +2,9 @@ package me.marthia.app.boomgrad.presentation.attraction.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,25 +22,10 @@ class AttractionsViewModel(
     val uiState: StateFlow<ViewState<AttractionsUiState>> = _uiState.asStateFlow()
 
 
-    init {
-        loadAttractions()
-    }
+    val attractionsPagingData: Flow<PagingData<Attraction>> =
+        getAttractionsUseCase()
+            .cachedIn(viewModelScope)
 
-    // mock version
-    fun loadAttractions() {
-        viewModelScope.launch {
-            _uiState.value = ViewState.Loading
-            getAttractionsUseCase()
-                .onSuccess { attractions ->
-                    _uiState.value = ViewState.Success(AttractionsUiState(mockList = attractions))
-                }
-                .onFailure { _uiState.value = ViewState.Error(it) }
-        }
-    }
-
-    fun retry() {
-        loadAttractions()
-    }
 }
 
 data class AttractionsUiState(

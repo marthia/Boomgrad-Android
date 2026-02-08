@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.presentation.components.AppScaffold
 import me.marthia.app.boomgrad.presentation.components.BackgroundElement
-import me.marthia.app.boomgrad.presentation.components.JetsnackButton
+import me.marthia.app.boomgrad.presentation.components.ButtonElement
 import me.marthia.app.boomgrad.presentation.components.TextFieldElement
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
 import me.marthia.app.boomgrad.presentation.theme.Theme
@@ -184,7 +184,7 @@ fun LoginCard(
         )
 
 
-        JetsnackButton(
+        ButtonElement(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 24.dp, start = 16.dp, end = 16.dp, top = 48.dp),

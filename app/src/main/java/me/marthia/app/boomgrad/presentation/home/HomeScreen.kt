@@ -84,7 +84,7 @@ import me.marthia.app.boomgrad.presentation.components.IconText
 import me.marthia.app.boomgrad.presentation.components.JetHorizontalDivider
 import me.marthia.app.boomgrad.presentation.components.BackgroundElement
 import me.marthia.app.boomgrad.presentation.components.JetVerticalDivider
-import me.marthia.app.boomgrad.presentation.components.JetsnackButton
+import me.marthia.app.boomgrad.presentation.components.ButtonElement
 import me.marthia.app.boomgrad.presentation.components.CardElement
 import me.marthia.app.boomgrad.presentation.components.JetsnackSearch
 import me.marthia.app.boomgrad.presentation.components.SurfaceElement
@@ -407,7 +407,7 @@ fun Recommended(list: List<Tour>) {
 
                         CategoryTag(title = list[index].category.name)
 
-                        JetsnackButton(
+                        ButtonElement(
                             shape = CircleShape,
                             contentPadding = PaddingValues(8.dp),
                             onClick = { },

@@ -56,7 +56,7 @@ fun QuantitySelector(
         verticalAlignment = Alignment.CenterVertically,
     ) {
 
-        JetsnackButton(
+        ButtonElement(
             onClick = { if (count.intValue > 0) count.intValue -= 1 },
             shape = MaterialTheme.shapes.small,
             contentColor = Theme.colors.materialTheme.primary,
@@ -91,7 +91,7 @@ fun QuantitySelector(
 
 
 
-        JetsnackButton(
+        ButtonElement(
             shape = MaterialTheme.shapes.small,
             contentPadding = PaddingValues(8.dp),
             onClick = { count.intValue += 1 },

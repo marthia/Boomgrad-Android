@@ -53,7 +53,7 @@ import me.marthia.app.boomgrad.presentation.theme.AppTheme
 import me.marthia.app.boomgrad.presentation.theme.Theme
 
 @Composable
-fun JetsnackButton(
+fun ButtonElement(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     innerRowModifier: Modifier = Modifier,
@@ -212,7 +212,7 @@ private val ButtonShape = RoundedCornerShape(percent = 50)
 @Composable
 private fun ButtonPreview() {
     AppTheme {
-        JetsnackButton(onClick = {}) {
+        ButtonElement(onClick = {}) {
             Text(text = "Demo")
         }
     }
@@ -224,7 +224,7 @@ private fun ButtonPreview() {
 @Composable
 private fun RectangleButtonPreview() {
     AppTheme {
-        JetsnackButton(
+        ButtonElement(
             onClick = {}, shape = RectangleShape,
         ) {
             Text(text = "Demo")

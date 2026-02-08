@@ -32,6 +32,7 @@ import androidx.annotation.IntegerRes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.scale
@@ -46,6 +47,11 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.net.toUri
+import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import kotlinx.coroutines.flow.flowOf
+import me.marthia.app.boomgrad.domain.model.Attraction
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -79,6 +85,16 @@ fun KeepScreenOn(enabled: Boolean = true) {
     LaunchedEffect(enabled) {
         Log.d("Keep-Screen-On", "Requested state = $enabled")
     }
+}
+
+@Composable
+fun rememberMockLazyPagingItems(
+    items: List<Attraction>
+): LazyPagingItems<Attraction> {
+    val mockPagingData = remember(items) {
+        flowOf(PagingData.from(items))
+    }
+    return mockPagingData.collectAsLazyPagingItems()
 }
 
 //@Composable

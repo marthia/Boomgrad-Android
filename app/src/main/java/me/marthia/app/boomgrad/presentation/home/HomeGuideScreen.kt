@@ -43,7 +43,7 @@ import me.marthia.app.boomgrad.presentation.components.AppContainer
 import me.marthia.app.boomgrad.presentation.components.IconText
 import me.marthia.app.boomgrad.presentation.components.JetHorizontalDivider
 import me.marthia.app.boomgrad.presentation.components.BackgroundElement
-import me.marthia.app.boomgrad.presentation.components.JetsnackButton
+import me.marthia.app.boomgrad.presentation.components.ButtonElement
 import me.marthia.app.boomgrad.presentation.components.CardElement
 import me.marthia.app.boomgrad.presentation.components.SurfaceElement
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
@@ -454,7 +454,7 @@ fun TourItem(modifier: Modifier = Modifier, title: String) {
                     style = MaterialTheme.typography.bodyMedium,
                     color = Theme.colors.textHelp
                 )
-                JetsnackButton(
+                ButtonElement(
                     onClick = {},
                     shape = MaterialTheme.shapes.small
                 ) {

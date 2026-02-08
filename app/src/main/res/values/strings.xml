@@ -59,4 +59,7 @@
     <string name="description_terms_and_conditions_1">With Login/Register you accept</string>
     <string name="description_terms_and_conditions_2">Terms And Conditions</string>
     <string name="description_terms_and_conditions_3">of using our service.</string>
+    <string name="description_error">We got lost!</string>
+    <string name="label_error_return">Get Back</string>
+    <string name="description_empty">It's full of empty</string>
 </resources>

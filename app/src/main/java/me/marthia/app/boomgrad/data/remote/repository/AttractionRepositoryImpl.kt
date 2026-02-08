@@ -1,10 +1,14 @@
 package me.marthia.app.boomgrad.data.remote.repository
 
 import android.content.Context
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import me.marthia.app.boomgrad.data.mapper.toDomain
 import me.marthia.app.boomgrad.data.remote.api.AttractionApiService
+import me.marthia.app.boomgrad.data.remote.datasource.AttractionPagingDataSource
 import me.marthia.app.boomgrad.data.remote.util.NetworkFailure
 import me.marthia.app.boomgrad.data.remote.util.toNetworkFailure
 import me.marthia.app.boomgrad.domain.model.Attraction
@@ -19,19 +23,11 @@ class AttractionRepositoryImpl(
     private val favoriteIds = MutableStateFlow<Set<String>>(emptySet())
     private val _favoriteAttractions = MutableStateFlow<List<Attraction>>(emptyList())
 
-    override suspend fun getAttractions(): Result<List<Attraction>> {
-        return runCatching {
-            val response = apiService.getAttractions().getOrThrow()
-            response.content.map { it.toDomain() }
-        }.onFailure { error ->
-            Timber.e(error, "getAttractions failed : ${error.message}")
-        }.recoverCatching { error ->
-            // Convert exception and re-throw as NetworkFailure
-            throw when (error) {
-                is NetworkFailure -> error
-                else -> error.toNetworkFailure()
-            }
-        }
+    override fun getAttractions(pageSize: Int): Flow<PagingData<Attraction>> {
+        return Pager(
+            config = PagingConfig(pageSize = pageSize, enablePlaceholders = true),
+            pagingSourceFactory = { AttractionPagingDataSource(apiService) }
+        ).flow
     }
 
     override suspend fun getTopAttractions(): Result<List<Attraction>> {
