@@ -64,5 +64,9 @@
     <string name="description_error">مسیر رو گم کردیم!</string>
     <string name="label_error_return">برگردیم</string>
     <string name="description_empty">شهر خلوته</string>
+    <string name="label_attraction_detail_button_book">رزرو تور</string>
+    <string name="label_attraction_detail_related_tours">تورهای این جاذبه</string>
+    <string name="label_attraction_detail_reviews">نظر کاربران</string>
+    <string name="label_attraction_detail_new_review">ثبت دیدگاه</string>
 
 </resources>

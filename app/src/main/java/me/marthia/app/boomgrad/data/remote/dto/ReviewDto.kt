@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ReviewDto(
     val id: Long,
-    val userId: Long,
-    val userName: String,
+    val user: UserDto,
     val title: String,
-    val reviewBody: String,
+    val content: String,
+    val date: String,
 )

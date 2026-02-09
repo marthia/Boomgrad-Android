@@ -35,7 +35,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import me.marthia.app.boomgrad.R
-import me.marthia.app.boomgrad.domain.model.Profile
+import me.marthia.app.boomgrad.domain.model.User
 import me.marthia.app.boomgrad.presentation.common.ErrorScreen
 import me.marthia.app.boomgrad.presentation.common.LoadingScreen
 import me.marthia.app.boomgrad.presentation.components.AppScaffold
@@ -191,7 +191,7 @@ private fun PreviewProfile() {
             BackgroundElement(modifier = Modifier.fillMaxSize()) {
                 ProfileScreen(
                     modifier = Modifier.systemBarsPadding(), state = ProfileUiState(
-                        item = Profile(
+                        item = User(
                             id = 1,
                             name = "محمد رضایی",
                             username = "",

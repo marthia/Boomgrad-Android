@@ -18,7 +18,7 @@ import me.marthia.app.boomgrad.presentation.components.BackgroundElement
 import me.marthia.app.boomgrad.presentation.components.ButtonElement
 
 @Composable
-fun ErrorScreen(onRetry: () -> Unit = {}, onBack: () -> Unit) {
+fun ErrorScreen(onRetry: () -> Unit = {}, onBack: () -> Unit = {}) {
 
     BackgroundElement() {
 

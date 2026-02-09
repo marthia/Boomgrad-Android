@@ -1,14 +1,9 @@
 package me.marthia.app.boomgrad.presentation.profile.mytrips
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Phone
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
-import me.marthia.app.boomgrad.domain.model.Profile
 import me.marthia.app.boomgrad.domain.usecase.profile.GetProfileUseCase
 import me.marthia.app.boomgrad.presentation.util.ViewState
 

@@ -61,5 +61,9 @@
     <string name="description_terms_and_conditions_3">of using our service.</string>
     <string name="description_error">We got lost!</string>
     <string name="label_error_return">Get Back</string>
-    <string name="description_empty">It's full of empty</string>
+    <string name="description_empty">"It's full of empty"</string>
+    <string name="label_attraction_detail_button_book">Book</string>
+    <string name="label_attraction_detail_related_tours">Tours</string>
+    <string name="label_attraction_detail_reviews">Reviews</string>
+    <string name="label_attraction_detail_new_review">New Review</string>
 </resources>

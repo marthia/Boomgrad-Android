@@ -5,10 +5,10 @@ import me.marthia.app.boomgrad.domain.model.Review
 
 fun ReviewDto.toDomain() = Review(
     id = id,
-    userId = userId,
-    userName = userName,
+    user = user.toDomain(),
     title = title,
-    reviewBody = reviewBody,
+    content = content,
+    date = date
 )
 
 

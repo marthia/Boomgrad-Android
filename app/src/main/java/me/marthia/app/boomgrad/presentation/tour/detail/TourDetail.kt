@@ -75,7 +75,7 @@ fun TourDetail(tourId: Long, upPress: () -> Unit) {
 
     when (uiState) {
         is ViewState.Loading -> LoadingScreen()
-        is ViewState.Error -> ErrorScreen()
+        is ViewState.Error -> ErrorScreen(onBack = upPress)
         is ViewState.Success -> {
 
             AppScaffold() {

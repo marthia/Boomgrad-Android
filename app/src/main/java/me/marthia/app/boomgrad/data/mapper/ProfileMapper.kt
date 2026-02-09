@@ -1,9 +1,9 @@
 package me.marthia.app.boomgrad.data.mapper
 
-import me.marthia.app.boomgrad.data.remote.dto.ProfileDto
-import me.marthia.app.boomgrad.domain.model.Profile
+import me.marthia.app.boomgrad.data.remote.dto.UserDto
+import me.marthia.app.boomgrad.domain.model.User
 
-fun ProfileDto.toDomain() = Profile(
+fun UserDto.toDomain() = User(
     id = id,
     name = name,
     username = username,

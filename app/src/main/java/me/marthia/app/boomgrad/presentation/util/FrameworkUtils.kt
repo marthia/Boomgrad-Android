@@ -58,6 +58,8 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.io.OutputStream
 import java.util.Locale
+import androidx.core.graphics.createBitmap
+import timber.log.Timber
 
 @SuppressLint("NewApi")
 @Suppress("DEPRECATION")
@@ -83,7 +85,7 @@ fun Context.findActivity(): Activity? = when (this) {
 fun KeepScreenOn(enabled: Boolean = true) {
     AndroidView({ View(it).apply { keepScreenOn = enabled } })
     LaunchedEffect(enabled) {
-        Log.d("Keep-Screen-On", "Requested state = $enabled")
+        Timber.tag("Keep-Screen-On").d("Requested state = $enabled")
     }
 }
 
@@ -96,18 +98,6 @@ fun rememberMockLazyPagingItems(
     }
     return mockPagingData.collectAsLazyPagingItems()
 }
-
-//@Composable
-//fun DoNotDim() {
-//    val activity = LocalActivity.current
-//
-//    DisposableEffect(Unit) {
-//        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-//        onDispose {
-//            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-//        }
-//    }
-//}
 
 /**
  * @param integerRes An integer resource ID.
@@ -158,22 +148,7 @@ fun Uri.shareExternal(mimeType: String): Intent {
     return Intent.createChooser(sendIntent, null)
 }
 
-fun Picture.toBitmap(): Bitmap {
-    val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-        Bitmap.createBitmap(this)
-    } else {
-        val bitmap = Bitmap.createBitmap(
-            this.width,
-            this.height,
-            Bitmap.Config.ARGB_8888
-        )
-        val canvas = Canvas(bitmap)
-        canvas.drawColor(android.graphics.Color.WHITE)
-        canvas.drawPicture(this)
-        bitmap
-    }
-    return bitmap
-}
+fun Picture.toBitmap() = Bitmap.createBitmap(this)
 
 fun Bitmap.shareExternal(context: Context): Intent {
     val sendIntent: Intent = Intent().apply {
@@ -193,7 +168,7 @@ fun Bitmap.getImageUri(context: Context, title: String? = null): Uri {
         title ?: "Temp image",
         null
     )
-    return Uri.parse(path.toString())
+    return path.toString().toUri()
 }
 
 

@@ -20,8 +20,9 @@ fun AttractionDto.toDomain(): Attraction {
         location = location?.toDomain() ?: throw IllegalStateException("Location Cannot be null"),
         reviewCount = reviewCount ?: throw IllegalStateException("review count cannot be null"),
         isFavorite = false,
-
-        )
+        reviews = listOf(),
+        relatedTours = listOf()
+    )
 }
 
 fun ContactInfoDto.toDomain(): AttractionContactInfo {

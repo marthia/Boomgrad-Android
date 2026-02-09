@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import me.marthia.app.boomgrad.domain.model.Profile
+import me.marthia.app.boomgrad.domain.model.User
 import me.marthia.app.boomgrad.domain.usecase.login.CheckAuthorizationUseCase
 import me.marthia.app.boomgrad.domain.usecase.profile.GetProfileUseCase
 import me.marthia.app.boomgrad.presentation.util.ViewState
@@ -42,6 +42,6 @@ class ProfileViewModel(
 }
 
 data class ProfileUiState(
-    val item: Profile,
+    val item: User,
 )
 

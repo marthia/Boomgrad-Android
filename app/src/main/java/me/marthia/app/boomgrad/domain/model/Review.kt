@@ -2,8 +2,8 @@ package me.marthia.app.boomgrad.domain.model
 
 data class Review(
     val id: Long,
-    val userId: Long,
-    val userName: String,
+    val user: User,
     val title: String,
-    val reviewBody: String,
+    val content: String,
+    val date: String
 )
