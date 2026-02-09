@@ -2,6 +2,7 @@ package me.marthia.app.boomgrad.data.mapper
 
 import me.marthia.app.boomgrad.data.remote.dto.LocationDto
 import me.marthia.app.boomgrad.domain.model.Location
+import me.marthia.app.boomgrad.domain.model.LocationType
 
 fun LocationDto.toDomain(): Location {
     return Location(
@@ -10,8 +11,19 @@ fun LocationDto.toDomain(): Location {
         id = id ?: throw IllegalStateException("Id Cannot be null"),
         name = name ?: throw IllegalStateException("name cannot be null"),
         description = description ?: throw IllegalStateException("description Cannot be null"),
-        type = type ?: throw IllegalStateException("type cannot be null"),
+        type = when (type?.name) {
+            "ATTRACTION" -> LocationType.ATTRACTION
+            "VIEWPOINT" -> LocationType.VIEWPOINT
+            "MEETING_POINT" -> LocationType.MEETING_POINT
+            "REST_STOP" -> LocationType.REST_STOP
+            "PHOTO_SPOT" -> LocationType.PHOTO_SPOT
+            "RESTAURANT" -> LocationType.RESTAURANT
+            "HOTEL" -> LocationType.HOTEL
+            "OTHER" -> LocationType.OTHER
+            else -> throw IllegalStateException("Unkown type")
+        },
         address = address ?: throw IllegalStateException("address Cannot be null"),
-        city = city?.toDomain() ?: throw IllegalStateException("city cannot be null"),
+        city = city ?: throw IllegalStateException("city cannot be null"),
+        province = province ?: throw IllegalStateException("province cannot be null")
     )
 }

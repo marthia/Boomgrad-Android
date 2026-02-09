@@ -18,27 +18,11 @@ data class AttractionDto(
     @SerialName("contact_info")
     val contactInfo: ContactInfoDto?,
     @SerialName("opening_hours")
-    val openingHours: List<OpeningHoursDto>,
+    val openingHours: List<OpeningHoursDto>?,
     @SerialName("location")
-    val location: LocationDto?
-)
-
-@Serializable
-data class ContactInfoDto(
-    @SerialName("phone")
-    val phone: String?,
-    @SerialName("email")
-    val email: String?,
-    @SerialName("website")
-    val website: String?,
-    @SerialName("address")
-    val address: String?
-)
-
-@Serializable
-data class OpeningHoursDto(
-    @SerialName("date")
-    val date: String?,
-    @SerialName("working_hour")
-    val workingHour: String?,
+    val location: LocationDto?,
+    @SerialName("tours")
+    val tours: List<TourDto>?,
+    @SerialName("reviews")
+    val reviews: List<ReviewDto>?,
 )

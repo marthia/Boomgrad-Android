@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,7 +29,7 @@ fun ErrorScreen(onRetry: () -> Unit = {}, onBack: () -> Unit = {}) {
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                AsyncImage(model = R.drawable.ic_flag_94, contentDescription = "Error image")
+                AsyncImage(modifier = Modifier.size(96.dp), model = R.drawable.ic_flag_48, contentDescription = "Error image")
                 Text(text = stringResource(R.string.description_error))
 
 

@@ -13,14 +13,14 @@ class AttractionPagingDataSource(
 ) : PagingSource<Int, Attraction>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Attraction> {
-        val page = params.key ?: 1
+        val page = params.key ?: 0
 
         return apiService.getAttractions(page, params.loadSize)
             .fold(
                 onSuccess = { response ->
                     LoadResult.Page(
                         data = response.content.map { it.toDomain() },
-                        prevKey = if (page == 1) null else page - 1,
+                        prevKey = if (page == 0) null else page - 1,
                         nextKey = if (response.content.isEmpty()) null else page + 1
                     )
                 },

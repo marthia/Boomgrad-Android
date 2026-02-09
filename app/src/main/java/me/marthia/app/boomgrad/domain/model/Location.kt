@@ -8,5 +8,6 @@ data class Location(
     val longitude: Double,
     val type: LocationType,
     val address: String,
-    val city: City,
+    val city: String,
+    val province: String,
 )

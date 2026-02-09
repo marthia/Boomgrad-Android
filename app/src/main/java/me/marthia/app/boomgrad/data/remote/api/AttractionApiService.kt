@@ -6,8 +6,8 @@ import me.marthia.app.boomgrad.data.remote.dto.BaseListResponse
 interface AttractionApiService {
 
     suspend fun getAttractions(
-        page: Int = 1,
-        limit: Int = 20
+        page: Int,
+        limit: Int
     ): Result<BaseListResponse<AttractionDto>>
 
     suspend fun getAttractionById(
@@ -16,6 +16,6 @@ interface AttractionApiService {
 
     suspend fun searchAttractions(
         query: String,
-        limit: Int = 20
+        limit: Int
     ): Result<BaseListResponse<AttractionDto>>
 }

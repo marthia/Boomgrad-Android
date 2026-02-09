@@ -47,7 +47,7 @@ private val PeydaFont = FontFamily(
     Font(R.font.peydafanum_bold, FontWeight.Bold),
     Font(R.font.peydafanum_extrabold, FontWeight.ExtraBold),
 )
-
+val a = Typography()
 val Typography = Typography(
     displayLarge = TextStyle(
         fontFamily = PeydaFont,

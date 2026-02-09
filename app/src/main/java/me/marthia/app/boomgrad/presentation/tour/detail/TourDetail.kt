@@ -3,6 +3,7 @@ package me.marthia.app.boomgrad.presentation.tour.detail
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -73,20 +74,25 @@ fun TourDetail(tourId: Long, upPress: () -> Unit) {
     val viewModel: TourDetailViewModel = koinViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    when (uiState) {
-        is ViewState.Loading -> LoadingScreen()
-        is ViewState.Error -> ErrorScreen(onBack = upPress)
-        is ViewState.Success -> {
 
-            AppScaffold() {
-                TourDetailContent(
-                    modifier = Modifier.padding(it),
-                    tour = (uiState as ViewState.Success<TourUiState>).value.data
-                )
+
+    AppScaffold() { paddingValues ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
+            when (val state = uiState) {
+                is ViewState.Loading -> LoadingScreen()
+                is ViewState.Error -> ErrorScreen(onBack = upPress)
+                is ViewState.Success -> {
+                    TourDetailContent(
+                        tour = state.value.data
+                    )
+                }
+                else -> {}
             }
         }
-
-        else -> {}
     }
 
 }
@@ -135,7 +141,7 @@ fun TourDetailContent(modifier: Modifier = Modifier, tour: Tour) {
             itinerary = tour.itinerary
         )
         Price(
-            price = tour.price.toString() // fixme
+            price = "${tour.price}" // fixme
         )
         AddToCard()
     }
@@ -547,7 +553,7 @@ private fun PreviewTourDetail() {
                             "چاه حاج میرزا",
                         ),
                         duration = 108,
-                        price = 123546.8,
+                        price = 1235.1,
                         category = AttractionCategory(
                             id = 0,
                             name = "تاریخی",

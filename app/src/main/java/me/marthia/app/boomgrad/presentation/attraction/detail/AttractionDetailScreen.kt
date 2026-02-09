@@ -80,6 +80,7 @@ import me.marthia.app.boomgrad.presentation.profile.component.dashedBorder
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
 import me.marthia.app.boomgrad.presentation.theme.Theme
 import me.marthia.app.boomgrad.presentation.util.RightToLeftLayout
+import me.marthia.app.boomgrad.presentation.util.ViewState
 import me.marthia.app.boomgrad.presentation.util.debugPlaceholder
 import org.koin.androidx.compose.koinViewModel
 
@@ -106,16 +107,18 @@ fun AttractionDetailScreen(
                 .padding(paddingValues)
         ) {
             when (val state = uiState) {
-                is DetailUiState.Loading -> LoadingScreen()
-                is DetailUiState.Success -> {
-                    AttractionDetailContent(state.attraction)
+                is ViewState.Loading -> LoadingScreen()
+                is ViewState.Success -> {
+                    AttractionDetailContent(state.value)
                 }
 
-                is DetailUiState.Error -> {
+                is ViewState.Error -> {
                     ErrorScreen(
                         onRetry = { viewModel.retry() }
                     )
                 }
+
+                else -> {}
             }
         }
     }
@@ -244,7 +247,7 @@ private fun AttractionDetailContent(attraction: Attraction) {
             reviewCount = attraction.reviewCount,
             rate = attraction.rating,
             category = attraction.category,
-            city = "${attraction.location.city.province} , ${attraction.location.city.name}"
+            city = "${attraction.location.province} , ${attraction.location.city}"
         )
 
         Text(
@@ -676,12 +679,8 @@ private fun PreviewAttraction() {
                             name = "میدان نقش جهان",
                             description = " نقش جهان آینه شکوه و عظمت ایران و یادگار دوران صفوی با زیبایی هرچه تمام مایه فخر ایران و ایرانی است. نقش جهان آینه شکوه و عظمت ایران و یادگار دوران صفوی با زیبایی هرچه تمام مایه فخر ایران و ایرانی است. نقش جهان آینه شکوه و عظمت ایران و یادگار دوران صفوی با زیبایی هرچه تمام مایه فخر ایران و ایرانی است.",
                             address = "اصفهان میدان انقلاب",
-                            city = City(
-                                id = 1,
-                                name = "اصفهان",
-                                county = "مرکزی",
-                                province = "اصفهان",
-                            ),
+                            city = "اصفهان",
+                            province = "اصفهان",
                             id = 1,
                             type = LocationType.ATTRACTION,
                         ),

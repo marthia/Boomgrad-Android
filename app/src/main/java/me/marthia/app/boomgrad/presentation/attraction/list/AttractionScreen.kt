@@ -40,7 +40,6 @@ import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.domain.model.Attraction
 import me.marthia.app.boomgrad.domain.model.AttractionContactInfo
 import me.marthia.app.boomgrad.domain.model.AttractionOpeningHours
-import me.marthia.app.boomgrad.domain.model.City
 import me.marthia.app.boomgrad.domain.model.Location
 import me.marthia.app.boomgrad.domain.model.LocationType
 import me.marthia.app.boomgrad.presentation.common.EmptyScreen
@@ -315,12 +314,8 @@ private fun createMockAttractions(count: Int) = List(count) { index ->
             longitude = 30.123123,
             type = LocationType.ATTRACTION,
             address = "خیابان استانداری خیابان سپه بانک ملی ایران ورودی میدان نقش جهان",
-            city = City(
-                id = 1,
-                name = "اصفهان",
-                county = "اصفهان",
-                province = "اصفهان"
-            ),
+            city = "اصفهان",
+            province = "اصفهان"
         ),
         isFavorite = index % 2 == 0,
         reviews = listOf(),

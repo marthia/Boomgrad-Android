@@ -166,7 +166,7 @@ private fun CartItem(modifier: Modifier = Modifier) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text("تعداد نفرات", style = MaterialTheme.typography.bodyLarge)
+                Text("تعداد نفرات", style = MaterialTheme.typography.labelMedium)
                 QuantitySelector(
                     modifier = Modifier,
 //                        count = countState,
@@ -188,7 +188,7 @@ private fun CartItem(modifier: Modifier = Modifier) {
             ) {
                 Text(
                     "جمع کل",
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.labelLarge,
                     color = Theme.colors.textHelp,
                 )
                 Text(

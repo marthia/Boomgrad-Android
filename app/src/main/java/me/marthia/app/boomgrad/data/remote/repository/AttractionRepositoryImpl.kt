@@ -25,14 +25,14 @@ class AttractionRepositoryImpl(
 
     override fun getAttractions(pageSize: Int): Flow<PagingData<Attraction>> {
         return Pager(
-            config = PagingConfig(pageSize = pageSize, enablePlaceholders = true),
+            config = PagingConfig(pageSize = pageSize, initialLoadSize = 20, enablePlaceholders = true),
             pagingSourceFactory = { AttractionPagingDataSource(apiService) }
         ).flow
     }
 
     override suspend fun getTopAttractions(): Result<List<Attraction>> {
         return runCatching {
-            val response = apiService.getAttractions().getOrThrow()
+            val response = apiService.getAttractions(page = 0, limit = 10).getOrThrow()
             response.content.map { it.toDomain() }
         }.onFailure { error ->
             Timber.e(error, "getTopAttractions failed : ${error.message}")
@@ -59,7 +59,7 @@ class AttractionRepositoryImpl(
 
     override suspend fun searchAttractions(query: String): Result<List<Attraction>> {
         return runCatching {
-            val response = apiService.searchAttractions(query).getOrThrow()
+            val response = apiService.searchAttractions(query = query, limit = 20).getOrThrow()
             response.content.map { it.toDomain() }
         }.onFailure { error ->
             Timber.e(error, "search Attractions with query $query failed : ${error.message}")

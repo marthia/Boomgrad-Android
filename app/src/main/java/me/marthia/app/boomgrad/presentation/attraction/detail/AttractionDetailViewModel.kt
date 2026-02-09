@@ -3,12 +3,13 @@ package me.marthia.app.boomgrad.presentation.attraction.detail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import me.marthia.app.boomgrad.domain.model.Attraction
-import me.marthia.app.boomgrad.domain.usecase.attraction.GetAttractionDetailUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import me.marthia.app.boomgrad.domain.model.Attraction
+import me.marthia.app.boomgrad.domain.usecase.attraction.GetAttractionDetailUseCase
+import me.marthia.app.boomgrad.presentation.util.ViewState
 
 class AttractionDetailViewModel(
     private val getAttractionDetailUseCase: GetAttractionDetailUseCase,
@@ -17,24 +18,22 @@ class AttractionDetailViewModel(
 
     private val attractionId: String = savedStateHandle.get<String>("attractionId") ?: ""
 
-    private val _uiState = MutableStateFlow<DetailUiState>(DetailUiState.Loading)
-    val uiState: StateFlow<DetailUiState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow<ViewState<Attraction>>(ViewState.Idle)
+    val uiState: StateFlow<ViewState<Attraction>> = _uiState.asStateFlow()
 
-//    init {
-//        loadAttractionDetail()
-//    }
+    init {
+        loadAttractionDetail()
+    }
 
     private fun loadAttractionDetail() {
         viewModelScope.launch {
-            _uiState.value = DetailUiState.Loading
+            _uiState.value = ViewState.Loading
             getAttractionDetailUseCase(attractionId)
                 .onSuccess { attraction ->
-                    _uiState.value = DetailUiState.Success(attraction)
+                    _uiState.value = ViewState.Success(attraction)
                 }
                 .onFailure { error ->
-                    _uiState.value = DetailUiState.Error(
-                        error.message ?: "Unknown error occurred"
-                    )
+                    _uiState.value = ViewState.Error(error)
                 }
         }
     }
@@ -42,10 +41,4 @@ class AttractionDetailViewModel(
     fun retry() {
         loadAttractionDetail()
     }
-}
-
-sealed interface DetailUiState {
-    object Loading : DetailUiState
-    data class Success(val attraction: Attraction) : DetailUiState
-    data class Error(val message: String) : DetailUiState
 }
