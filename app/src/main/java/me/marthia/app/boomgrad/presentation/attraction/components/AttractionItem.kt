@@ -67,7 +67,7 @@ fun AttractionItem(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = attraction.category,
+                    text = attraction.category.name,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

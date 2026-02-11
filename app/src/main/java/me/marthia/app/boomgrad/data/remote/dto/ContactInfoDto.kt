@@ -7,8 +7,6 @@ import kotlinx.serialization.Serializable
 data class ContactInfoDto(
     @SerialName("phone")
     val phone: String?,
-    @SerialName("email")
-    val email: String?,
     @SerialName("website")
     val website: String?,
     @SerialName("address")

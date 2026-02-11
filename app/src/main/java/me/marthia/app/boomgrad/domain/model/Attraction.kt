@@ -1,9 +1,9 @@
 package me.marthia.app.boomgrad.domain.model
 
 data class Attraction(
-    val id: String,
-    val category: String,
-    val images: List<String>,
+    val id: Long,
+    val category: AttractionCategory,
+    val images: List<AttractionImage>,
     val rating: Float,
     val reviewCount: Int,
     val contactInfo: AttractionContactInfo,

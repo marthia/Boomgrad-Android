@@ -6,11 +6,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class AttractionDto(
     @SerialName("id")
-    val id: String?,
+    val id: Long?,
     @SerialName("category")
-    val category: String?,
-    @SerialName("image_url")
-    val imageUrl: String?,
+    val category: AttractionCategoryDto?,
+    @SerialName("images")
+    val images: List<AttractionImageDto>?,
     @SerialName("rating")
     val rating: Float?,
     @SerialName("review_count")
@@ -22,7 +22,7 @@ data class AttractionDto(
     @SerialName("location")
     val location: LocationDto?,
     @SerialName("tours")
-    val tours: List<TourDto>?,
+    val tours: List<TourDto>? = listOf(),
     @SerialName("reviews")
-    val reviews: List<ReviewDto>?,
+    val reviews: List<ReviewDto>? = listOf(),
 )

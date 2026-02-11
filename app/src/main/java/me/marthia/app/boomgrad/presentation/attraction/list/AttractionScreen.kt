@@ -38,7 +38,9 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.domain.model.Attraction
+import me.marthia.app.boomgrad.domain.model.AttractionCategory
 import me.marthia.app.boomgrad.domain.model.AttractionContactInfo
+import me.marthia.app.boomgrad.domain.model.AttractionImage
 import me.marthia.app.boomgrad.domain.model.AttractionOpeningHours
 import me.marthia.app.boomgrad.domain.model.Location
 import me.marthia.app.boomgrad.domain.model.LocationType
@@ -175,7 +177,7 @@ fun AttractionListItem(
     onAttractionSelected: (Long) -> Unit
 ) {
     CardElement(
-        modifier = modifier.clickable { onAttractionSelected(-1) },
+        modifier = modifier.clickable { onAttractionSelected(item.id) },
         elevation = 0.dp,
     ) {
         Row(
@@ -290,20 +292,26 @@ private fun PreviewAttractionListEmpty() {
 // Helper function to create mock data
 private fun createMockAttractions(count: Int) = List(count) { index ->
     Attraction(
-        id = "id_$index",
-        category = "category",
-        images = listOf("https://picsum.photos/400", "https://picsum.photos/400"),
+        id = index.toLong(),
+        category = AttractionCategory(1, "Category", "", ""),
+        images = listOf(
+            AttractionImage(1, "https://picsum.photos/400"),
+            AttractionImage(2, "https://picsum.photos/400")
+        ),
         rating = 4.8f,
         reviewCount = 45,
         contactInfo = AttractionContactInfo(
             phone = "090312345678",
-            email = "",
+            address = "",
             website = "info@kal.com"
         ),
         openingHours = listOf(
             AttractionOpeningHours(
-                date = "۱۸ فروردین ۱۳۹۰",
-                workingHour = "۸ تا ۱۴"
+                id = 1,
+                workingDate = "۱۸ فروردین ۱۳۹۰",
+                workingTime = "۸ تا ۱۴",
+                isClosed = false,
+                notes = ""
             )
         ),
         location = Location(

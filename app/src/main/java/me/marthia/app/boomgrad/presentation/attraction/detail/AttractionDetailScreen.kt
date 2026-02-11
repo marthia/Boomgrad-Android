@@ -54,6 +54,7 @@ import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.domain.model.Attraction
 import me.marthia.app.boomgrad.domain.model.AttractionCategory
 import me.marthia.app.boomgrad.domain.model.AttractionContactInfo
+import me.marthia.app.boomgrad.domain.model.AttractionImage
 import me.marthia.app.boomgrad.domain.model.AttractionOpeningHours
 import me.marthia.app.boomgrad.domain.model.City
 import me.marthia.app.boomgrad.domain.model.Guide
@@ -127,7 +128,7 @@ fun AttractionDetailScreen(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun AttractionImages(modifier: Modifier = Modifier, images: List<String>) {
+fun AttractionImages(modifier: Modifier = Modifier, images: List<AttractionImage>) {
     val pagerState = rememberPagerState(
         pageCount = { images.size }
     )
@@ -146,7 +147,7 @@ fun AttractionImages(modifier: Modifier = Modifier, images: List<String>) {
     ) { page ->
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(images[page])
+                .data(images[page].imageUrl)
                 .crossfade(true)
                 .build(),
             placeholder = debugPlaceholder(debugPreview = R.drawable.placeholder),
@@ -246,7 +247,7 @@ private fun AttractionDetailContent(attraction: Attraction) {
             title = attraction.location.name,
             reviewCount = attraction.reviewCount,
             rate = attraction.rating,
-            category = attraction.category,
+            category = attraction.category.name,
             city = "${attraction.location.province} , ${attraction.location.city}"
         )
 
@@ -315,7 +316,7 @@ fun AttractionSpecs(
                 modifier = Modifier.weight(1f),
                 label = stringResource(R.string.label_attraction_detail_mail),
                 labelIcon = R.drawable.ic_email_16,
-                value = contactInfo.email
+                value = contactInfo.website
             )
         }
 
@@ -411,12 +412,12 @@ fun WorkingTimeSection(modifier: Modifier = Modifier, workingTimes: List<Attract
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            text = it.date,
+                            text = it.workingDate,
                             style = MaterialTheme.typography.bodySmall,
                             color = Theme.colors.textHelp,
                         )
                         Text(
-                            text = it.workingHour,
+                            text = it.workingTime,
                             style = MaterialTheme.typography.bodyLarge,
                         )
                     }
@@ -636,39 +637,60 @@ private fun PreviewAttraction() {
             BackgroundElement {
                 AttractionDetailContent(
                     Attraction(
-                        id = "",
-                        category = "تاریخی",
-                        images = listOf("https://picsum.photos/1200", "https://picsum.photos/1300"),
+                        id = -1,
+                        category = AttractionCategory(1, "تاریخی", "", ""),
+                        images = listOf(
+                            AttractionImage(1, "https://picsum.photos/1200"),
+                            AttractionImage(2, "https://picsum.photos/1300")
+                        ),
                         rating = 4.8f,
                         contactInfo = AttractionContactInfo(
                             phone = "09035135466",
-                            email = "marthia@pm.me",
+                            address = "اصفان",
                             website = "marthia.com",
                         ),
                         openingHours = listOf(
                             AttractionOpeningHours(
-                                date = "شنبه ۲۹ آذر",
-                                workingHour = "8:00 تا 22:30",
+                                id = 1,
+                                workingDate = "شنبه ۲۹ آذر",
+                                workingTime = "8:00 تا 22:30",
+                                isClosed = false,
+                                notes = ""
                             ),
                             AttractionOpeningHours(
-                                date = "یکشنبه ۲۹ آذر",
-                                workingHour = "8:00 تا 22:30",
+                                id = 2,
+                                workingDate = "یکشنبه ۲۹ آذر",
+                                workingTime = "8:00 تا 22:30",
+                                isClosed = false,
+                                notes = ""
                             ),
                             AttractionOpeningHours(
-                                date = "دوشنبه ۲۹ آذر",
-                                workingHour = "8:00 تا 22:30",
+                                id = 3,
+                                workingDate = "دوشنبه ۲۹ آذر",
+                                workingTime = "8:00 تا 22:30",
+                                isClosed = false,
+                                notes = ""
                             ),
                             AttractionOpeningHours(
-                                date = "سه‌شنبه ۲۹ آذر",
-                                workingHour = "8:00 تا 22:30",
+                                id = 4,
+                                workingDate = "سه‌شنبه ۲۹ آذر",
+                                workingTime = "8:00 تا 22:30",
+                                isClosed = false,
+                                notes = ""
                             ),
                             AttractionOpeningHours(
-                                date = "چهارشنبه ۲۹ آذر",
-                                workingHour = "8:00 تا 22:30",
+                                id = 5,
+                                workingDate = "چهارشنبه ۲۹ آذر",
+                                workingTime = "8:00 تا 22:30",
+                                isClosed = false,
+                                notes = ""
                             ),
                             AttractionOpeningHours(
-                                date = "پنج‌شنبه ۲۹ آذر",
-                                workingHour = "8:00 تا 22:30",
+                                id = 6,
+                                workingDate = "پنج‌شنبه ۲۹ آذر",
+                                workingTime = "8:00 تا 22:30",
+                                isClosed = true,
+                                notes = "به دلیل آلودگی هوا تعطیل است"
                             ),
 
                             ),

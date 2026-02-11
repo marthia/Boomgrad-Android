@@ -5,8 +5,14 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class OpeningHoursDto(
-    @SerialName("date")
-    val date: String?,
-    @SerialName("working_hour")
-    val workingHour: String?,
+    @SerialName("id")
+    val id: Long?,
+    @SerialName("working_date")
+    val workingDate: String?,
+    @SerialName("working_time")
+    val workingTime: String?,
+    @SerialName("is_closed")
+    val isClosed: Boolean?,
+    @SerialName("notes")
+    val notes: String?
 )

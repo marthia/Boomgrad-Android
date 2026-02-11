@@ -1,6 +1,9 @@
 package me.marthia.app.boomgrad.domain.model
 
 data class AttractionOpeningHours(
-    val date: String,
-    val workingHour: String,
+    val id: Long,
+    val workingDate: String,
+    val workingTime: String,
+    val isClosed: Boolean,
+    val notes: String
 )
