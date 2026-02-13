@@ -120,7 +120,7 @@ fun JetsnackApp() {
                         val arguments = requireNotNull(backStackEntry.arguments)
                         val attractionId = arguments.getLong(MainDestinations.TOUR_ID_KEY)
                         AttractionDetailScreen(
-                            attractionId = "$attractionId",
+                            attractionId = attractionId,
                             onBackClick = jetsnackNavController::upPress,
                         )
                     }

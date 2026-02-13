@@ -6,7 +6,7 @@ import me.marthia.app.boomgrad.domain.repository.AttractionRepository
 class GetAttractionDetailUseCase (
     private val repository: AttractionRepository
 ) {
-    suspend operator fun invoke(id: String): Result<Attraction> {
+    suspend operator fun invoke(id: Long): Result<Attraction> {
         return repository.getAttractionById(id)
     }
 }

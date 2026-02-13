@@ -14,7 +14,7 @@ class CategoryRepositoryImpl(
     override suspend fun getList(): Result<List<AttractionCategory>> {
         return runCatching {
             val response = categoryApiService.getList().getOrThrow()
-            response.content.map { it.toDomain() }
+            response.data.map { it.toDomain() }
         }.onFailure { error ->
             Timber.e(error, "get category list failed : ${error.message}")
         }.recoverCatching { error ->

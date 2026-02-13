@@ -2,7 +2,7 @@ package me.marthia.app.boomgrad.data.remote.repository
 
 import me.marthia.app.boomgrad.data.mapper.toDomains
 import me.marthia.app.boomgrad.data.remote.api.ProvinceCityService
-import me.marthia.app.boomgrad.data.remote.dto.BaseListResponse
+import me.marthia.app.boomgrad.data.remote.dto.PagedResponse
 import me.marthia.app.boomgrad.data.remote.dto.ProvinceDto
 import me.marthia.app.boomgrad.data.remote.util.NetworkFailure
 import me.marthia.app.boomgrad.data.remote.util.toNetworkFailure
@@ -18,8 +18,8 @@ class ProvinceRepositoryImpl(
 
     override suspend fun getProvince(): Result<List<Province>> {
         return runCatching {
-            val response: BaseListResponse<ProvinceDto> = api.getProvince().getOrThrow()
-            response.content.toDomains()
+            val response: PagedResponse<ProvinceDto> = api.getProvince().getOrThrow()
+            response.content?.toDomains() ?: throw IllegalStateException("content is null")
         }.onFailure { error ->
             Timber.e(error, "getAttractions failed : ${error.message}")
         }.recoverCatching { error ->
@@ -36,7 +36,7 @@ class ProvinceRepositoryImpl(
 
         return runCatching {
             val response = api.getCounty(provinceId = provinceId).getOrThrow()
-            response.content.toDomains()
+            response.content?.toDomains() ?: throw IllegalStateException("content is null")
         }.onFailure { error ->
             Timber.e(error, "getCounty for provinceId of $provinceId failed : ${error.message}")
         }.recoverCatching { error ->
@@ -51,7 +51,7 @@ class ProvinceRepositoryImpl(
     override suspend fun getCity(countyId: Long, provinceId: Long): Result<List<City>> {
         return runCatching {
             val response = api.getCity(provinceId = provinceId, countyId = countyId).getOrThrow()
-            response.content.toDomains()
+            response.content?.toDomains() ?: throw IllegalStateException("content is null")
         }.onFailure { error ->
             Timber.e(
                 error,

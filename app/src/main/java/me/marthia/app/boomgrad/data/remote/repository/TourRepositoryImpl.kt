@@ -19,7 +19,7 @@ class TourRepositoryImpl(
         return runCatching {
             api.getTours().getOrThrow()
         }.map { response ->
-            response.content.toDomainList()
+            response.data.content?.toDomainList() ?: throw IllegalStateException("content cannot be null")
         }
     }
 
@@ -27,7 +27,7 @@ class TourRepositoryImpl(
         return runCatching {
             api.getTourById(tourId).getOrThrow()
         }.map { dto ->
-            dto.toDomain()
+            dto.data.toDomain()
         }
     }
 }

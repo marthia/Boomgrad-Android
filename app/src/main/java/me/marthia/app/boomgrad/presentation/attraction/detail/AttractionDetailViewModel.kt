@@ -16,7 +16,7 @@ class AttractionDetailViewModel(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val attractionId: String = savedStateHandle.get<String>("attractionId") ?: ""
+    private val attractionId: Long = savedStateHandle.get<Long>("attractionId") ?: -1
 
     private val _uiState = MutableStateFlow<ViewState<Attraction>>(ViewState.Idle)
     val uiState: StateFlow<ViewState<Attraction>> = _uiState.asStateFlow()

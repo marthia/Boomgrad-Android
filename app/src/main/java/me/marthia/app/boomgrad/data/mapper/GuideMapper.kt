@@ -6,9 +6,9 @@ import me.marthia.app.boomgrad.domain.model.Guide
 fun GuideDto.toDomain(): Guide {
     return Guide(
         id = id,
-        bio = bio,
+        bio = "bio",
         fullName = fullName,
-        userId = userId,
+        userId = -1,
         verified = verified,
         totalTours = totalTours,
         averageRating = averageRating,

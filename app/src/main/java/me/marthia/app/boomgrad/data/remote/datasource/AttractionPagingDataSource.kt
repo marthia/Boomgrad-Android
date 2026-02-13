@@ -19,9 +19,10 @@ class AttractionPagingDataSource(
             .fold(
                 onSuccess = { response ->
                     LoadResult.Page(
-                        data = response.content.map { it.toDomain() },
+                        data = response.data.content?.map { it.toDomain() }
+                            ?: throw IllegalStateException("content is null"),
                         prevKey = if (page == 0) null else page - 1,
-                        nextKey = if (response.content.isEmpty()) null else page + 1
+                        nextKey = if (response.data.content.isEmpty()) null else page + 1
                     )
                 },
                 onFailure = { error ->

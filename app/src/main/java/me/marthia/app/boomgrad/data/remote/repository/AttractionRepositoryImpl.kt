@@ -25,7 +25,11 @@ class AttractionRepositoryImpl(
 
     override fun getAttractions(pageSize: Int): Flow<PagingData<Attraction>> {
         return Pager(
-            config = PagingConfig(pageSize = pageSize, initialLoadSize = 20, enablePlaceholders = true),
+            config = PagingConfig(
+                pageSize = pageSize,
+                initialLoadSize = 20,
+                enablePlaceholders = true
+            ),
             pagingSourceFactory = { AttractionPagingDataSource(apiService) }
         ).flow
     }
@@ -33,7 +37,8 @@ class AttractionRepositoryImpl(
     override suspend fun getTopAttractions(): Result<List<Attraction>> {
         return runCatching {
             val response = apiService.getAttractions(page = 0, limit = 10).getOrThrow()
-            response.content.map { it.toDomain() }
+            response.data.content?.map { it.toDomain() }
+                ?: throw IllegalStateException("content is null")
         }.onFailure { error ->
             Timber.e(error, "getTopAttractions failed : ${error.message}")
         }.recoverCatching { error ->
@@ -44,9 +49,9 @@ class AttractionRepositoryImpl(
         }
     }
 
-    override suspend fun getAttractionById(id: String): Result<Attraction> {
+    override suspend fun getAttractionById(id: Long): Result<Attraction> {
         return runCatching {
-            apiService.getAttractionById(id).getOrThrow().toDomain()
+            apiService.getAttractionById(id).getOrThrow().data.toDomain()
         }.onFailure { error ->
             Timber.e(error, "getAttraction of id $id failed : ${error.message}")
         }.recoverCatching { error ->
@@ -60,7 +65,8 @@ class AttractionRepositoryImpl(
     override suspend fun searchAttractions(query: String): Result<List<Attraction>> {
         return runCatching {
             val response = apiService.searchAttractions(query = query, limit = 20).getOrThrow()
-            response.content.map { it.toDomain() }
+            response.data.content?.map { it.toDomain() }
+                ?: throw IllegalStateException("content is null")
         }.onFailure { error ->
             Timber.e(error, "search Attractions with query $query failed : ${error.message}")
         }.recoverCatching { error ->

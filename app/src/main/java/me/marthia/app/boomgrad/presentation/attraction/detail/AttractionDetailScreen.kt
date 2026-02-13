@@ -88,7 +88,7 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AttractionDetailScreen(
-    attractionId: String,
+    attractionId: Long,
     onBackClick: () -> Unit,
     viewModel: AttractionDetailViewModel = koinViewModel()
 ) {
