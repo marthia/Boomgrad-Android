@@ -2,10 +2,11 @@ package me.marthia.app.boomgrad.data.remote.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import me.marthia.app.boomgrad.domain.model.Demographic
 import me.marthia.app.boomgrad.domain.model.TourStatus
 
 @Serializable
-data class TourDto(
+data class TourDetailDto(
     @SerialName("id")
     val id: Long,
     @SerialName("title")
@@ -40,12 +41,12 @@ data class TourDto(
     val requiredItems: List<String>,
     @SerialName("level")
     val level: String,
-    @SerialName("dueDate")
+    @SerialName("due_date")
     val dueDate: String,
-    @SerialName("startTime")
+    @SerialName("start_time")
     val startTime: String,
     @SerialName("demographic")
-    val demographic: String,
+    val demographic: Demographic,
     @SerialName("itinerary")
     val itinerary: List<ItineraryStopDto>,
     @SerialName("city")

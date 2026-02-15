@@ -48,9 +48,10 @@ import coil.request.ImageRequest
 import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.domain.model.AttractionCategory
 import me.marthia.app.boomgrad.domain.model.City
+import me.marthia.app.boomgrad.domain.model.Demographic
 import me.marthia.app.boomgrad.domain.model.Guide
 import me.marthia.app.boomgrad.domain.model.ItineraryStop
-import me.marthia.app.boomgrad.domain.model.Tour
+import me.marthia.app.boomgrad.domain.model.TourDetail
 import me.marthia.app.boomgrad.domain.model.TourStatus
 import me.marthia.app.boomgrad.presentation.common.ErrorScreen
 import me.marthia.app.boomgrad.presentation.common.LoadingScreen
@@ -87,7 +88,7 @@ fun TourDetail(tourId: Long, upPress: () -> Unit) {
                 is ViewState.Error -> ErrorScreen(onBack = upPress)
                 is ViewState.Success -> {
                     TourDetailContent(
-                        tour = state.value.data
+                        tour = state.value
                     )
                 }
                 else -> {}
@@ -98,7 +99,7 @@ fun TourDetail(tourId: Long, upPress: () -> Unit) {
 }
 
 @Composable
-fun TourDetailContent(modifier: Modifier = Modifier, tour: Tour) {
+fun TourDetailContent(modifier: Modifier = Modifier, tour: TourDetail) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -130,7 +131,7 @@ fun TourDetailContent(modifier: Modifier = Modifier, tour: Tour) {
             level = tour.level,
             date = tour.dueDate,
             startTime = tour.startTime,
-            targetDemographic = tour.demographic
+            targetDemographic = tour.demographic.name
         )
         Prerequisites(
             modifier = Modifier.padding(16.dp),
@@ -532,7 +533,7 @@ private fun PreviewTourDetail() {
             BackgroundElement(modifier = Modifier.fillMaxSize()) {
                 TourDetailContent(
                     modifier = Modifier.systemBarsPadding(),
-                    tour = Tour(
+                    tour = TourDetail(
                         id = -1,
                         title = "میدان نقش جهان",
                         description = "با این تور یک روزه، سفری به قلب تاریخ و هنر اصفهان خواهید داشت. میدان نقش جهان، یکی از بزرگترین و زیباترین میادین جهان، میزبان شما خواهد بود. در این گشت، از شاهکارهای معماری دوران صفوی مانند مسجد شیخ لطف‌الله، مسجد امام و کاخ عالی‌قاپو دیدن خواهید کرد. همچنین، فرصت گشت و گذار در بازار قیصریه و خرید صنایع دستی اصیل اصفهان را خواهید داشت. این تور تجربه‌ای فراموش‌نشدنی از فرهنگ غنی ایران را برای شما به ارمغان می‌آورد.",
@@ -576,7 +577,7 @@ private fun PreviewTourDetail() {
                         level = "آسان",
                         dueDate = "۱۶ بهمن",
                         startTime = "۸ صبح",
-                        demographic = "14-65",
+                        demographic = Demographic.ALL_AGES,
                         itinerary =
                             listOf(
                                 ItineraryStop("میدان نقش جهان", "شنبه ۲۴ دی ساعت ۱۶"),

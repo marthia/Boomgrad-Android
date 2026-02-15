@@ -2,31 +2,21 @@ package me.marthia.app.boomgrad.presentation.util
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.ContentValues
 import android.content.Context
 import android.content.Context.VIBRATOR_SERVICE
 import android.content.ContextWrapper
 import android.content.Intent
-import android.content.res.Configuration
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
 import android.graphics.Picture
 import android.net.Uri
-import android.os.Build
-import android.os.Environment
-import android.os.LocaleList
 import android.os.Vibrator
 import android.os.VibratorManager
 import android.provider.MediaStore
 import android.provider.OpenableColumns
-import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
 import android.view.Window
-import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.annotation.IntegerRes
 import androidx.compose.runtime.Composable
@@ -36,14 +26,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalClipboardManager
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.net.toUri
@@ -51,15 +36,9 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.flow.flowOf
-import me.marthia.app.boomgrad.domain.model.Attraction
+import timber.log.Timber
 import java.io.ByteArrayOutputStream
 import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.OutputStream
-import java.util.Locale
-import androidx.core.graphics.createBitmap
-import timber.log.Timber
 
 @SuppressLint("NewApi")
 @Suppress("DEPRECATION")
@@ -90,9 +69,9 @@ fun KeepScreenOn(enabled: Boolean = true) {
 }
 
 @Composable
-fun rememberMockLazyPagingItems(
-    items: List<Attraction>
-): LazyPagingItems<Attraction> {
+fun <T : Any> rememberMockLazyPagingItems(
+    items: List<T>
+): LazyPagingItems<T> {
     val mockPagingData = remember(items) {
         flowOf(PagingData.from(items))
     }
@@ -170,8 +149,6 @@ fun Bitmap.getImageUri(context: Context, title: String? = null): Uri {
     )
     return path.toString().toUri()
 }
-
-
 
 
 fun Context.getFileName(uri: Uri): String {

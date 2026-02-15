@@ -56,14 +56,10 @@ import me.marthia.app.boomgrad.domain.model.AttractionCategory
 import me.marthia.app.boomgrad.domain.model.AttractionContactInfo
 import me.marthia.app.boomgrad.domain.model.AttractionImage
 import me.marthia.app.boomgrad.domain.model.AttractionOpeningHours
-import me.marthia.app.boomgrad.domain.model.City
-import me.marthia.app.boomgrad.domain.model.Guide
-import me.marthia.app.boomgrad.domain.model.ItineraryStop
 import me.marthia.app.boomgrad.domain.model.Location
 import me.marthia.app.boomgrad.domain.model.LocationType
 import me.marthia.app.boomgrad.domain.model.Review
-import me.marthia.app.boomgrad.domain.model.Tour
-import me.marthia.app.boomgrad.domain.model.TourStatus
+import me.marthia.app.boomgrad.domain.model.TourList
 import me.marthia.app.boomgrad.domain.model.User
 import me.marthia.app.boomgrad.presentation.attraction.components.ComposeNewCommentBottomSheet
 import me.marthia.app.boomgrad.presentation.category.CategoryTag
@@ -477,7 +473,7 @@ fun WorkingHoursNote(
 
 
 @Composable
-fun AvailableTours(modifier: Modifier = Modifier, tours: List<Tour>) {
+fun AvailableTours(modifier: Modifier = Modifier, tours: List<TourList>) {
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
 
         Text(
@@ -492,7 +488,7 @@ fun AvailableTours(modifier: Modifier = Modifier, tours: List<Tour>) {
 }
 
 @Composable
-fun TourItem(modifier: Modifier = Modifier, tour: Tour) {
+fun TourItem(modifier: Modifier = Modifier, tour: TourList) {
     CardElement(modifier = modifier) {
         Column(modifier = Modifier.fillMaxWidth()) {
             Row(
@@ -611,7 +607,7 @@ fun ReviewItem(modifier: Modifier, review: Review) {
                     Text(review.user.name, style = MaterialTheme.typography.titleSmall)
 //                    Text(review.title, style = MaterialTheme.typography.bodySmall)
                     Text(
-                        review.content,
+                        review.comment,
                         style = MaterialTheme.typography.bodySmall,
                         color = Theme.colors.textHelp
                     )
@@ -713,13 +709,12 @@ private fun PreviewAttraction() {
                                 user = User(
                                     id = 1,
                                     name = "سارا اسدی",
-                                    username = "sara",
+//                                    username = "sara",
                                     email = "sara@email.me",
                                     image = "https://picsum.photos/200",
                                     phone = "091412345678"
                                 ),
-                                title = "عالی بود",
-                                content = "تور از همه نظر عالی بود",
+                                comment = "تور از همه نظر عالی بود",
                                 date = "24/11/1395"
                             ),
                             Review(
@@ -727,104 +722,30 @@ private fun PreviewAttraction() {
                                 user = User(
                                     id = 2,
                                     name = "آنیتا کریمی",
-                                    username = "sara",
+//                                    username = "sara",
                                     email = "sara@email.me",
                                     image = "https://picsum.photos/200",
                                     phone = "091412345678"
                                 ),
-                                title = "عالی بود",
-                                content = "تور از همه نظر عالی بود",
+                                comment = "تور از همه نظر عالی بود",
                                 date = "24/11/1395"
                             )
                         ),
                         relatedTours = listOf(
-                            Tour(
+                            TourList(
                                 id = -1,
                                 title = "تور یک روزه میدان نقش جهان",
                                 description = "با این تور یک روزه، سفری به قلب تاریخ و هنر اصفهان خواهید داشت. میدان نقش جهان، یکی از بزرگترین و زیباترین میادین جهان، میزبان شما خواهد بود. در این گشت، از شاهکارهای معماری دوران صفوی مانند مسجد شیخ لطف‌الله، مسجد امام و کاخ عالی‌قاپو دیدن خواهید کرد. همچنین، فرصت گشت و گذار در بازار قیصریه و خرید صنایع دستی اصیل اصفهان را خواهید داشت. این تور تجربه‌ای فراموش‌نشدنی از فرهنگ غنی ایران را برای شما به ارمغان می‌آورد.",
-                                guide = Guide(
-                                    id = 1,
-                                    bio = "امین عدیلی دانش‌آموخته رشته مهندسی مواد در دانشگاه پلی‌تکنیک لندن اهل کرمانشاه یکی از برجسته‌ترین راهنماهای گردشگری با تخصص تاریخ هخامنشیان است.",
-                                    fullName = "امین عدیلی",
-                                    userId = 10,
-                                    verified = true,
-                                    totalTours = 46,
-                                    averageRating = 4.1f,
-                                ),
-                                highlights = listOf(
-                                    "شناخت تاریخ",
-                                    "نوشیدنی مخصوص",
-                                    "گز اصفهان",
-                                    "مسجد و محراب",
-                                    "چاه حاج میرزا",
-                                ),
                                 duration = 108,
                                 price = 123546.8,
+                                dueDate = "۱۶ بهمن",
+                                images = listOf("https://picsum.photos/400"),
+                                city = "اصفهان",
                                 category = AttractionCategory(
                                     id = 0,
                                     name = "تاریخی",
                                     description = "",
                                     image = ""
-                                ),
-                                maxPeople = 7,
-                                status = TourStatus.PENDING,
-                                rate = 4.8f,
-                                reviews = listOf(
-                                    Review(
-                                        id = 0,
-                                        user = User(
-                                            id = 1,
-                                            name = "سارا اسدی",
-                                            username = "sara",
-                                            email = "sara@email.me",
-                                            image = "https://picsum.photos/200",
-                                            phone = "091412345678"
-                                        ),
-                                        title = "عالی بود",
-                                        content = "تور از همه نظر عالی بود",
-                                        date = "24/11/1395"
-                                    ),
-                                    Review(
-                                        id = 2,
-                                        user = User(
-                                            id = 2,
-                                            name = "آنیتا کریمی",
-                                            username = "sara",
-                                            email = "sara@email.me",
-                                            image = "https://picsum.photos/200",
-                                            phone = "091412345678"
-                                        ),
-                                        title = "عالی بود",
-                                        content = "تور از همه نظر عالی بود",
-                                        date = "24/11/1395"
-                                    )
-                                ),
-                                images = listOf("https://picsum.photos/400"),
-                                requiredItems = listOf(
-                                    "کفش کوهنوردی",
-                                    "کلاه",
-                                    "عینک آفتابی",
-                                    "تنقلات",
-                                    "زیرانداز تک نفره",
-                                    "پول نقد",
-                                ),
-                                level = "آسان",
-                                dueDate = "۱۶ بهمن",
-                                startTime = "۸ صبح",
-                                demographic = "14-65",
-                                itinerary =
-                                    listOf(
-                                        ItineraryStop("میدان نقش جهان", "شنبه ۲۴ دی ساعت ۱۶"),
-                                        ItineraryStop("سی و سه پل", "ساعت ۱۷"),
-                                        ItineraryStop("کلیسای وانک", "ساعت ۱۸"),
-                                        ItineraryStop("کلیسای مریم مقدس", "ساعت ۱۹"),
-                                        ItineraryStop("میدان جلفا", "شنبه ۲۴ دی ساعت ۲۰"),
-                                    ),
-                                city = City(
-                                    id = 1,
-                                    name = "اصفهان",
-                                    county = "مرکزی",
-                                    province = "اصفهان",
                                 ),
                             )
                         )

@@ -1,6 +1,6 @@
 package me.marthia.app.boomgrad.domain.model
 
-data class Tour(
+data class TourDetail(
     val id: Long,
     val title: String,
     val description: String,
@@ -18,7 +18,7 @@ data class Tour(
     val level: String,
     val dueDate: String,
     val startTime: String,
-    val demographic: String,
+    val demographic: Demographic,
     val itinerary: List<ItineraryStop>,
     val city: City,
 )

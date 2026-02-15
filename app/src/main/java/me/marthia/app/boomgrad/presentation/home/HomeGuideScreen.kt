@@ -35,9 +35,10 @@ import coil.compose.AsyncImage
 import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.domain.model.AttractionCategory
 import me.marthia.app.boomgrad.domain.model.City
+import me.marthia.app.boomgrad.domain.model.Demographic
 import me.marthia.app.boomgrad.domain.model.Guide
 import me.marthia.app.boomgrad.domain.model.ItineraryStop
-import me.marthia.app.boomgrad.domain.model.Tour
+import me.marthia.app.boomgrad.domain.model.TourDetail
 import me.marthia.app.boomgrad.domain.model.TourStatus
 import me.marthia.app.boomgrad.presentation.components.AppContainer
 import me.marthia.app.boomgrad.presentation.components.IconText
@@ -60,7 +61,7 @@ fun HomeScreen() {
         ActiveTours(
             modifier = Modifier.padding(top = 16.dp),
             list = listOf(
-                Tour(
+                TourDetail(
                     id = -1,
                     title = "میدان نقش جهان",
                     description = "با این تور یک روزه، سفری به قلب تاریخ و هنر اصفهان خواهید داشت. میدان نقش جهان، یکی از بزرگترین و زیباترین میادین جهان، میزبان شما خواهد بود. در این گشت، از شاهکارهای معماری دوران صفوی مانند مسجد شیخ لطف‌الله، مسجد امام و کاخ عالی‌قاپو دیدن خواهید کرد. همچنین، فرصت گشت و گذار در بازار قیصریه و خرید صنایع دستی اصیل اصفهان را خواهید داشت. این تور تجربه‌ای فراموش‌نشدنی از فرهنگ غنی ایران را برای شما به ارمغان می‌آورد.",
@@ -104,7 +105,7 @@ fun HomeScreen() {
                     level = "آسان",
                     dueDate = "۱۶ بهمن",
                     startTime = "۸ صبح",
-                    demographic = "14-65",
+                    demographic = Demographic.ALL_AGES,
                     itinerary =
                         listOf(
                             ItineraryStop("میدان نقش جهان", "شنبه ۲۴ دی ساعت ۱۶"),
@@ -125,7 +126,7 @@ fun HomeScreen() {
         ActiveTours(
             modifier = Modifier.padding(top = 16.dp),
             list = listOf(
-                Tour(
+                TourDetail(
                     id = -1,
                     title = "میدان نقش جهان",
                     description = "با این تور یک روزه، سفری به قلب تاریخ و هنر اصفهان خواهید داشت. میدان نقش جهان، یکی از بزرگترین و زیباترین میادین جهان، میزبان شما خواهد بود. در این گشت، از شاهکارهای معماری دوران صفوی مانند مسجد شیخ لطف‌الله، مسجد امام و کاخ عالی‌قاپو دیدن خواهید کرد. همچنین، فرصت گشت و گذار در بازار قیصریه و خرید صنایع دستی اصیل اصفهان را خواهید داشت. این تور تجربه‌ای فراموش‌نشدنی از فرهنگ غنی ایران را برای شما به ارمغان می‌آورد.",
@@ -169,7 +170,7 @@ fun HomeScreen() {
                     level = "آسان",
                     dueDate = "۱۶ بهمن",
                     startTime = "۸ صبح",
-                    demographic = "14-65",
+                    demographic = Demographic.ALL_AGES,
                     itinerary =
                         listOf(
                             ItineraryStop("میدان نقش جهان", "شنبه ۲۴ دی ساعت ۱۶"),
@@ -339,7 +340,7 @@ fun StatItem(modifier: Modifier = Modifier, label: String, labelIcon: Int, value
 }
 
 @Composable
-private fun ActiveTours(modifier: Modifier = Modifier, list: List<Tour>) {
+private fun ActiveTours(modifier: Modifier = Modifier, list: List<TourDetail>) {
 
     Column(
         modifier = modifier

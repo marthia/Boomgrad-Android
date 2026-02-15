@@ -22,7 +22,7 @@ data class AttractionDto(
     @SerialName("location")
     val location: LocationDto?,
     @SerialName("tours")
-    val tours: List<TourDto>? = listOf(),
+    val tours: List<TourListDto>? = listOf(),
     @SerialName("reviews")
     val reviews: List<ReviewDto>? = listOf(),
 )

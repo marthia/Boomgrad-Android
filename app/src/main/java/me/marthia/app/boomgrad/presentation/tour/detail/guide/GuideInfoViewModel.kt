@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import me.marthia.app.boomgrad.domain.model.Guide
-import me.marthia.app.boomgrad.domain.model.Tour
+import me.marthia.app.boomgrad.domain.model.TourDetail
 import me.marthia.app.boomgrad.presentation.util.ViewState
 
 class GuideInfoViewModel : ViewModel() {
@@ -17,5 +17,5 @@ class GuideInfoViewModel : ViewModel() {
 
 data class GuideUiState(
     val guideInfo: Guide,
-    val tours: List<Tour>
+    val tours: List<TourDetail>
 )

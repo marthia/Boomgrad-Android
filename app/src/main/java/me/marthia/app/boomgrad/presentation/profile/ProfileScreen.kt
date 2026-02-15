@@ -194,7 +194,7 @@ private fun PreviewProfile() {
                         item = User(
                             id = 1,
                             name = "محمد رضایی",
-                            username = "",
+//                            username = "",
                             email = "",
                             phone = "09035135466",
                             image = "",

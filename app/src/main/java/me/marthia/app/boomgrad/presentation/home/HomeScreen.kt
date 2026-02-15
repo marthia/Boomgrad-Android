@@ -74,25 +74,26 @@ import coil.request.ImageRequest
 import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.domain.model.Attraction
 import me.marthia.app.boomgrad.domain.model.AttractionCategory
-import me.marthia.app.boomgrad.domain.model.Tour
+import me.marthia.app.boomgrad.domain.model.TourDetail
+import me.marthia.app.boomgrad.domain.model.TourList
 import me.marthia.app.boomgrad.presentation.FilterSharedElementKey
 import me.marthia.app.boomgrad.presentation.category.CategoryTag
 import me.marthia.app.boomgrad.presentation.common.ErrorScreen
 import me.marthia.app.boomgrad.presentation.common.LoadingScreen
 import me.marthia.app.boomgrad.presentation.components.AppScaffold
-import me.marthia.app.boomgrad.presentation.components.IconText
-import me.marthia.app.boomgrad.presentation.components.JetHorizontalDivider
 import me.marthia.app.boomgrad.presentation.components.BackgroundElement
-import me.marthia.app.boomgrad.presentation.components.JetVerticalDivider
 import me.marthia.app.boomgrad.presentation.components.ButtonElement
 import me.marthia.app.boomgrad.presentation.components.CardElement
+import me.marthia.app.boomgrad.presentation.components.IconText
+import me.marthia.app.boomgrad.presentation.components.JetHorizontalDivider
+import me.marthia.app.boomgrad.presentation.components.JetVerticalDivider
 import me.marthia.app.boomgrad.presentation.components.JetsnackSearch
-import me.marthia.app.boomgrad.presentation.components.SurfaceElement
 import me.marthia.app.boomgrad.presentation.components.PlainButton
+import me.marthia.app.boomgrad.presentation.components.SurfaceElement
 import me.marthia.app.boomgrad.presentation.home.model.HomeUiState
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
-import me.marthia.app.boomgrad.presentation.theme.Theme
 import me.marthia.app.boomgrad.presentation.theme.HanaGreen8
+import me.marthia.app.boomgrad.presentation.theme.Theme
 import me.marthia.app.boomgrad.presentation.util.ViewState
 import me.marthia.app.boomgrad.presentation.util.debugPlaceholder
 import org.koin.androidx.compose.koinViewModel
@@ -104,22 +105,23 @@ fun HomeScreen(onTourSelected: (Long) -> Unit) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    when (uiState) {
-        is ViewState.Loading -> LoadingScreen()
-        is ViewState.Error -> ErrorScreen()
-        is ViewState.Success -> {
 
-            AppScaffold() {
+
+    AppScaffold() {
+        when (val state = uiState) {
+            is ViewState.Loading -> LoadingScreen()
+            is ViewState.Error -> ErrorScreen()
+            is ViewState.Success -> {
                 SharedTransitionLayout {
                     Box {
                         HomeScreenContent(
                             modifier = Modifier,
                             paddingValues = it,
                             sharedTransitionScope = this@SharedTransitionLayout,
-                            categories = (uiState as ViewState.Success<HomeUiState>).value.categories,
-                            topAttractions = (uiState as ViewState.Success<HomeUiState>).value.topAttractions,
-                            forYouTours = (uiState as ViewState.Success<HomeUiState>).value.forYouTours,
-                            recommendedThisWeek = (uiState as ViewState.Success<HomeUiState>).value.weekRecommended,
+                            categories = state.value.categories,
+                            topAttractions = state.value.topAttractions,
+                            forYouTours = state.value.forYouTours,
+                            recommendedThisWeek = state.value.weekRecommended,
                             onTourSelected = onTourSelected,
                         )
 
@@ -127,9 +129,9 @@ fun HomeScreen(onTourSelected: (Long) -> Unit) {
                     }
                 }
             }
-        }
 
-        else -> {}
+            else -> {}
+        }
     }
 }
 
@@ -141,8 +143,8 @@ private fun HomeScreenContent(
     paddingValues: PaddingValues,
     categories: List<AttractionCategory>,
     topAttractions: List<Attraction>,
-    forYouTours: List<Tour>,
-    recommendedThisWeek: List<Tour>,
+    forYouTours: List<TourList>,
+    recommendedThisWeek: List<TourList>,
     onTourSelected: (Long) -> Unit
 ) {
     var citySelectionVisible by remember {
@@ -352,7 +354,7 @@ fun StorySection(modifier: Modifier = Modifier, categories: List<AttractionCateg
 }
 
 @Composable
-fun Recommended(list: List<Tour>) {
+fun Recommended(list: List<TourList>) {
     val pagerState = rememberPagerState(
         initialPage = 0, initialPageOffsetFraction = 0f,
         pageCount = {
@@ -474,7 +476,7 @@ fun RecommendedImages(modifier: Modifier = Modifier, images: List<String>) {
 }
 
 @Composable
-fun ForYou(list: List<Tour>, onTourSelected: (Long) -> Unit) {
+fun ForYou(list: List<TourList>, onTourSelected: (Long) -> Unit) {
 
     Column(
         modifier = Modifier
@@ -545,7 +547,7 @@ fun ForYou(list: List<Tour>, onTourSelected: (Long) -> Unit) {
                         IconText(
                             text = {
                                 Text(
-                                    text = item.city.name,
+                                    text = item.city,
                                     color = Theme.colors.materialTheme.surface
                                 )
                             },

@@ -11,5 +11,5 @@ data class Attraction(
     val location: Location,
     val isFavorite: Boolean = false,
     val reviews: List<Review>,
-    val relatedTours: List<Tour>
+    val relatedTours: List<TourList>
 )

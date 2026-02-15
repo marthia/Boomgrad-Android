@@ -4,7 +4,8 @@ import io.ktor.client.HttpClient
 import io.ktor.client.request.parameter
 import me.marthia.app.boomgrad.data.remote.dto.BaseResponse
 import me.marthia.app.boomgrad.data.remote.dto.PagedResponse
-import me.marthia.app.boomgrad.data.remote.dto.TourDto
+import me.marthia.app.boomgrad.data.remote.dto.TourDetailDto
+import me.marthia.app.boomgrad.data.remote.dto.TourListDto
 
 class TourApiServiceImpl(
     private val client: HttpClient
@@ -13,7 +14,7 @@ class TourApiServiceImpl(
     override suspend fun getTours(
         page: Int,
         limit: Int
-    ): Result<BaseResponse<PagedResponse<TourDto>>> {
+    ): Result<BaseResponse<PagedResponse<TourListDto>>> {
         return client.safeGet("tours") {
             parameter("page", page)
             parameter("limit", limit)
@@ -22,14 +23,14 @@ class TourApiServiceImpl(
 
     override suspend fun getTourById(
         id: Long
-    ): Result<BaseResponse<TourDto>> {
+    ): Result<BaseResponse<TourDetailDto>> {
         return client.safeGet("tours/$id")
     }
 
     override suspend fun searchTours(
         query: String,
         limit: Int
-    ): Result<BaseResponse<PagedResponse<TourDto>>> {
+    ): Result<BaseResponse<PagedResponse<TourDetailDto>>> {
         return client.safeGet("tours/search") {
             parameter("q", query)
             parameter("limit", limit)
