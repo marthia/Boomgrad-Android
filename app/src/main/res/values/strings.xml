@@ -66,4 +66,5 @@
     <string name="label_attraction_detail_related_tours">Tours</string>
     <string name="label_attraction_detail_reviews">Reviews</string>
     <string name="label_attraction_detail_new_review">New Review</string>
+    <string name="title_attraction_screen">Attractions</string>
 </resources>

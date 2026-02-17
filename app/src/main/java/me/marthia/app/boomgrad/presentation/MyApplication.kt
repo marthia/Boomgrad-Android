@@ -5,6 +5,7 @@ import me.marthia.app.boomgrad.BuildConfig
 import me.marthia.app.boomgrad.di.appModule
 import me.marthia.app.boomgrad.di.networkModule
 import me.marthia.app.boomgrad.di.repositoryModule
+import me.marthia.app.boomgrad.di.useCaseModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.GlobalContext.startKoin
@@ -19,7 +20,7 @@ class MyApplication : Application() {
         startKoin {
             androidLogger()
             androidContext(applicationContext)
-            modules(appModule, networkModule, repositoryModule)
+            modules(appModule, networkModule, repositoryModule, useCaseModule)
         }
 
         // init

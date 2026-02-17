@@ -1,6 +1,7 @@
 package me.marthia.app.boomgrad.presentation.home
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,7 +25,13 @@ import me.marthia.app.boomgrad.presentation.theme.Theme
 import me.marthia.app.boomgrad.presentation.util.debugPlaceholder
 
 @Composable
-fun Story(modifier: Modifier = Modifier, title: String, image: String) {
+fun Story(
+    modifier: Modifier = Modifier,
+    id: Long,
+    title: String,
+    image: String,
+    onCategorySelected: (Long) -> Unit
+) {
 
     Column(
         modifier = modifier,
@@ -50,7 +57,8 @@ fun Story(modifier: Modifier = Modifier, title: String, image: String) {
                 placeholder = debugPlaceholder(debugPreview = R.drawable.placeholder),
                 modifier = Modifier
                     .fillMaxSize()
-                    .clip(CircleShape),
+                    .clip(CircleShape)
+                    .clickable { onCategorySelected(id) },
                 contentScale = ContentScale.Crop,
             )
         }

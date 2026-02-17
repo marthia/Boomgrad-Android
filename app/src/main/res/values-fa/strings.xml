@@ -68,5 +68,6 @@
     <string name="label_attraction_detail_related_tours">تورهای این جاذبه</string>
     <string name="label_attraction_detail_reviews">نظر کاربران</string>
     <string name="label_attraction_detail_new_review">ثبت دیدگاه</string>
+    <string name="title_attraction_screen">جاذبه‌های گردشگری</string>
 
 </resources>

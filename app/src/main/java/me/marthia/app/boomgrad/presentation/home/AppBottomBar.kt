@@ -59,7 +59,8 @@ import androidx.compose.ui.util.lerp
 import androidx.core.os.ConfigurationCompat
 import me.marthia.app.boomgrad.presentation.components.AppContainer
 import me.marthia.app.boomgrad.presentation.components.SurfaceElement
-import me.marthia.app.boomgrad.presentation.navigation.HomeSections
+import me.marthia.app.boomgrad.presentation.navigation.BottomBarDestination
+import me.marthia.app.boomgrad.presentation.navigation.bottomBarDestinations
 import me.marthia.app.boomgrad.presentation.spatialExpressiveSpring
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
 import me.marthia.app.boomgrad.presentation.theme.Theme
@@ -69,7 +70,7 @@ import kotlin.math.roundToInt
 
 @Composable
 fun AppBottomBar(
-    tabs: Array<HomeSections>,
+    tabs: List<BottomBarDestination>,
     currentRoute: String,
     navigateToRoute: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -78,7 +79,16 @@ fun AppBottomBar(
     contentColor: Color = Theme.colors.materialTheme.onPrimaryContainer,
 ) {
     val routes = remember { tabs.map { it.route } }
-    val currentSection = tabs.first { it.route == currentRoute }
+    var currentIndex = -1
+    var currentItem: BottomBarDestination? = null
+    tabs.forEachIndexed { index, destination ->
+
+        if (destination.route == currentRoute) {
+            currentIndex = index
+            currentItem = destination
+        }
+
+    }
 
     AppContainer(
         modifier = modifier,
@@ -88,7 +98,7 @@ fun AppBottomBar(
     ) {
         val springSpec = spatialExpressiveSpring<Float>()
         AppBottomNavLayout(
-            selectedIndex = currentSection.ordinal,
+            selectedIndex = currentIndex,
             itemCount = routes.size,
             indicator = { JetsnackBottomNavIndicator() },
             animSpec = springSpec,
@@ -99,7 +109,7 @@ fun AppBottomBar(
                 ConfigurationCompat.getLocales(configuration).get(0) ?: Locale.getDefault()
 
             tabs.forEach { section ->
-                val selected = section == currentSection
+                val selected = section == currentItem
 //                val iconTint by animateColorAsState(
 //                    if (selected) {
 //                        JetsnackTheme.colors.iconSecondary
@@ -153,21 +163,6 @@ fun AppBottomBar(
 }
 
 
-/**
- * A composable that lays out a custom bottom navigation bar.
- *
- * This composable handles the overall layout, animation of selection states,
- * and placement of the indicator.  It takes care of animating the widths of the items
- * based on their selection state and the position of the indicator.
- *
- * @param selectedIndex The index of the currently selected item.
- * @param itemCount The total number of navigation items.
- * @param animSpec The animation specification to use for all animations.
- * @param indicator A composable function to draw the indicator (e.g., a colored bar).
- * @param modifier Modifier to apply to this layout.
- * @param content The composable content representing the navigation items.  Each item
- *                will be measured and placed within this layout.
- */
 @Composable
 private fun AppBottomNavLayout(
     selectedIndex: Int,
@@ -403,7 +398,7 @@ private val BottomNavigationItemPadding = Modifier.padding(horizontal = 8.dp, ve
 private fun AppBottomNavPreview() {
     AppTheme {
         AppBottomBar(
-            tabs = HomeSections.entries.toTypedArray(),
+            tabs = bottomBarDestinations,
             currentRoute = "home/feed",
             navigateToRoute = { },
         )

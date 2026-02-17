@@ -47,7 +47,7 @@ import java.util.UUID
  * Wrap Material [androidx.compose.material3.Scaffold] and set [Theme] colors.
  */
 @Composable
-fun AppScaffold(
+fun ScaffoldElement(
     modifier: Modifier = Modifier,
     snackBarHostState: SnackbarHostState = remember { SnackbarHostState() },
     topBar: @Composable (() -> Unit) = {},

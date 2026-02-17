@@ -9,6 +9,7 @@ import me.marthia.app.boomgrad.presentation.home.HomeViewModel
 import me.marthia.app.boomgrad.presentation.login.LoginViewModel
 import me.marthia.app.boomgrad.presentation.profile.ProfileViewModel
 import me.marthia.app.boomgrad.presentation.search.SearchViewModel
+import me.marthia.app.boomgrad.presentation.tour.detail.TourDetailViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
@@ -22,6 +23,7 @@ val appModule = module {
     viewModel { SearchViewModel(get()) }
     viewModel { ProfileViewModel(get(), get()) }
     viewModel { LoginViewModel(get(), get(), SnackbarManager) }
+    viewModel { TourDetailViewModel(get(), get()) }
 
     viewModel {
         HomeViewModel(

@@ -37,11 +37,10 @@ import kotlinx.coroutines.launch
 import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.presentation.common.ErrorScreen
 import me.marthia.app.boomgrad.presentation.common.LoadingScreen
-import me.marthia.app.boomgrad.presentation.components.AppScaffold
+import me.marthia.app.boomgrad.presentation.components.ScaffoldElement
 import me.marthia.app.boomgrad.presentation.components.IconText
 import me.marthia.app.boomgrad.presentation.components.BackgroundElement
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
-import me.marthia.app.boomgrad.presentation.theme.Theme
 import me.marthia.app.boomgrad.presentation.util.ViewState
 import org.koin.androidx.compose.koinViewModel
 
@@ -58,7 +57,7 @@ fun MyTripsScreen(
         is ViewState.Error -> ErrorScreen()
         is ViewState.Success -> {
 
-            AppScaffold() {
+            ScaffoldElement() {
                 MyTripsScreen(
                     modifier = Modifier
                         .padding(it),

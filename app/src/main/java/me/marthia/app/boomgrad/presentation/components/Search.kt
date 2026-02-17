@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.Dp
 import me.marthia.app.boomgrad.presentation.theme.Theme
 
 @Composable
-fun JetsnackSearch(
+fun SearchElement(
     inputField: @Composable () -> Unit,
     expanded: Boolean,
     onExpandedChange: (Boolean) -> Unit,

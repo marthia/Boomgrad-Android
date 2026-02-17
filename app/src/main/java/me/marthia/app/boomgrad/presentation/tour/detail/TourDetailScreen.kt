@@ -55,7 +55,7 @@ import me.marthia.app.boomgrad.domain.model.TourDetail
 import me.marthia.app.boomgrad.domain.model.TourStatus
 import me.marthia.app.boomgrad.presentation.common.ErrorScreen
 import me.marthia.app.boomgrad.presentation.common.LoadingScreen
-import me.marthia.app.boomgrad.presentation.components.AppScaffold
+import me.marthia.app.boomgrad.presentation.components.ScaffoldElement
 import me.marthia.app.boomgrad.presentation.components.BackgroundElement
 import me.marthia.app.boomgrad.presentation.components.CardElement
 import me.marthia.app.boomgrad.presentation.components.IconText
@@ -69,7 +69,7 @@ import me.marthia.app.boomgrad.presentation.util.debugPlaceholder
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun TourDetail(tourId: Long, upPress: () -> Unit) {
+fun TourDetailScreen(tourId: Long, upPress: () -> Unit) {
 
 
     val viewModel: TourDetailViewModel = koinViewModel()
@@ -77,7 +77,7 @@ fun TourDetail(tourId: Long, upPress: () -> Unit) {
 
 
 
-    AppScaffold() { paddingValues ->
+    ScaffoldElement() { paddingValues ->
         Box(
             modifier = Modifier
                 .fillMaxSize()

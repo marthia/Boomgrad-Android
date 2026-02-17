@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import me.marthia.app.boomgrad.domain.model.Attraction
 import me.marthia.app.boomgrad.domain.usecase.attraction.GetAttractionDetailUseCase
+import me.marthia.app.boomgrad.presentation.navigation.AttractionDetailDestination
 import me.marthia.app.boomgrad.presentation.util.ViewState
 
 class AttractionDetailViewModel(
@@ -16,7 +17,8 @@ class AttractionDetailViewModel(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val attractionId: Long = savedStateHandle.get<Long>("attractionId") ?: -1
+    private val attractionId: Long =
+        savedStateHandle.get<Long>(AttractionDetailDestination.ARG_ATTRACTION_ID) ?: -1
 
     private val _uiState = MutableStateFlow<ViewState<Attraction>>(ViewState.Idle)
     val uiState: StateFlow<ViewState<Attraction>> = _uiState.asStateFlow()

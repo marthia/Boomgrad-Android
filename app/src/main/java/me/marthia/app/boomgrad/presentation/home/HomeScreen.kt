@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.add
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -74,23 +75,21 @@ import coil.request.ImageRequest
 import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.domain.model.Attraction
 import me.marthia.app.boomgrad.domain.model.AttractionCategory
-import me.marthia.app.boomgrad.domain.model.TourDetail
 import me.marthia.app.boomgrad.domain.model.TourList
 import me.marthia.app.boomgrad.presentation.FilterSharedElementKey
 import me.marthia.app.boomgrad.presentation.category.CategoryTag
 import me.marthia.app.boomgrad.presentation.common.ErrorScreen
 import me.marthia.app.boomgrad.presentation.common.LoadingScreen
-import me.marthia.app.boomgrad.presentation.components.AppScaffold
 import me.marthia.app.boomgrad.presentation.components.BackgroundElement
 import me.marthia.app.boomgrad.presentation.components.ButtonElement
 import me.marthia.app.boomgrad.presentation.components.CardElement
 import me.marthia.app.boomgrad.presentation.components.IconText
 import me.marthia.app.boomgrad.presentation.components.JetHorizontalDivider
 import me.marthia.app.boomgrad.presentation.components.JetVerticalDivider
-import me.marthia.app.boomgrad.presentation.components.JetsnackSearch
 import me.marthia.app.boomgrad.presentation.components.PlainButton
+import me.marthia.app.boomgrad.presentation.components.ScaffoldElement
+import me.marthia.app.boomgrad.presentation.components.SearchElement
 import me.marthia.app.boomgrad.presentation.components.SurfaceElement
-import me.marthia.app.boomgrad.presentation.home.model.HomeUiState
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
 import me.marthia.app.boomgrad.presentation.theme.HanaGreen8
 import me.marthia.app.boomgrad.presentation.theme.Theme
@@ -99,7 +98,11 @@ import me.marthia.app.boomgrad.presentation.util.debugPlaceholder
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun HomeScreen(onTourSelected: (Long) -> Unit) {
+fun HomeScreen(
+    onTourSelected: (Long) -> Unit,
+    onCategorySelected: (Long) -> Unit,
+    onAttractionSelected: (Long) -> Unit
+) {
 
     val viewModel: HomeViewModel = koinViewModel()
 
@@ -107,7 +110,7 @@ fun HomeScreen(onTourSelected: (Long) -> Unit) {
 
 
 
-    AppScaffold() {
+    ScaffoldElement() {
         when (val state = uiState) {
             is ViewState.Loading -> LoadingScreen()
             is ViewState.Error -> ErrorScreen()
@@ -123,6 +126,8 @@ fun HomeScreen(onTourSelected: (Long) -> Unit) {
                             forYouTours = state.value.forYouTours,
                             recommendedThisWeek = state.value.weekRecommended,
                             onTourSelected = onTourSelected,
+                            onCategorySelected = onCategorySelected,
+                            onAttractionSelected = onAttractionSelected,
                         )
 
 
@@ -145,7 +150,9 @@ private fun HomeScreenContent(
     topAttractions: List<Attraction>,
     forYouTours: List<TourList>,
     recommendedThisWeek: List<TourList>,
-    onTourSelected: (Long) -> Unit
+    onTourSelected: (Long) -> Unit,
+    onCategorySelected: (Long) -> Unit,
+    onAttractionSelected: (Long) -> Unit,
 ) {
     var citySelectionVisible by remember {
         mutableStateOf(false)
@@ -172,10 +179,14 @@ private fun HomeScreenContent(
         )
 
         Spacer(Modifier.height(24.dp))
-        StorySection(modifier = Modifier.fillMaxWidth(), categories = categories)
-        Recommended(list = recommendedThisWeek)
+        StorySection(
+            modifier = Modifier.fillMaxWidth(),
+            categories = categories,
+            onCategorySelected = onCategorySelected
+        )
+        Recommended(list = recommendedThisWeek, onTourSelected = onTourSelected)
         ForYou(list = forYouTours, onTourSelected = onTourSelected)
-        TopDestinations(list = topAttractions)
+        TopDestinations(list = topAttractions, onAttractionSelected = onAttractionSelected)
 
         Spacer(
             Modifier.windowInsetsBottomHeight(
@@ -201,7 +212,7 @@ fun SearchAll(
 ) {
     val expanded = remember { mutableStateOf(false) }
     val searchQuery = remember { mutableStateOf("") }
-    JetsnackSearch(
+    SearchElement(
         modifier = modifier,
         inputField = {
             with(sharedTransitionScope) {
@@ -341,20 +352,29 @@ fun HomeTopBar(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun StorySection(modifier: Modifier = Modifier, categories: List<AttractionCategory>) {
+fun StorySection(
+    modifier: Modifier = Modifier,
+    categories: List<AttractionCategory>,
+    onCategorySelected: (Long) -> Unit
+) {
     LazyRow(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         contentPadding = PaddingValues(horizontal = 16.dp),
     ) {
         items(categories) { category ->
-            Story(title = category.name, image = category.image)
+            Story(
+                id = category.id,
+                title = category.name,
+                image = category.image,
+                onCategorySelected = onCategorySelected
+            )
         }
     }
 }
 
 @Composable
-fun Recommended(list: List<TourList>) {
+fun Recommended(list: List<TourList>, onTourSelected: (Long) -> Unit) {
     val pagerState = rememberPagerState(
         initialPage = 0, initialPageOffsetFraction = 0f,
         pageCount = {
@@ -412,7 +432,7 @@ fun Recommended(list: List<TourList>) {
                         ButtonElement(
                             shape = CircleShape,
                             contentPadding = PaddingValues(8.dp),
-                            onClick = { },
+                            onClick = { onTourSelected(list[index].id) },
                         ) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Rounded.ArrowForward,
@@ -434,43 +454,49 @@ fun RecommendedImages(modifier: Modifier = Modifier, images: List<String>) {
 
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(images[2])
+                .data("https://api2.kojaro.com/media/2024-6-9d0b4e18-dd75-4c03-98bd-681d3c5405dd-67c46117c1067c5ba768c245?w=750&q=80")
                 .crossfade(true)
                 .build(),
             placeholder = debugPlaceholder(debugPreview = R.drawable.placeholder_vertical),
             contentDescription = "contentDescription",
             modifier = Modifier
+                .width(130.dp)
+                .fillMaxHeight()
                 .offset(x = 80.dp, y = 24.dp)
                 .rotate(-6f)
                 .clip(MaterialTheme.shapes.large),
-            contentScale = ContentScale.FillHeight,
+            contentScale = ContentScale.Crop,
         )
 
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(images[1])
+                .data("https://api2.kojaro.com/media/2024-6-fa531ae0-4d15-4ce9-8ebb-b241b57a1f66-67c46117c1067c5ba768c248?w=750&q=80")
                 .crossfade(true)
                 .build(),
             placeholder = debugPlaceholder(debugPreview = R.drawable.placeholder_vertical),
             contentDescription = "contentDescription",
             modifier = Modifier
+                .width(130.dp)
+                .fillMaxHeight()
                 .offset(x = -68.dp, y = 16.dp)
                 .rotate(13f)
                 .clip(MaterialTheme.shapes.large),
-            contentScale = ContentScale.FillHeight,
+            contentScale = ContentScale.Crop,
         )
 
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(images[0])
+                .data("https://api2.kojaro.com/media/2024-6-14705d7f-5b2d-4bc4-90f6-08e1fdcdc1dd-67c46117c1067c5ba768c252?w=750&q=80")
                 .crossfade(true)
                 .build(),
             placeholder = debugPlaceholder(debugPreview = R.drawable.placeholder_vertical),
             contentDescription = "contentDescription",
             modifier = Modifier
+                .width(130.dp)
+                .fillMaxHeight()
                 .offset(y = 32.dp)
                 .clip(MaterialTheme.shapes.large),
-            contentScale = ContentScale.FillWidth,
+            contentScale = ContentScale.Crop,
         )
     }
 }
@@ -481,10 +507,10 @@ fun ForYou(list: List<TourList>, onTourSelected: (Long) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(vertical = 16.dp),
     ) {
         IconText(
-            modifier = Modifier.padding(bottom = 16.dp),
+            modifier = Modifier.padding(bottom = 16.dp, start = 16.dp),
             text = {
                 Text(
                     text = stringResource(R.string.home_screen_for_you_label),
@@ -501,7 +527,8 @@ fun ForYou(list: List<TourList>, onTourSelected: (Long) -> Unit) {
         )
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(horizontal = 16.dp)
         ) {
             items(list) { item ->
 
@@ -509,20 +536,20 @@ fun ForYou(list: List<TourList>, onTourSelected: (Long) -> Unit) {
                     modifier = Modifier
                         .width(280.dp)
                         .height(370.dp)
-                        .clickable(enabled = true, onClick = { onTourSelected(-1) }),
+                        .clickable(enabled = true, onClick = { onTourSelected(item.id) }),
 
                     ) {
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)
-                            .data(item.images.first())
+                            .data("https://api2.kojaro.com/media/2024-6-94452122-7d0c-4af2-91c7-f3e96febae2a-67c46117c1067c5ba768c24e")
                             .crossfade(true)
                             .build(),
                         placeholder = debugPlaceholder(debugPreview = R.drawable.placeholder_vertical),
                         contentDescription = "contentDescription",
                         modifier = Modifier
-                            .fillMaxWidth()
+                            .fillMaxSize()
                             .clip(MaterialTheme.shapes.medium),
-                        contentScale = ContentScale.FillWidth,
+                        contentScale = ContentScale.Crop,
                         colorFilter = ColorFilter.tint(
                             color = Color.Black.copy(alpha = 0.4f),
                             blendMode = BlendMode.Darken,
@@ -575,7 +602,7 @@ fun ForYou(list: List<TourList>, onTourSelected: (Long) -> Unit) {
 }
 
 @Composable
-fun TopDestinations(list: List<Attraction>) {
+fun TopDestinations(list: List<Attraction>, onAttractionSelected: (Long) -> Unit) {
 
     Column(
         modifier = Modifier
@@ -606,19 +633,20 @@ fun TopDestinations(list: List<Attraction>) {
                 Box(
                     modifier = Modifier
                         .width(150.dp)
-                        .height(230.dp),
+                        .height(230.dp)
+                        .clickable { onAttractionSelected(attraction.id) },
                 ) {
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)
-                            .data(attraction.images)
+                            .data("https://api2.kojaro.com/media/2024-6-94452122-7d0c-4af2-91c7-f3e96febae2a-67c46117c1067c5ba768c24e")
                             .crossfade(true)
                             .build(),
                         placeholder = debugPlaceholder(debugPreview = R.drawable.placeholder_vertical),
                         contentDescription = "contentDescription",
                         modifier = Modifier
-                            .fillMaxWidth()
+                            .fillMaxSize()
                             .clip(MaterialTheme.shapes.medium),
-                        contentScale = ContentScale.FillWidth,
+                        contentScale = ContentScale.Crop,
                     )
 
                     Image(
@@ -668,7 +696,10 @@ private fun PreviewHomeScreen() {
                         topAttractions = listOf(),
                         forYouTours = listOf(),
                         recommendedThisWeek = listOf(),
-                        onTourSelected = {})
+                        onTourSelected = {},
+                        onCategorySelected = {},
+                        onAttractionSelected = {},
+                    )
                 }
             }
         }

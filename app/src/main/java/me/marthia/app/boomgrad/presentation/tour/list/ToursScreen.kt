@@ -41,7 +41,7 @@ import me.marthia.app.boomgrad.domain.model.TourList
 import me.marthia.app.boomgrad.presentation.common.EmptyScreen
 import me.marthia.app.boomgrad.presentation.common.ErrorScreen
 import me.marthia.app.boomgrad.presentation.common.LoadingScreen
-import me.marthia.app.boomgrad.presentation.components.AppScaffold
+import me.marthia.app.boomgrad.presentation.components.ScaffoldElement
 import me.marthia.app.boomgrad.presentation.components.BackgroundElement
 import me.marthia.app.boomgrad.presentation.components.CardElement
 import me.marthia.app.boomgrad.presentation.components.IconText
@@ -58,7 +58,7 @@ fun ToursListScreen(
 
     val lazyPagingItems = viewModel.toursPagingData.collectAsLazyPagingItems()
 
-    AppScaffold { paddingValues ->
+    ScaffoldElement { paddingValues ->
         when (val loadState = lazyPagingItems.loadState.refresh) {
             is LoadState.Loading -> {
                 LoadingScreen()

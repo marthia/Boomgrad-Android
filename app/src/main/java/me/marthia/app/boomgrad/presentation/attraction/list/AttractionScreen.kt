@@ -1,5 +1,6 @@
 package me.marthia.app.boomgrad.presentation.attraction.list
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,13 +15,23 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalIconToggleButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,6 +39,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
@@ -47,10 +59,12 @@ import me.marthia.app.boomgrad.domain.model.LocationType
 import me.marthia.app.boomgrad.presentation.common.EmptyScreen
 import me.marthia.app.boomgrad.presentation.common.ErrorScreen
 import me.marthia.app.boomgrad.presentation.common.LoadingScreen
-import me.marthia.app.boomgrad.presentation.components.AppScaffold
+import me.marthia.app.boomgrad.presentation.components.ScaffoldElement
 import me.marthia.app.boomgrad.presentation.components.BackgroundElement
 import me.marthia.app.boomgrad.presentation.components.CardElement
 import me.marthia.app.boomgrad.presentation.components.IconText
+import me.marthia.app.boomgrad.presentation.components.SearchElement
+import me.marthia.app.boomgrad.presentation.components.SurfaceElement
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
 import me.marthia.app.boomgrad.presentation.theme.Theme
 import me.marthia.app.boomgrad.presentation.util.debugPlaceholder
@@ -65,7 +79,29 @@ fun AttractionList(
 
     val lazyPagingItems = viewModel.attractionsPagingData.collectAsLazyPagingItems()
 
-    AppScaffold { paddingValues ->
+    ScaffoldElement(topBar = {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth().systemBarsPadding(),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Text(modifier = Modifier.padding(start = 16.dp), text = stringResource(R.string.title_attraction_screen))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+
+                SearchAttractions(
+                    modifier = Modifier
+                        .weight(2.2f)
+                        .padding(start = 16.dp, bottom = 8.dp)
+                )
+                ToggleView(Modifier.weight(1f).padding(end = 16.dp))
+            }
+        }
+    }) { paddingValues ->
         when (val loadState = lazyPagingItems.loadState.refresh) {
             is LoadState.Loading -> {
                 LoadingScreen()
@@ -90,6 +126,86 @@ fun AttractionList(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun ToggleView(modifier: Modifier = Modifier) {
+    var isMapView by remember { mutableStateOf(false) }
+    SurfaceElement(modifier = modifier, shape = RoundedCornerShape(50)) {
+        Row() {
+            FilledTonalIconToggleButton(
+                checked = isMapView,
+                onCheckedChange = {
+                    isMapView = isMapView.not()
+                },
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_map_white_24),
+                    contentDescription = "map view"
+                )
+            }
+
+            FilledTonalIconToggleButton(
+                checked = !isMapView,
+                onCheckedChange = {
+                    isMapView = isMapView.not()
+                },
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_list_view_24),
+                    contentDescription = "list view"
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SearchAttractions(
+    modifier: Modifier = Modifier,
+) {
+    val expanded = remember { mutableStateOf(false) }
+    val searchQuery = remember { mutableStateOf("") }
+    SearchElement(
+        modifier = modifier,
+        inputField = {
+            BasicTextField(
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
+                value = searchQuery.value,
+                onValueChange = {
+                    searchQuery.value = it
+                },
+                decorationBox = {
+                    IconText(
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Icons.Rounded.Search,
+                                contentDescription = "Search",
+                                tint = Theme.colors.textHelp,
+                            )
+                        },
+                        text = {
+                            Text(
+                                text = stringResource(R.string.home_screen_search_help_label),
+                                style = MaterialTheme.typography.labelSmall,
+                                color = Theme.colors.textHelp,
+                            )
+                        },
+                    )
+                },
+            )
+
+        },
+        expanded = expanded.value,
+        onExpandedChange = {
+            expanded.value = false
+        },
+    ) {
+
+        Text(modifier = Modifier.fillMaxWidth(), text = "Content")
+
     }
 }
 
@@ -192,12 +308,14 @@ fun AttractionListItem(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+
                 AsyncImage(
-                    model = item.images.first(),
+                    model = R.drawable.naghshe_jahan1,
                     contentDescription = "attraction image",
                     placeholder = debugPlaceholder(debugPreview = R.drawable.placeholder),
                     modifier = Modifier
                         .width(68.dp)
+                        .height(80.dp)
                         .clip(MaterialTheme.shapes.medium),
                     contentScale = ContentScale.Crop,
                 )

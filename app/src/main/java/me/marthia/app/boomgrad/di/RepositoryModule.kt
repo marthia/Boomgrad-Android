@@ -25,19 +25,6 @@ import me.marthia.app.boomgrad.domain.repository.LoginRepository
 import me.marthia.app.boomgrad.domain.repository.ProfileRepository
 import me.marthia.app.boomgrad.domain.repository.ProvinceCityRepository
 import me.marthia.app.boomgrad.domain.repository.TourRepository
-import me.marthia.app.boomgrad.domain.usecase.attraction.GetAttractionDetailUseCase
-import me.marthia.app.boomgrad.domain.usecase.attraction.GetAttractionsUseCase
-import me.marthia.app.boomgrad.domain.usecase.attraction.GetTopAttractionsUseCase
-import me.marthia.app.boomgrad.domain.usecase.category.GetAttractionCategoryUseCase
-import me.marthia.app.boomgrad.domain.usecase.common.GetCityUseCase
-import me.marthia.app.boomgrad.domain.usecase.common.GetCountyUseCase
-import me.marthia.app.boomgrad.domain.usecase.common.GetProvinceUseCase
-import me.marthia.app.boomgrad.domain.usecase.login.CheckAuthorizationUseCase
-import me.marthia.app.boomgrad.domain.usecase.login.ClearTokenUseCase
-import me.marthia.app.boomgrad.domain.usecase.login.LoginUseCase
-import me.marthia.app.boomgrad.domain.usecase.profile.GetProfileUseCase
-import me.marthia.app.boomgrad.domain.usecase.tour.GetForYouToursUseCase
-import me.marthia.app.boomgrad.domain.usecase.tour.GetWeekRecommendedUseCase
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
@@ -51,13 +38,7 @@ val repositoryModule = module {
     single<AttractionRepository> { AttractionRepositoryImpl(get(), androidContext()) }
 
     single<TokenManager> { TokenManager(androidContext()) }
-
-    // UseCases
-    single<GetAttractionsUseCase> { GetAttractionsUseCase(get()) }
-    single<GetAttractionDetailUseCase> { GetAttractionDetailUseCase(get()) }
-    single<LoginUseCase> { LoginUseCase(get()) }
-    single<ClearTokenUseCase> { ClearTokenUseCase(get()) }
-
+    
     // login repo and service
     singleOf(::LoginApiServiceImpl) bind LoginApiService::class
     singleOf(::LoginRepositoryImpl) bind LoginRepository::class
@@ -74,15 +55,4 @@ val repositoryModule = module {
 
     singleOf(::CategoryRepositoryImpl) bind CategoryRepository::class
     singleOf(::CategoryApiServiceImpl) bind CategoryApiService::class
-
-    single<GetProvinceUseCase> { GetProvinceUseCase(get()) }
-    single<GetCountyUseCase> { GetCountyUseCase(get()) }
-    single<GetCityUseCase> { GetCityUseCase(get()) }
-    single<GetProfileUseCase> { GetProfileUseCase(get()) }
-    single<CheckAuthorizationUseCase> { CheckAuthorizationUseCase(get()) }
-
-    single<GetAttractionCategoryUseCase> { GetAttractionCategoryUseCase(get()) }
-    single<GetForYouToursUseCase> { GetForYouToursUseCase(get()) }
-    single<GetTopAttractionsUseCase> { GetTopAttractionsUseCase(get()) }
-    single<GetWeekRecommendedUseCase> { GetWeekRecommendedUseCase(get()) }
 }

@@ -1,5 +1,6 @@
 package me.marthia.app.boomgrad.presentation.tour.detail
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -8,9 +9,15 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import me.marthia.app.boomgrad.domain.model.TourDetail
 import me.marthia.app.boomgrad.domain.usecase.tour.GetTourDetailUseCase
+import me.marthia.app.boomgrad.presentation.navigation.TourDetailDestination
 import me.marthia.app.boomgrad.presentation.util.ViewState
 
-class TourDetailViewModel(val tourId: Long, val get: GetTourDetailUseCase) : ViewModel() {
+class TourDetailViewModel(
+    val get: GetTourDetailUseCase,
+    savedStateHandle: SavedStateHandle
+) : ViewModel() {
+
+    private val tourId: Long = savedStateHandle.get<Long>(TourDetailDestination.ARG_TOUR_ID) ?: -1
 
     private val _uiState = MutableStateFlow<ViewState<TourDetail>>(ViewState.Idle)
     val uiState: StateFlow<ViewState<TourDetail>> = _uiState.asStateFlow()

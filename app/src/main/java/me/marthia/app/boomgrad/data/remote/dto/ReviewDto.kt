@@ -13,9 +13,8 @@ data class ReviewDto(
     val comment: String?,
     @SerialName("created_at")
     val date: String?,
-    @SerialName("is_current_user")
-    val isCurrentUser: Boolean?,
+    @SerialName("votes")
+    val votes: List<ReviewVoteDto>?,
     @SerialName("rating")
     val rating: Float?,
-
-)
+    )

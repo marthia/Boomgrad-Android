@@ -38,7 +38,7 @@ import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.domain.model.User
 import me.marthia.app.boomgrad.presentation.common.ErrorScreen
 import me.marthia.app.boomgrad.presentation.common.LoadingScreen
-import me.marthia.app.boomgrad.presentation.components.AppScaffold
+import me.marthia.app.boomgrad.presentation.components.ScaffoldElement
 import me.marthia.app.boomgrad.presentation.components.BackgroundElement
 import me.marthia.app.boomgrad.presentation.components.ButtonElement
 import me.marthia.app.boomgrad.presentation.profile.component.LinkItem
@@ -63,7 +63,7 @@ fun ProfileScreen(
             is ViewState.Error -> ErrorScreen()
             is ViewState.Success -> {
 
-                AppScaffold() {
+                ScaffoldElement() {
                     ProfileScreen(
                         modifier = Modifier
                             .padding(it),

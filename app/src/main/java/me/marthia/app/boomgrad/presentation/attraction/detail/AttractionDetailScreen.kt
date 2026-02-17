@@ -65,7 +65,7 @@ import me.marthia.app.boomgrad.presentation.attraction.components.ComposeNewComm
 import me.marthia.app.boomgrad.presentation.category.CategoryTag
 import me.marthia.app.boomgrad.presentation.common.ErrorScreen
 import me.marthia.app.boomgrad.presentation.common.LoadingScreen
-import me.marthia.app.boomgrad.presentation.components.AppScaffold
+import me.marthia.app.boomgrad.presentation.components.ScaffoldElement
 import me.marthia.app.boomgrad.presentation.components.BackgroundElement
 import me.marthia.app.boomgrad.presentation.components.ButtonElement
 import me.marthia.app.boomgrad.presentation.components.CardElement
@@ -90,7 +90,7 @@ fun AttractionDetailScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    AppScaffold(
+    ScaffoldElement(
         topBar = {
             TopBar(
                 title = { },
@@ -143,7 +143,7 @@ fun AttractionImages(modifier: Modifier = Modifier, images: List<AttractionImage
     ) { page ->
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(images[page].imageUrl)
+                .data(R.drawable.ali_qapu)
                 .crossfade(true)
                 .build(),
             placeholder = debugPlaceholder(debugPreview = R.drawable.placeholder),

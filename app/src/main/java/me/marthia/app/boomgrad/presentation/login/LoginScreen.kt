@@ -33,7 +33,7 @@ import androidx.compose.ui.text.withLink
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import me.marthia.app.boomgrad.R
-import me.marthia.app.boomgrad.presentation.components.AppScaffold
+import me.marthia.app.boomgrad.presentation.components.ScaffoldElement
 import me.marthia.app.boomgrad.presentation.components.BackgroundElement
 import me.marthia.app.boomgrad.presentation.components.ButtonElement
 import me.marthia.app.boomgrad.presentation.components.TextFieldElement
@@ -50,7 +50,7 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
 
     val viewState by viewModel.loginState.collectAsState()
 
-    AppScaffold { paddingValues ->
+    ScaffoldElement { paddingValues ->
 
         LoginScreenContent(
             modifier = Modifier.padding(paddingValues),

@@ -41,12 +41,12 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import me.marthia.app.boomgrad.R
-import me.marthia.app.boomgrad.presentation.components.AppScaffold
-import me.marthia.app.boomgrad.presentation.components.IconText
-import me.marthia.app.boomgrad.presentation.components.JetHorizontalDivider
+import me.marthia.app.boomgrad.presentation.components.ScaffoldElement
 import me.marthia.app.boomgrad.presentation.components.BackgroundElement
 import me.marthia.app.boomgrad.presentation.components.CardElement
 import me.marthia.app.boomgrad.presentation.components.FilledIconButtonElement
+import me.marthia.app.boomgrad.presentation.components.IconText
+import me.marthia.app.boomgrad.presentation.components.JetHorizontalDivider
 import me.marthia.app.boomgrad.presentation.components.QuantitySelector
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
 import me.marthia.app.boomgrad.presentation.theme.Theme
@@ -55,14 +55,16 @@ import me.marthia.app.boomgrad.presentation.util.debugPlaceholder
 @Composable
 fun CartScreen() {
 
-    AppScaffold() {
-        CartScreen(modifier = Modifier, paddingValues = it,)
+    ScaffoldElement() {
+        CartScreen(modifier = Modifier, paddingValues = it)
     }
 }
 
 @Composable
-fun CartScreen(modifier: Modifier = Modifier,
-               paddingValues: PaddingValues,) {
+fun CartScreen(
+    modifier: Modifier = Modifier,
+    paddingValues: PaddingValues,
+) {
 
     LazyColumn(
         modifier = modifier.fillMaxSize(),
@@ -154,7 +156,11 @@ private fun CartItem(modifier: Modifier = Modifier) {
 
                 Spacer(Modifier.width(8.dp))
 
-                FilledIconButtonElement(onClick = {}) {
+                FilledIconButtonElement(
+                    onClick = {},
+                    containerColor = Theme.colors.materialTheme.secondaryContainer,
+                    contentColor = Theme.colors.materialTheme.secondary
+                ) {
                     Icon(Icons.Rounded.DeleteForever, "Delete")
                 }
             }
