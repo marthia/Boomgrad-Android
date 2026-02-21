@@ -84,7 +84,7 @@ import me.marthia.app.boomgrad.presentation.components.BackgroundElement
 import me.marthia.app.boomgrad.presentation.components.ButtonElement
 import me.marthia.app.boomgrad.presentation.components.CardElement
 import me.marthia.app.boomgrad.presentation.components.IconText
-import me.marthia.app.boomgrad.presentation.components.JetHorizontalDivider
+import me.marthia.app.boomgrad.presentation.components.HorizontalDividerElement
 import me.marthia.app.boomgrad.presentation.components.JetVerticalDivider
 import me.marthia.app.boomgrad.presentation.components.PlainButton
 import me.marthia.app.boomgrad.presentation.components.ScaffoldElement
@@ -409,7 +409,7 @@ fun Recommended(list: List<TourList>, onTourSelected: (Long) -> Unit) {
                         images = list[index].images
                     )
 
-                    JetHorizontalDivider(modifier = Modifier.padding(top = 60.dp, bottom = 24.dp))
+                    HorizontalDividerElement(modifier = Modifier.padding(top = 60.dp, bottom = 24.dp))
 
 
                     Text(text = list[index].title, style = MaterialTheme.typography.titleMedium)
@@ -567,7 +567,7 @@ fun ForYou(list: List<TourList>, onTourSelected: (Long) -> Unit) {
                             style = MaterialTheme.typography.titleMedium,
                             color = Theme.colors.materialTheme.surface,
                         )
-                        JetHorizontalDivider(
+                        HorizontalDividerElement(
                             modifier = Modifier.padding(vertical = 8.dp),
                             color = Theme.colors.materialTheme.outline
                         )

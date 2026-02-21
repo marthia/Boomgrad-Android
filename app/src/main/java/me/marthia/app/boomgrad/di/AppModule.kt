@@ -5,6 +5,7 @@ import me.marthia.app.boomgrad.presentation.attraction.detail.AttractionDetailVi
 import me.marthia.app.boomgrad.presentation.attraction.list.AttractionsViewModel
 import me.marthia.app.boomgrad.presentation.components.SnackbarManager
 import me.marthia.app.boomgrad.presentation.favorites.FavoritesViewModel
+import me.marthia.app.boomgrad.presentation.guide.GuideInfoViewModel
 import me.marthia.app.boomgrad.presentation.home.HomeViewModel
 import me.marthia.app.boomgrad.presentation.login.LoginViewModel
 import me.marthia.app.boomgrad.presentation.profile.ProfileViewModel
@@ -24,6 +25,7 @@ val appModule = module {
     viewModel { ProfileViewModel(get(), get()) }
     viewModel { LoginViewModel(get(), get(), SnackbarManager) }
     viewModel { TourDetailViewModel(get(), get()) }
+    viewModel { GuideInfoViewModel(get(), get()) }
 
     viewModel {
         HomeViewModel(

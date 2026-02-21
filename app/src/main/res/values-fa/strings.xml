@@ -70,4 +70,133 @@
     <string name="label_attraction_detail_new_review">ثبت دیدگاه</string>
     <string name="title_attraction_screen">جاذبه‌های گردشگری</string>
 
+
+    <!-- CreateEditTour - Basic Info -->
+    <string name="label_basic_info">اطلاعات پایه</string>
+    <string name="label_tour_title">عنوان تور</string>
+    <string name="placeholder_tour_title">عنوان مورد نظر خود را وارد کنید</string>
+    <string name="label_subtitle">زیر عنوان</string>
+    <string name="placeholder_subtitle">متن مورد نظر خود را وارد کنید</string>
+    <string name="label_city">شهر</string>
+    <string name="label_tour_type">نوع تور</string>
+    <string name="label_difficulty_level">سطح سختی</string>
+    <string name="label_demographic">جمعیت‌شناسی</string>
+    <string name="label_duration">مدت زمان</string>
+    <string name="placeholder_duration">مقدار مورد نظر خود را وارد کنید</string>
+    <string name="label_select">انتخاب کنید</string>
+
+    <!-- Schedules -->
+    <string name="label_tour_dates">تاریخ (های) برگزاری تور</string>
+    <string name="action_add_date">افزودن تاریخ برگزاری</string>
+    <string name="label_tour_date">تاریخ تور*</string>
+    <string name="label_start_time">زمان شروع*</string>
+    <string name="placeholder_enter_text">متن مورد نظر خود را وارد کنید</string>
+
+    <!-- Price and Capacity -->
+    <string name="label_price_and_capacity">قیمت و ظرفیت</string>
+    <string name="label_price_toman">قیمت (تومان)*</string>
+    <string name="label_capacity">ظرفیت*</string>
+    <string name="placeholder_enter_value">مقدار مورد نظر خود را وارد کنید</string>
+    <string name="label_cancellation_policy">سیاست لغو</string>
+
+    <!-- Tour Images -->
+    <string name="label_tour_images">تصاویر تور</string>
+    <string name="action_upload_image">آپلود تصویر جدید</string>
+    <string name="label_image_limit">۲/۱۰ - حداکثر ۵ مگابایت</string>
+    <string name="cd_add_tour_photo">افزودن عکس تور جدید</string>
+    <string name="cd_tour_photo">عکس تور</string>
+    <string name="cd_due_date">تاریخ سررسید</string>
+    <string name="cd_due_time">زمان سررسید</string>
+    <string name="cd_dropdown_arrow">منوی کشویی</string>
+
+    <!-- Misc Info -->
+    <string name="label_misc_info">اطلاعات تکمیلی</string>
+    <string name="label_required_items">وسایل مورد نیاز</string>
+    <string name="label_highlights">نکات برجسته</string>
+    <string name="label_itinerary">برنامه سفر</string>
+    <string name="label_description">توضیحات</string>
+    <string name="placeholder_required_items">وسایل مورد نیاز را وارد کنید</string>
+    <string name="placeholder_highlights">نکات برجسته تور را وارد کنید</string>
+    <string name="placeholder_description">توضیحات تور را وارد کنید</string>
+
+    <!-- Itinerary -->
+    <string name="label_itinerary_section">برنامه سفر</string>
+    <string name="action_add_stop">افزودن توقف</string>
+    <string name="label_stop_number">توقف %d</string>
+    <string name="label_stop_title">عنوان توقف*</string>
+    <string name="placeholder_stop_title">مثلاً دروازه شهر، مسیر آبشار…</string>
+    <string name="label_stop_description">توضیحات</string>
+    <string name="placeholder_stop_description">توضیح کوتاهی درباره این توقف بنویسید</string>
+    <string name="label_stop_duration">مدت زمان (دقیقه)</string>
+    <string name="placeholder_stop_duration">مثلاً ۳۰</string>
+    <string name="label_stop_location">نام مکان</string>
+    <string name="placeholder_stop_location">مثلاً برج میلاد</string>
+    <string name="label_stop_latitude">عرض جغرافیایی</string>
+    <string name="placeholder_stop_latitude">مثلاً ۳۵.۷۴۴۸</string>
+    <string name="label_stop_longitude">طول جغرافیایی</string>
+    <string name="placeholder_stop_longitude">مثلاً ۵۱.۳۷۵۳</string>
+    <string name="action_pick_on_map">انتخاب روی نقشه</string>
+    <string name="action_remove_stop">حذف توقف</string>
+    <string name="action_move_up">انتقال به بالا</string>
+    <string name="action_move_down">انتقال به پایین</string>
+    <string name="cd_drag_handle">برای مرتب‌سازی بکشید</string>
+    <string name="cd_remove_stop">حذف این توقف</string>
+    <string name="cd_move_stop_up">انتقال توقف به بالا</string>
+    <string name="cd_move_stop_down">انتقال توقف به پایین</string>
+    <string name="cd_pick_on_map">انتخاب مکان روی نقشه</string>
+    <string name="label_itinerary_empty">هنوز توقفی اضافه نشده.\nبرای شروع «افزودن توقف» را بزنید.</string>
+    <string name="label_itinerary_duration_minitues">%d دقیقه</string>
+    <string name="label_level_beginner">آسان</string>
+    <string name="label_level_intermediate">متوسط</string>
+    <string name="label_level_advanced">سخت</string>
+    <string name="label_level_expert">حرفه‌ای</string>
+    <string name="label_demographic_all_ages">همه سنین</string>
+    <string name="label_demographic_families">خانوادگی</string>
+    <string name="label_demographic_adults_only">فقط بزرگسال</string>
+    <string name="label_demographic_seniors">سالمند</string>
+    <string name="label_demographic_youth">جوان</string>
+    <string name="label_demographic_couples">زوجین</string>
+    <string name="label_tour_total_tours">%d تور برگزار شده</string>
+    <string name="cd_verified_guide">راهنمای تایید شده</string>
+    <string name="title_guide_info">درباره راهنما</string>
+
+    <!-- ── Cart Screen ──────────────────────────────────────────────────────── -->
+    <string name="cart_title">سبد خرید</string>
+    <string name="cart_empty_title">سبد خرید شما خالی است</string>
+    <string name="cart_empty_subtitle">تورها را مرور کنید و به سبد اضافه کنید</string>
+
+    <!-- ── Cart Item ─────────────────────────────────────────────────────────── -->
+    <string name="cart_item_per_person">%s / نفر</string>
+    <string name="cart_item_people_count">تعداد نفرات</string>
+    <string name="cart_item_subtotal">جمع کل</string>
+    <string name="cart_item_delete_description">حذف از سبد</string>
+    <string name="cart_item_date_range">از %1$s تا %2$s</string>
+
+    <!-- ── Availability Warnings ─────────────────────────────────────────────── -->
+    <string name="cart_warning_fully_booked">این تور تکمیل ظرفیت شده</string>
+    <string name="cart_warning_few_spots">فقط %d جای خالی مانده</string>
+
+    <!-- ── Order Summary (CartOverview) ─────────────────────────────────────── -->
+    <string name="cart_overview_title">خلاصه سفارش</string>
+    <string name="cart_overview_tours_subtotal">جمع تورها</string>
+    <string name="cart_overview_service_fee">هزینه سرویس</string>
+    <string name="cart_overview_total">مجموع نهایی</string>
+
+    <!-- ── Cancellation Policy ───────────────────────────────────────────────── -->
+    <string name="cancellation_policy_title">سیاست لغو</string>
+    <string name="cancellation_policy_48h">تا ۴۸ ساعت قبل از شروع تور: بازگشت کامل وجه</string>
+    <string name="cancellation_policy_24h">تا ۲۴ ساعت قبل از شروع تور: بازگشت ۵۰٪ وجه</string>
+    <string name="cancellation_policy_no_refund">کمتر از ۲۴ ساعت قبل از شروع تور: عدم بازگشت وجه</string>
+
+    <!-- ── Checkout Button ───────────────────────────────────────────────────── -->
+    <string name="cart_checkout_button">ادامه و پرداخت</string>
+    <string name="cart_checkout_total">مجموع: %s</string>
+
+    <!-- ── Quantity Selector ─────────────────────────────────────────────────── -->
+    <string name="quantity_increase">افزایش تعداد</string>
+    <string name="quantity_decrease">کاهش تعداد</string>
+    <string name="quantity_current">%d نفر</string>
+    <string name="title_tour_detail_screen">جزییات تور</string>
+
+
 </resources>

@@ -15,7 +15,7 @@ data class TourDetail(
     val reviews: List<Review>,
     val images: List<String>,
     val requiredItems: List<String>,
-    val level: String,
+    val level: TourLevel,
     val dueDate: String,
     val startTime: String,
     val demographic: Demographic,

@@ -3,6 +3,7 @@ package me.marthia.app.boomgrad.data.remote.dto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import me.marthia.app.boomgrad.domain.model.Demographic
+import me.marthia.app.boomgrad.domain.model.TourLevel
 import me.marthia.app.boomgrad.domain.model.TourStatus
 
 @Serializable
@@ -40,7 +41,7 @@ data class TourDetailDto(
     @SerialName("required_items")
     val requiredItems: List<String>,
     @SerialName("level")
-    val level: String,
+    val level: TourLevel,
     @SerialName("due_date")
     val dueDate: String,
     @SerialName("start_time")

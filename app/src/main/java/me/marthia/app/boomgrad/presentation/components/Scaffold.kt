@@ -79,23 +79,23 @@ fun ScaffoldElement(
 }
 
 /**
- * Remember and creates an instance of [JetsnackScaffoldState]
+ * Remember and creates an instance of [AppScaffoldState]
  */
 @Composable
-fun rememberJetsnackScaffoldState(
+fun rememberAppScaffoldState(
     snackBarHostState: SnackbarHostState = remember { SnackbarHostState() },
     snackbarManager: SnackbarManager = SnackbarManager,
     resources: Resources = resources(),
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
-): JetsnackScaffoldState = remember(snackBarHostState, snackbarManager, resources, coroutineScope) {
-    JetsnackScaffoldState(snackBarHostState, snackbarManager, resources, coroutineScope)
+): AppScaffoldState = remember(snackBarHostState, snackbarManager, resources, coroutineScope) {
+    AppScaffoldState(snackBarHostState, snackbarManager, resources, coroutineScope)
 }
 
 /**
  * Responsible for holding [ScaffoldState], handles the logic of showing snackbar messages
  */
 @Stable
-class JetsnackScaffoldState(
+class AppScaffoldState(
     val snackBarHostState: SnackbarHostState,
     private val snackbarManager: SnackbarManager,
     private val resources: Resources,

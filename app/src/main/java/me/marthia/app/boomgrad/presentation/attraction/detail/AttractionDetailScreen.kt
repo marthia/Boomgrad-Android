@@ -70,7 +70,7 @@ import me.marthia.app.boomgrad.presentation.components.BackgroundElement
 import me.marthia.app.boomgrad.presentation.components.ButtonElement
 import me.marthia.app.boomgrad.presentation.components.CardElement
 import me.marthia.app.boomgrad.presentation.components.IconText
-import me.marthia.app.boomgrad.presentation.components.JetHorizontalDivider
+import me.marthia.app.boomgrad.presentation.components.HorizontalDividerElement
 import me.marthia.app.boomgrad.presentation.components.SurfaceElement
 import me.marthia.app.boomgrad.presentation.components.TopBar
 import me.marthia.app.boomgrad.presentation.profile.component.dashedBorder
@@ -93,7 +93,9 @@ fun AttractionDetailScreen(
     ScaffoldElement(
         topBar = {
             TopBar(
-                title = { },
+                title = {
+                    Text(stringResource(R.string.title_attraction_screen))
+                },
                 onBackClick = onBackClick
             )
         }
@@ -511,7 +513,7 @@ fun TourItem(modifier: Modifier = Modifier, tour: TourList) {
                     Text("${tour.price} نفر", style = MaterialTheme.typography.bodySmall)
                 }
             }
-            JetHorizontalDivider()
+            HorizontalDividerElement()
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

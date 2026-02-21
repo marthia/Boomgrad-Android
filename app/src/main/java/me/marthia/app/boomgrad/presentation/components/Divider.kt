@@ -32,7 +32,7 @@ import me.marthia.app.boomgrad.presentation.theme.AppTheme
 import me.marthia.app.boomgrad.presentation.theme.Theme
 
 @Composable
-fun JetHorizontalDivider(
+fun HorizontalDividerElement(
     modifier: Modifier = Modifier,
     color: Color = Theme.colors.materialTheme.outline,
     thickness: Dp = 1.dp,
@@ -63,10 +63,10 @@ private const val DividerAlpha = 0.12f
 @Preview("default", showBackground = true)
 @Preview("dark theme", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
 @Composable
-private fun DividerPreview() {
+private fun DividerElementPreview() {
     AppTheme {
         Box(Modifier.size(height = 10.dp, width = 100.dp)) {
-            JetHorizontalDivider(Modifier.align(Alignment.Center))
+            HorizontalDividerElement(Modifier.align(Alignment.Center))
         }
     }
 }

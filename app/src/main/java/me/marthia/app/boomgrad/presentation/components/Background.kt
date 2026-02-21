@@ -11,6 +11,8 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.TileMode
+import me.marthia.app.boomgrad.presentation.theme.Green8
 import me.marthia.app.boomgrad.presentation.theme.Theme
 
 

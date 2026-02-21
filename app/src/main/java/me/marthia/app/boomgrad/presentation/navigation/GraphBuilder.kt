@@ -27,7 +27,7 @@ fun NavGraphBuilder.addHomeGraph(
     }
 
     composable(CartDestination.route) { from ->
-        CartScreen()
+        CartScreen(onBackClick = {}, onCheckout = {})
     }
 
 

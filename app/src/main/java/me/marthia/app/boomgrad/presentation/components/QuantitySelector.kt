@@ -47,6 +47,7 @@ import me.marthia.app.boomgrad.presentation.theme.Theme
 @Composable
 fun QuantitySelector(
     modifier: Modifier = Modifier,
+    maxCount: Int = Int.MAX_VALUE,
     count: MutableIntState = remember { mutableIntStateOf(1) }
 ) {
 
@@ -57,7 +58,7 @@ fun QuantitySelector(
     ) {
 
         ButtonElement(
-            onClick = { if (count.intValue > 0) count.intValue -= 1 },
+            onClick = { if (count.intValue >= maxCount) count.intValue -= 1 },
             shape = MaterialTheme.shapes.small,
             contentColor = Theme.colors.materialTheme.primary,
             backgroundGradient = listOf(

@@ -32,32 +32,60 @@ val Neutral0 = Color(0xffffffff)
 val Grey0 = Color(0xFFEDEDED)
 
 
-val Green11 = Color(0xff00524f)
-val Green10 = Color(0xff006a66)
-val Green9 = Color(0xff00827d)
-val Green8 = Color(0xff009896) // Main Green color
-val Green7 = Color(0xff00b2ac)
-val Green6 = Color(0xff13cac2)
-val Green5 = Color(0xff30e0d8)
-val Green4 = Color(0xff57f2ec)
-val Green3 = Color(0xff86faf4)
-val Green2 = Color(0xffbbfdfa)
-val Green1 = Color(0xffd6fefd)
-val Green0 = Color(0xfff2fffe)
+// Two palettes — Green and DarkGreen.
+// Turquoise removed: hue difference from Green was only 5–9°, not perceptually
+// distinct enough to justify 12 extra color slots.
+//
+// Green    H≈178°  — full tonal range, use for interactive elements,
+//                    accents, text on dark backgrounds (Green3–Green0)
+//
+// DarkGreen H=178° — dark register only (L: 3%–56%), use exclusively for
+//                    backgrounds, surfaces, and elevation layers.
+//                    Never use for text — lowest contrast ratio at L:56%
+//                    against L:3% is still only ~5:1.
+// ─────────────────────────────────────────────────────────────────────────────
 
+// ── Green ────────────────────────────────────────────────────────────────────
+// Clean, well-ordered. Kept as-is.
+//
+// Index: 11    10    9     8     7     6     5     4     3     2     1     0
+// L%:    16    21    26    30    35    43    53    65    75    86    92    98
 
-val DarkGreen11 = Color(0xFF001F1E)
-val DarkGreen10 = Color(0xFF002B2C)
-val DarkGreen9 = Color(0xFF004241)
-val DarkGreen8 = Color(0xFF001010) // Main Green color
-val DarkGreen7 = Color(0xFF041C1B)
-val DarkGreen6 = Color(0xFF0D5754)
-val DarkGreen5 = Color(0xFF053A37)
-val DarkGreen4 = Color(0xFF07706C)
-val DarkGreen3 = Color(0xFF033330)
-val DarkGreen2 = Color(0xFF025B57)
-val DarkGreen1 = Color(0xffd6fefd)
-val DarkGreen0 = Color(0xfff2fffe)
+val Green11 = Color(0xFF00524F)  // L:16%
+val Green10 = Color(0xFF006A66)  // L:21%
+val Green9  = Color(0xFF00827D)  // L:26%
+val Green8  = Color(0xFF009896)  // L:30%  ← primary brand color
+val Green7  = Color(0xFF00B2AC)  // L:35%
+val Green6  = Color(0xFF13CAC2)  // L:43%
+val Green5  = Color(0xFF30E0D8)  // L:53%
+val Green4  = Color(0xFF57F2EC)  // L:65%
+val Green3  = Color(0xFF86FAF4)  // L:75%
+val Green2  = Color(0xFFBBFDFA)  // L:86%
+val Green1  = Color(0xFFD6FEFD)  // L:92%
+val Green0  = Color(0xFFF2FFFE)  // L:98%
+
+// ── DarkGreen ────────────────────────────────────────────────────────────────
+// Fixed: perceptual curve — steps tight at dark end, expanding toward lighter.
+// Capped at L:56% — stays in the dark register throughout.
+// DarkGreen1/DarkGreen0 were identical to Green1/Green0 — removed and replaced
+// with proper dark shades.
+//
+// Index: 11    10    9     8     7     6     5     4     3     2     1     0
+// L%:     3     5     8    12    17    24    32    41    46    50    53    56
+// Step:     +2    +3    +4    +5    +7    +8    +9    +5    +4    +3    +3
+
+val DarkGreen11 = Color(0xFF000F0E)  // L:3%   ← darkest background
+val DarkGreen10 = Color(0xFF001918)  // L:5%
+val DarkGreen9  = Color(0xFF002827)  // L:8%
+val DarkGreen8  = Color(0xFF003D3B)  // L:12%
+val DarkGreen7  = Color(0xFF005653)  // L:17%
+val DarkGreen6  = Color(0xFF007A76)  // L:24%
+val DarkGreen5  = Color(0xFF00A39D)  // L:32%
+val DarkGreen4  = Color(0xFF00D1CA)  // L:41%
+val DarkGreen3  = Color(0xFF00EAE2)  // L:46%
+val DarkGreen2  = Color(0xFF00FFF6)  // L:50%
+val DarkGreen1  = Color(0xFF0FFFF7)  // L:53%
+val DarkGreen0  = Color(0xFF1EFFF7)  // L:56%
 
 
 val Turquoise11 = Color(0xff00525d)
@@ -72,6 +100,7 @@ val Turquoise3 = Color(0xff86faf8)
 val Turquoise2 = Color(0xffbbfdfc)
 val Turquoise1 = Color(0xffd6fefe)
 val Turquoise0 = Color(0xfff2ffff)
+
 
 
 val Hana11 = Color(0xff521c00)

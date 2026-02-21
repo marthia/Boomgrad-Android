@@ -49,10 +49,10 @@ private val LightColorPalette = AppColorScheme(
         onSecondaryContainer = Hana7,
 
         // Tertiary colors - using your Turquoise accent
-        tertiary = Turquoise8,
-        onTertiary = Neutral0,
-        tertiaryContainer = Turquoise8.copy(alpha = 0.25f),
-        onTertiaryContainer = Turquoise8,
+        tertiary = HanaGreen8,
+        onTertiary = HanaGreen0,
+        tertiaryContainer = HanaGreen8.copy(alpha = 0.25f),
+        onTertiaryContainer = HanaGreen0,
 
         // Background colors
         background = Green0, // Your uiBackground
@@ -85,7 +85,7 @@ private val LightColorPalette = AppColorScheme(
         onErrorContainer = FunctionalRed5,
 
         // Outline colors
-        outline = Color(0xFFE4F3F2), // Your uiBorder
+        outline = Green8.copy(alpha = 0.10f), // Your uiBorder
         outlineVariant = Khaki4, // Your outlineSecondary
 
         // Scrim for modals/dialogs
@@ -93,15 +93,11 @@ private val LightColorPalette = AppColorScheme(
     ),
     textHelp = Color(0xFF545454),
     uiBorder = Grey0,
-    uiBackgroundGradient = listOf(Turquoise8.copy(alpha = 0.25f), Turquoise0),
-    uiContainerGradient = listOf(Green8.copy(0.15f), Green1),
+    uiBackgroundGradient = listOf(Color(0xFFC2F1F1), Color(0xFFEEF7F7)),
+    uiContainerGradient = listOf(Color(0xFFBBF1F8), Color(0xffD7EFEF)),
     gradientGreen8Green3 = listOf(Green8, Color(0xff00B8B5)),
-    gradientTurq4Green4 = listOf(Turquoise4.copy(alpha = 0.4f), Green4.copy(alpha = 0.4f)),
-    gradientTurqaa4Green4 = listOf(Turquoise4, Green4),
-    gradientTurq8Green8 = listOf(Turquoise8, Green8),
-
-
-    )
+    gradientTurq8Green8 = listOf(Color(0xff0098AA), Green8),
+)
 
 private val DarkColorPalette = AppColorScheme(
     materialTheme = darkColorScheme(
@@ -116,10 +112,10 @@ private val DarkColorPalette = AppColorScheme(
         secondaryContainer = Color(0xFF6B3C00),
         onSecondaryContainer = Khaki1,
 
-        tertiary = Turquoise4,
-        onTertiary = Color(0xFF003735),
-        tertiaryContainer = Color(0xFF005350),
-        onTertiaryContainer = Turquoise0,
+        tertiary = HanaGreen4,
+        onTertiary = HanaGreen11,
+        tertiaryContainer = HanaGreen8,
+        onTertiaryContainer = HanaGreen4,
 
         background = Color(0xFF191C1B),
         onBackground = Color(0xFFE1E3E0),
@@ -157,10 +153,8 @@ private val DarkColorPalette = AppColorScheme(
     uiContainerGradient = listOf(DarkGreen8, DarkGreen5),
     gradientTurq8Green8 = listOf(DarkGreen10, DarkGreen6),
     gradientGreen8Green3 = listOf(DarkGreen10, DarkGreen6),
-    gradientTurq4Green4 = listOf(DarkGreen6.copy(alpha = 0.4f), DarkGreen4.copy(alpha = 0.4f)),
-    gradientTurqaa4Green4 = listOf(DarkGreen11, DarkGreen6),
 
-)
+    )
 
 @Composable
 fun AppTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
@@ -204,14 +198,12 @@ data class AppColorScheme(
     val textHelp: Color,
     val uiBorder: Color,
     val gradientGreen8Green3: List<Color>,
-    val gradientTurq4Green4: List<Color>,
-    val gradientTurqaa4Green4: List<Color>,
     val gradientTurq8Green8: List<Color>,
     val uiBackgroundGradient: List<Color>,
     val uiContainerGradient: List<Color>,
     val interactivePrimary: List<Color> = gradientGreen8Green3,
-    val interactiveSecondary: List<Color> = gradientTurq4Green4,
-    val interactiveMask: List<Color> = gradientTurq4Green4,
+    val interactiveSecondary: List<Color> = listOf(Green8, Color(0xff00B8B5)),
+    val interactiveMask: List<Color> = listOf(Green8, Color(0xff00B8B5)),
 )
 
 private val LocalAppColorScheme = staticCompositionLocalOf<AppColorScheme> {

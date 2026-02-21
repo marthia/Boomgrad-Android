@@ -33,7 +33,7 @@ import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.presentation.components.BackgroundElement
 import me.marthia.app.boomgrad.presentation.components.CardElement
 import me.marthia.app.boomgrad.presentation.components.IconText
-import me.marthia.app.boomgrad.presentation.components.JetHorizontalDivider
+import me.marthia.app.boomgrad.presentation.components.HorizontalDividerElement
 import me.marthia.app.boomgrad.presentation.components.SurfaceElement
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
 import me.marthia.app.boomgrad.presentation.theme.Theme
@@ -157,7 +157,7 @@ fun Features(modifier: Modifier = Modifier) {
                     )
                 })
 
-            JetHorizontalDivider()
+            HorizontalDividerElement()
 
             IconText(
                 text = {
@@ -181,7 +181,7 @@ fun Features(modifier: Modifier = Modifier) {
                     )
                 })
 
-            JetHorizontalDivider()
+            HorizontalDividerElement()
 
             IconText(
                 text = {
@@ -205,7 +205,7 @@ fun Features(modifier: Modifier = Modifier) {
                     )
                 })
 
-            JetHorizontalDivider()
+            HorizontalDividerElement()
 
             IconText(
                 text = {
@@ -229,7 +229,7 @@ fun Features(modifier: Modifier = Modifier) {
                     )
                 })
 
-            JetHorizontalDivider()
+            HorizontalDividerElement()
 
             IconText(
                 text = {
@@ -253,7 +253,7 @@ fun Features(modifier: Modifier = Modifier) {
                     )
                 })
 
-            JetHorizontalDivider()
+            HorizontalDividerElement()
 
             IconText(
                 text = {

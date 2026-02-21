@@ -1,5 +1,4 @@
-/*
-package me.marthia.app.boomgrad.presentation.tour.detail.guide
+package me.marthia.app.boomgrad.presentation.guide
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,18 +19,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import me.marthia.app.boomgrad.R
-
 import me.marthia.app.boomgrad.presentation.attraction.detail.AvailableTours
 import me.marthia.app.boomgrad.presentation.common.ErrorScreen
 import me.marthia.app.boomgrad.presentation.common.LoadingScreen
-import me.marthia.app.boomgrad.presentation.components.AppScaffold
+import me.marthia.app.boomgrad.presentation.components.ScaffoldElement
 import me.marthia.app.boomgrad.presentation.components.TopBar
+import me.marthia.app.boomgrad.presentation.guide.model.GuideUi
 import me.marthia.app.boomgrad.presentation.util.ViewState
 import me.marthia.app.boomgrad.presentation.util.debugPlaceholder
 import org.koin.androidx.compose.koinViewModel
@@ -39,15 +39,19 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GuideInfoScreen(
+    guideId: Long,
     viewModel: GuideInfoViewModel = koinViewModel(),
     onBackClick: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    AppScaffold(
+
+    ScaffoldElement(
         topBar = {
             TopBar(
-                title = { },
+                title = {
+                    Text(stringResource(R.string.title_guide_info))
+                },
                 onBackClick = onBackClick
             )
         }
@@ -59,14 +63,9 @@ fun GuideInfoScreen(
         ) {
             when (val state = uiState) {
                 is ViewState.Loading -> LoadingScreen()
+                is ViewState.Error -> ErrorScreen(onBack = onBackClick)
                 is ViewState.Success -> {
                     GuideInfoScreen(state = state.value)
-                }
-
-                is ViewState.Error -> {
-                    ErrorScreen(
-                        onRetry = { viewModel.retry() }
-                    )
                 }
 
                 else -> {}
@@ -77,17 +76,17 @@ fun GuideInfoScreen(
 
 
 @Composable
-fun GuideInfoScreen(modifier: Modifier = Modifier, state: GuideUiState) {
+fun GuideInfoScreen(modifier: Modifier = Modifier, state: GuideUi) {
     Column(modifier = modifier.fillMaxWidth()) {
         Banner(
             modifier = Modifier,
-            image = state.guideInfo.image,
-            name = state.guideInfo.fullName,
-            phone = state.guideInfo.phone
+            image = state.userImage,
+            name = state.fullName,
+            phone = state.phone
         )
         Text(
             modifier = Modifier.fillMaxWidth(),
-            text = state.guideInfo.bio,
+            text = state.bio,
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Justify,
         )
@@ -124,4 +123,4 @@ fun Banner(modifier: Modifier = Modifier, image: String, name: String, phone: St
         )
         Spacer(Modifier.height(8.dp))
     }
-}*/
+}

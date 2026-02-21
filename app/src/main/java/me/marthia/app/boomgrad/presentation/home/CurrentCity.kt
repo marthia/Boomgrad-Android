@@ -166,7 +166,7 @@ fun CurrentCityScreen(
 
                 LazyColumn() {
                     items(cities) { city ->
-                        Text("${city.province}, ${city.county}")
+                        Text("${city.provinceName}, ${city.countyName}")
                         Text(city.name)
                     }
                 }

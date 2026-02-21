@@ -17,10 +17,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
+import me.marthia.app.boomgrad.presentation.bottombar.AppBottomBar
 import me.marthia.app.boomgrad.presentation.components.ScaffoldElement
 import me.marthia.app.boomgrad.presentation.components.SnackBarElement
-import me.marthia.app.boomgrad.presentation.components.rememberJetsnackScaffoldState
-import me.marthia.app.boomgrad.presentation.home.AppBottomBar
+import me.marthia.app.boomgrad.presentation.components.rememberAppScaffoldState
 import me.marthia.app.boomgrad.presentation.navigation.FeedDestination
 import me.marthia.app.boomgrad.presentation.navigation.LocalNavAnimatedVisibilityScope
 import me.marthia.app.boomgrad.presentation.navigation.LocalSharedTransitionScope
@@ -36,7 +36,7 @@ fun MainContainer(
     onNavigateToLogin: () -> Unit,
     onAttractionSelected: (Long, NavBackStackEntry) -> Unit,
 ) {
-    val jetsnackScaffoldState = rememberJetsnackScaffoldState()
+    val scaffoldState = rememberAppScaffoldState()
     val nestedNavController = rememberAppNavigator()
     val navBackStackEntry by nestedNavController.navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -81,7 +81,7 @@ fun MainContainer(
                 snackbar = { snackbarData -> SnackBarElement(snackbarData) },
             )
         },
-        snackBarHostState = jetsnackScaffoldState.snackBarHostState,
+        snackBarHostState = scaffoldState.snackBarHostState,
     ) { padding ->
         NavHost(
             navController = nestedNavController.navController,

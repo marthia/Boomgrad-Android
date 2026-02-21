@@ -19,8 +19,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.domain.model.ItineraryStop
 import me.marthia.app.boomgrad.presentation.theme.Theme
 
@@ -31,7 +33,6 @@ enum class LineType {
     FIRST,
     LAST
 }
-
 
 
 @Composable
@@ -121,7 +122,7 @@ fun ItineraryItem(
             }
             Text(
                 text = destination,
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.labelLarge,
                 color = if (lineType == LineType.FIRST || lineType == LineType.LAST)
                     Theme.colors.materialTheme.primary else Theme.colors.materialTheme.surfaceDim,
             )
@@ -145,8 +146,13 @@ fun Itinerary(
             }
 
             ItineraryItem(
-                destination = stop.destination,
-                duration = stop.duration,
+                destination = stop.title,
+                duration = "${stop.date} (${
+                    stringResource(
+                        R.string.label_itinerary_duration_minitues,
+                        stop.durationMinutes!!
+                    )
+                })",
                 lineType = lineType,
             )
         }
@@ -173,10 +179,41 @@ fun ItineraryPreview() {
                 Itinerary(
 
                     stops = listOf(
-                        ItineraryStop("New York, NY", "2 hours"),
-                        ItineraryStop("Philadelphia, PA", "1.5 hours"),
-                        ItineraryStop("Baltimore, MD", "45 minutes"),
-                        ItineraryStop("Washington, DC"),
+                        ItineraryStop(
+                            id = 1634,
+                            stopOrder = 1,
+                            title = "میدان نقش جهان",
+                            description = "شنبه ۲۴ دی ساعت ۱۶",
+                            date = "چهارشنبه ۱۸ دی ۱۴۰۴",
+                        ),
+                        ItineraryStop(
+                            id = 166,
+                            stopOrder = 2,
+                            title = "سی و سه پل",
+                            description = "ساعت ۱۷",
+                            date = "چهارشنبه ۱۸ دی ۱۴۰۴",
+                        ),
+                        ItineraryStop(
+                            id = 1555,
+                            stopOrder = 3,
+                            title = "کلیسای وانک",
+                            description = "ساعت ۱۸",
+                            date = "چهارشنبه ۱۸ دی ۱۴۰۴",
+                        ),
+                        ItineraryStop(
+                            id = 144,
+                            stopOrder = 4,
+                            title = "کلیسای مریم مقدس",
+                            description = "ساعت ۱۹",
+                            date = "چهارشنبه ۱۸ دی ۱۴۰۴",
+                        ),
+                        ItineraryStop(
+                            id = 122,
+                            stopOrder = 5,
+                            title = "میدان جلفا",
+                            description = "شنبه ۲۴ دی ساعت ۲۰",
+                            date = "چهارشنبه ۱۸ دی ۱۴۰۴",
+                        ),
                     ),
                 )
             }

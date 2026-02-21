@@ -5,6 +5,7 @@ import io.ktor.client.call.body
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
+import io.ktor.client.request.patch
 import io.ktor.client.request.post
 import io.ktor.client.request.put
 import me.marthia.app.boomgrad.data.remote.util.toNetworkFailure
@@ -44,6 +45,20 @@ suspend inline fun <reified T> HttpClient.safePut(
 ): Result<T> {
     return try {
         val response = put(urlString) {
+            block()
+        }.body<T>()
+        Result.success(response)
+    } catch (e: Exception) {
+        Result.failure(e.toNetworkFailure())
+    }
+}
+
+suspend inline fun <reified T> HttpClient.safePatch(
+    urlString: String,
+    crossinline block: HttpRequestBuilder.() -> Unit = {}
+): Result<T> {
+    return try {
+        val response = patch(urlString) {
             block()
         }.body<T>()
         Result.success(response)

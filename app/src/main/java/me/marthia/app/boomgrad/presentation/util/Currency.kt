@@ -18,9 +18,17 @@ package me.marthia.app.boomgrad.presentation.util
 
 import java.math.BigDecimal
 import java.text.NumberFormat
+import java.util.Currency
+import java.util.Locale
 
 fun formatPrice(price: Long): String {
     return NumberFormat.getCurrencyInstance().format(
         BigDecimal(price).movePointLeft(2),
     )
+}
+
+fun formatPrice(amount: Double, currencyCode: String, locale: Locale): String {
+    val format = NumberFormat.getCurrencyInstance(locale)
+    format.currency = Currency.getInstance(currencyCode)
+    return format.format(amount)
 }

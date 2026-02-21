@@ -1,7 +1,11 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package me.marthia.app.boomgrad.presentation.tour.detail
 
 import android.content.res.Configuration
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,27 +24,32 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.rounded.FiberManualRecord
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
@@ -52,32 +61,57 @@ import me.marthia.app.boomgrad.domain.model.Demographic
 import me.marthia.app.boomgrad.domain.model.Guide
 import me.marthia.app.boomgrad.domain.model.ItineraryStop
 import me.marthia.app.boomgrad.domain.model.TourDetail
+import me.marthia.app.boomgrad.domain.model.TourLevel
 import me.marthia.app.boomgrad.domain.model.TourStatus
 import me.marthia.app.boomgrad.presentation.common.ErrorScreen
 import me.marthia.app.boomgrad.presentation.common.LoadingScreen
-import me.marthia.app.boomgrad.presentation.components.ScaffoldElement
 import me.marthia.app.boomgrad.presentation.components.BackgroundElement
+import me.marthia.app.boomgrad.presentation.components.ButtonElement
 import me.marthia.app.boomgrad.presentation.components.CardElement
+import me.marthia.app.boomgrad.presentation.components.HorizontalDividerElement
 import me.marthia.app.boomgrad.presentation.components.IconText
+import me.marthia.app.boomgrad.presentation.components.PlainButton
 import me.marthia.app.boomgrad.presentation.components.QuantitySelector
+import me.marthia.app.boomgrad.presentation.components.ScaffoldElement
 import me.marthia.app.boomgrad.presentation.components.SurfaceElement
+import me.marthia.app.boomgrad.presentation.components.TopBar
 import me.marthia.app.boomgrad.presentation.home.Itinerary
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
 import me.marthia.app.boomgrad.presentation.theme.Theme
+import me.marthia.app.boomgrad.presentation.tour.model.TourDetailUi
+import me.marthia.app.boomgrad.presentation.tour.model.toUi
 import me.marthia.app.boomgrad.presentation.util.ViewState
 import me.marthia.app.boomgrad.presentation.util.debugPlaceholder
+import me.marthia.app.boomgrad.presentation.util.formatPrice
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun TourDetailScreen(tourId: Long, upPress: () -> Unit) {
-
+fun TourDetailScreen(
+    tourId: Long,
+    upPress: () -> Unit,
+    onNavigateToGuideInfo: (Long) -> Unit,
+    navigateToChat: () -> Unit,
+) {
 
     val viewModel: TourDetailViewModel = koinViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        viewModel.fetchDetail(context)
+    }
 
 
-    ScaffoldElement() { paddingValues ->
+    ScaffoldElement(topBar = {
+        TopBar(
+            title = {
+                Text(stringResource(R.string.title_tour_detail_screen))
+            },
+            onBackClick = upPress
+        )
+    }
+    ) { paddingValues ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -88,9 +122,14 @@ fun TourDetailScreen(tourId: Long, upPress: () -> Unit) {
                 is ViewState.Error -> ErrorScreen(onBack = upPress)
                 is ViewState.Success -> {
                     TourDetailContent(
-                        tour = state.value
+                        tour = state.value,
+                        onNavigateToGuideInfo = onNavigateToGuideInfo,
+                        addToCart = {},
+                        directBook = {},
+                        chatWithGuide = { navigateToChat() },
                     )
                 }
+
                 else -> {}
             }
         }
@@ -99,7 +138,14 @@ fun TourDetailScreen(tourId: Long, upPress: () -> Unit) {
 }
 
 @Composable
-fun TourDetailContent(modifier: Modifier = Modifier, tour: TourDetail) {
+fun TourDetailContent(
+    modifier: Modifier = Modifier,
+    tour: TourDetailUi,
+    onNavigateToGuideInfo: (Long) -> Unit,
+    addToCart: () -> Unit,
+    directBook: () -> Unit,
+    chatWithGuide: () -> Unit,
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -115,7 +161,8 @@ fun TourDetailContent(modifier: Modifier = Modifier, tour: TourDetail) {
             )
         TourGuideInfo(
             modifier = Modifier.padding(16.dp),
-            guideInfo = tour.guide
+            guideInfo = tour.guide,
+            onNavigateToGuideInfo = onNavigateToGuideInfo
         )
         Description(
             modifier = Modifier.padding(16.dp),
@@ -131,7 +178,7 @@ fun TourDetailContent(modifier: Modifier = Modifier, tour: TourDetail) {
             level = tour.level,
             date = tour.dueDate,
             startTime = tour.startTime,
-            targetDemographic = tour.demographic.name
+            targetDemographic = tour.demographic
         )
         Prerequisites(
             modifier = Modifier.padding(16.dp),
@@ -142,15 +189,27 @@ fun TourDetailContent(modifier: Modifier = Modifier, tour: TourDetail) {
             itinerary = tour.itinerary
         )
         Price(
-            price = "${tour.price}" // fixme
+            price = tour.price
         )
-        AddToCard()
+        HorizontalDividerElement(Modifier.padding(16.dp))
+
+        AddToCard(
+            modifier = Modifier.padding(16.dp),
+            addToCart = {
+
+            },
+            directBook = {
+
+            },
+            chatWithGuide = {
+
+            })
     }
 
 }
 
 @Composable
-fun TourImages(modifier: Modifier = Modifier, images: List<String>) {
+private fun TourImages(modifier: Modifier = Modifier, images: List<String>) {
 
     LazyRow(
         modifier = modifier
@@ -163,7 +222,7 @@ fun TourImages(modifier: Modifier = Modifier, images: List<String>) {
         items(images) { imageLink ->
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(imageLink)
+                    .data(R.drawable.ali_qapu)
                     .crossfade(true)
                     .build(),
                 placeholder = debugPlaceholder(debugPreview = R.drawable.placeholder),
@@ -183,28 +242,29 @@ fun TourGist(modifier: Modifier = Modifier, title: String, reviewCount: Int, rat
 
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Text(title, style = MaterialTheme.typography.titleMedium)
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
+        IconText(leadingIcon = {
             Icon(
                 painter = painterResource(R.drawable.icon_star_20),
                 contentDescription = "score",
                 tint = Color.Unspecified
             )
+        }, text = {
             Text(text = "$rate ", style = MaterialTheme.typography.bodySmall)
-
             Text(
                 stringResource(R.string.tour_detail_review_count, reviewCount),
                 style = MaterialTheme.typography.bodySmall,
                 color = Theme.colors.textHelp
             )
-        }
+        })
     }
 }
 
 @Composable
-fun TourGuideInfo(modifier: Modifier = Modifier, guideInfo: Guide) {
+fun TourGuideInfo(
+    modifier: Modifier = Modifier,
+    guideInfo: Guide,
+    onNavigateToGuideInfo: (Long) -> Unit
+) {
     CardElement(modifier = modifier, elevation = 0.dp) {
         Row(
             modifier = Modifier
@@ -215,11 +275,14 @@ fun TourGuideInfo(modifier: Modifier = Modifier, guideInfo: Guide) {
         ) {
             Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                 AsyncImage(
-                    "https://picsum.photos/200",
+                    R.drawable.face,
                     contentDescription = "profile",
                     placeholder = debugPlaceholder(debugPreview = R.drawable.placeholder),
                     modifier = Modifier
                         .size(48.dp)
+                        .clickable(onClick = {
+                            onNavigateToGuideInfo(guideInfo.id)
+                        })
                         .clip(CircleShape),
                     contentScale = ContentScale.Crop,
                 )
@@ -229,30 +292,47 @@ fun TourGuideInfo(modifier: Modifier = Modifier, guideInfo: Guide) {
                         style = MaterialTheme.typography.labelSmall,
                         color = Theme.colors.textHelp
                     )
-                    Text(
-                        text = guideInfo.fullName,
-                        style = MaterialTheme.typography.titleSmall,
+                    IconText(text = {
+                        Text(
+                            text = guideInfo.fullName,
+                            style = MaterialTheme.typography.titleSmall,
 
+                            )
+                    }, trailingIcon = {
+
+
+                        Icon(
+                            painter = painterResource(R.drawable.ic_verify_22),
+                            contentDescription = stringResource(R.string.cd_verified_guide)
                         )
+                    })
                 }
             }
-
-            IconText(
-                leadingIcon = {
-                    Icon(
-                        painter = painterResource(R.drawable.icon_star_20),
-                        contentDescription = "score",
-                        tint = Color.Unspecified
-                    )
-                },
-                text = {
-                    Text(
-                        text = "${guideInfo.averageRating}",
-                        style = MaterialTheme.typography.labelLarge,
-
+            Column(horizontalAlignment = Alignment.End) {
+                IconText(
+                    leadingIcon = {
+                        Icon(
+                            painter = painterResource(R.drawable.icon_star_20),
+                            contentDescription = "score",
+                            tint = Color.Unspecified
                         )
-                },
-            )
+                    },
+                    text = {
+                        Text(
+                            text = "${guideInfo.averageRating}",
+                            style = MaterialTheme.typography.labelLarge,
+
+                            )
+                    },
+                )
+
+
+                Text(
+                    text = stringResource(R.string.label_tour_total_tours, guideInfo.totalTours),
+                    style = MaterialTheme.typography.labelMedium,
+                    color = Theme.colors.textHelp
+                )
+            }
         }
     }
 }
@@ -296,7 +376,11 @@ fun Highlights(modifier: Modifier = Modifier, highlights: List<String>) {
                     )
                 },
                 text = {
-                    Text(item)
+                    Text(
+                        item,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Theme.colors.textHelp
+                    )
                 },
             )
         }
@@ -332,7 +416,11 @@ fun TourSpecItem(modifier: Modifier = Modifier, label: String, labelIcon: Int, v
                     )
                 },
             )
-            Text(text = value)
+            Text(
+                text = value,
+                style = MaterialTheme.typography.labelLarge,
+                color = Theme.colors.materialTheme.onSurfaceVariant
+            )
         }
     }
 }
@@ -349,7 +437,7 @@ fun Specs(
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(16.dp)) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
 
             TourSpecItem(
@@ -358,36 +446,39 @@ fun Specs(
                 labelIcon = R.drawable.icon_duration_16,
                 value = stringResource(R.string.tour_detail_duration_value, duration)
             )
-            TourSpecItem(
-                modifier = Modifier.weight(1f),
-                label = stringResource(R.string.tour_detail_level_label),
-                labelIcon = R.drawable.icon_level_16,
-                value = level
-            )
-        }
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
+
             TourSpecItem(
                 modifier = Modifier.weight(1f),
                 label = stringResource(R.string.tour_detail_due_date),
                 labelIcon = R.drawable.icon_due_date_16,
                 value = date,
             )
+        }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            TourSpecItem(
+                modifier = Modifier.weight(1f),
+                label = stringResource(R.string.tour_detail_level_label),
+                labelIcon = R.drawable.icon_level_16,
+                value = level
+            )
+
             TourSpecItem(
                 modifier = Modifier.weight(1f),
                 label = stringResource(R.string.tour_detail_start_time_label),
                 labelIcon = R.drawable.icon_start_time_16,
                 value = startTime
             )
+
+            TourSpecItem(
+                modifier = Modifier.weight(1f),
+                label = stringResource(R.string.tour_detail_target_demographic_label),
+                labelIcon = R.drawable.icon_demographic_16,
+                value = targetDemographic
+            )
         }
-        TourSpecItem(
-            modifier = Modifier.fillMaxWidth(),
-            label = stringResource(R.string.tour_detail_target_demographic_label),
-            labelIcon = R.drawable.icon_demographic_16,
-            value = targetDemographic
-        )
     }
 
 }
@@ -430,26 +521,52 @@ fun Prerequisites(modifier: Modifier = Modifier, prerequisites: List<String>) {
 
 @Composable
 fun ItinerarySection(modifier: Modifier = Modifier, itinerary: List<ItineraryStop>) {
+
+    val expanded = remember { mutableStateOf(false) }
     Column(modifier = modifier) {
-        Text(
-            text = stringResource(R.string.tour_detail_itinerary_label),
-            style = MaterialTheme.typography.titleMedium,
-        )
 
-        Spacer(Modifier.height(8.dp))
+        SurfaceElement(shape = MaterialTheme.shapes.medium) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp, vertical = 12.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = stringResource(R.string.tour_detail_itinerary_label),
+                    style = MaterialTheme.typography.titleMedium,
+                )
 
-        Itinerary(
-            modifier = Modifier,
-            stops = itinerary,
-        )
+                IconButton(
+                    onClick = { expanded.value = expanded.value.not() },
+                    modifier = Modifier.size(32.dp),
+                ) {
+                    Icon(
+                        imageVector = if (expanded.value) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
+                        contentDescription = stringResource(R.string.cd_move_stop_up),
+                    )
+                }
+            }
+        }
+
+        AnimatedVisibility(expanded.value) {
+
+            Spacer(Modifier.height(16.dp))
+
+            Itinerary(
+                modifier = Modifier,
+                stops = itinerary,
+            )
+        }
     }
 
 }
 
 @Composable
-fun Price(price: String) {
+fun Price(price: Double) {
 
     val countState = remember { mutableIntStateOf(1) }
+    val locale = LocalConfiguration.current.locales[0]
 
     Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Row(
@@ -462,7 +579,10 @@ fun Price(price: String) {
                 style = MaterialTheme.typography.bodyMedium,
                 color = Theme.colors.textHelp
             )
-            Text(text = price, style = MaterialTheme.typography.bodyLarge)
+            Text(
+                text = formatPrice(amount = price, currencyCode = "IRR", locale = locale),
+                style = MaterialTheme.typography.bodyLarge
+            )
         }
         Spacer(Modifier.height(8.dp))
 
@@ -504,8 +624,8 @@ fun Price(price: String) {
                     style = MaterialTheme.typography.bodyMedium,
                     color = Theme.colors.textHelp
                 )
-                Text( // todo fix me this might be buggy : should adopt price locale
-                    text = "${price.toInt() * countState.intValue}",
+                Text(
+                    text = formatPrice(amount = price, currencyCode = "IRR", locale = locale),
                     style = MaterialTheme.typography.titleLarge,
                     color = Theme.colors.materialTheme.primary
                 )
@@ -517,84 +637,146 @@ fun Price(price: String) {
 
 
 @Composable
-fun AddToCard() {
+fun AddToCard(
+    modifier: Modifier = Modifier,
+    addToCart: () -> Unit,
+    directBook: () -> Unit,
+    chatWithGuide: () -> Unit,
+) {
+    Column(modifier = modifier.fillMaxWidth()) {
+        OutlinedButton(onClick = addToCart) {
+            Text("افزودن به سبد خرید")
+        }
+        ButtonElement(onClick = directBook) {
+            Text("رزرو سریع")
+        }
+
+        PlainButton(onClick = chatWithGuide) {
+            IconText(leadingIcon = {
+                Icon(
+                    painter = painterResource(R.drawable.ic_chat_outlined_24),
+                    contentDescription = null
+                )
+            }, text = {
+                Text("چت با راهنما")
+            })
+        }
+    }
 }
 
 
-@Preview("default", showBackground = true, showSystemUi = true)
-@Preview("dark theme", uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Preview("large font", fontScale = 2f)
+@Preview("default", showBackground = true, showSystemUi = true, locale = "fa")
+@Preview("dark theme", uiMode = Configuration.UI_MODE_NIGHT_YES, locale = "fa")
+@Preview("large font", fontScale = 2f, locale = "fa")
 @Composable
 private fun PreviewTourDetail() {
     AppTheme {
 
-        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
 
-            BackgroundElement(modifier = Modifier.fillMaxSize()) {
-                TourDetailContent(
-                    modifier = Modifier.systemBarsPadding(),
-                    tour = TourDetail(
-                        id = -1,
-                        title = "میدان نقش جهان",
-                        description = "با این تور یک روزه، سفری به قلب تاریخ و هنر اصفهان خواهید داشت. میدان نقش جهان، یکی از بزرگترین و زیباترین میادین جهان، میزبان شما خواهد بود. در این گشت، از شاهکارهای معماری دوران صفوی مانند مسجد شیخ لطف‌الله، مسجد امام و کاخ عالی‌قاپو دیدن خواهید کرد. همچنین، فرصت گشت و گذار در بازار قیصریه و خرید صنایع دستی اصیل اصفهان را خواهید داشت. این تور تجربه‌ای فراموش‌نشدنی از فرهنگ غنی ایران را برای شما به ارمغان می‌آورد.",
-                        guide = Guide(
-                            id = 1,
-                            bio = "امین عدیلی دانش‌آموخته رشته مهندسی مواد در دانشگاه پلی‌تکنیک لندن اهل کرمانشاه یکی از برجسته‌ترین راهنماهای گردشگری با تخصص تاریخ هخامنشیان است.",
-                            fullName = "امین عدیلی",
-                            userId = 10,
-                            verified = true,
-                            totalTours = 46,
-                            averageRating = 4.1f,
-                        ),
-                        highlights = listOf(
-                            "شناخت تاریخ",
-                            "نوشیدنی مخصوص",
-                            "گز اصفهان",
-                            "مسجد و محراب",
-                            "چاه حاج میرزا",
-                        ),
-                        duration = 108,
-                        price = 1235.1,
-                        category = AttractionCategory(
-                            id = 0,
-                            name = "تاریخی",
-                            description = "",
-                            image = ""
-                        ),
-                        maxPeople = 7,
-                        status = TourStatus.PENDING,
-                        rate = 4.8f,
-                        reviews = listOf(),
-                        images = listOf(),
-                        requiredItems = listOf(
-                            "کفش کوهنوردی",
-                            "کلاه",
-                            "عینک آفتابی",
-                            "تنقلات",
-                            "زیرانداز تک نفره",
-                            "پول نقد",
-                        ),
-                        level = "آسان",
-                        dueDate = "۱۶ بهمن",
-                        startTime = "۸ صبح",
-                        demographic = Demographic.ALL_AGES,
-                        itinerary =
-                            listOf(
-                                ItineraryStop("میدان نقش جهان", "شنبه ۲۴ دی ساعت ۱۶"),
-                                ItineraryStop("سی و سه پل", "ساعت ۱۷"),
-                                ItineraryStop("کلیسای وانک", "ساعت ۱۸"),
-                                ItineraryStop("کلیسای مریم مقدس", "ساعت ۱۹"),
-                                ItineraryStop("میدان جلفا", "شنبه ۲۴ دی ساعت ۲۰"),
+        BackgroundElement(modifier = Modifier.fillMaxSize()) {
+            TourDetailContent(
+                modifier = Modifier.systemBarsPadding(),
+                onNavigateToGuideInfo = {},
+                chatWithGuide = {},
+                addToCart = {},
+                directBook = {},
+                tour = TourDetail(
+                    id = -1,
+                    title = "میدان نقش جهان",
+                    description = "با این تور یک روزه، سفری به قلب تاریخ و هنر اصفهان خواهید داشت. میدان نقش جهان، یکی از بزرگترین و زیباترین میادین جهان، میزبان شما خواهد بود. در این گشت، از شاهکارهای معماری دوران صفوی مانند مسجد شیخ لطف‌الله، مسجد امام و کاخ عالی‌قاپو دیدن خواهید کرد. همچنین، فرصت گشت و گذار در بازار قیصریه و خرید صنایع دستی اصیل اصفهان را خواهید داشت. این تور تجربه‌ای فراموش‌نشدنی از فرهنگ غنی ایران را برای شما به ارمغان می‌آورد.",
+                    guide = Guide(
+                        id = 1,
+                        bio = "امین عدیلی دانش‌آموخته رشته مهندسی مواد در دانشگاه پلی‌تکنیک لندن اهل کرمانشاه یکی از برجسته‌ترین راهنماهای گردشگری با تخصص تاریخ هخامنشیان است.",
+                        fullName = "امین عدیلی",
+                        userId = 10,
+                        verified = true,
+                        totalTours = 46,
+                        averageRating = 4.1f,
+                    ),
+                    highlights = listOf(
+                        "شناخت تاریخ",
+                        "نوشیدنی مخصوص",
+                        "گز اصفهان",
+                        "مسجد و محراب",
+                        "چاه حاج میرزا",
+                    ),
+                    duration = 108,
+                    price = 1235.1,
+                    category = AttractionCategory(
+                        id = 0,
+                        name = "تاریخی",
+                        description = "",
+                        image = ""
+                    ),
+                    maxPeople = 7,
+                    status = TourStatus.PENDING,
+                    rate = 4.8f,
+                    reviews = listOf(),
+                    images = listOf(),
+                    requiredItems = listOf(
+                        "کفش کوهنوردی",
+                        "کلاه",
+                        "عینک آفتابی",
+                        "تنقلات",
+                        "زیرانداز تک نفره",
+                        "پول نقد",
+                    ),
+                    level = TourLevel.INTERMEDIATE,
+                    dueDate = "۱۶ بهمن",
+                    startTime = "۸ صبح",
+                    demographic = Demographic.ALL_AGES,
+                    itinerary =
+                        listOf(
+                            ItineraryStop(
+                                id = 1634,
+                                stopOrder = 1,
+                                title = "میدان نقش جهان",
+                                description = "شنبه ۲۴ دی ساعت ۱۶",
+                                date = "چهارشنبه ۱۸ دی ۱۴۰۴",
                             ),
-                        city = City(
-                            id = 1,
-                            name = "اصفهان",
-                            county = "مرکزی",
-                            province = "اصفهان",
+                            ItineraryStop(
+                                id = 166,
+                                stopOrder = 2,
+                                title = "سی و سه پل",
+                                description = "ساعت ۱۷",
+                                date = "چهارشنبه ۱۸ دی ۱۴۰۴",
+                            ),
+                            ItineraryStop(
+                                id = 1555,
+                                stopOrder = 3,
+                                title = "کلیسای وانک",
+                                description = "ساعت ۱۸",
+                                date = "چهارشنبه ۱۸ دی ۱۴۰۴",
+                            ),
+                            ItineraryStop(
+                                id = 144,
+                                stopOrder = 4,
+                                title = "کلیسای مریم مقدس",
+                                description = "ساعت ۱۹",
+                                date = "چهارشنبه ۱۸ دی ۱۴۰۴",
+                            ),
+                            ItineraryStop(
+                                id = 122,
+                                stopOrder = 5,
+                                title = "میدان جلفا",
+                                description = "شنبه ۲۴ دی ساعت ۲۰",
+                                date = "چهارشنبه ۱۸ دی ۱۴۰۴",
+                            ),
                         ),
-                    )
-                )
-            }
+                    city = City(
+                        id = 1,
+                        name = "اصفهان",
+                        latitude = 52.4888,
+                        countyId = 1,
+                        imageUrl = "",
+                        longitude = 32.4564,
+                        countyName = "اصفهان",
+                        provinceId = 1,
+                        description = "",
+                        provinceName = "اصفهان",
+                    ),
+                ).toUi(LocalContext.current)
+            )
         }
     }
 }

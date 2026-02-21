@@ -17,4 +17,4 @@ data class ReviewDto(
     val votes: List<ReviewVoteDto>?,
     @SerialName("rating")
     val rating: Float?,
-    )
+)

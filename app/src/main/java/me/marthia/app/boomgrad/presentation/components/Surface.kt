@@ -19,6 +19,7 @@ package me.marthia.app.boomgrad.presentation.components
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
@@ -51,6 +52,7 @@ fun SurfaceElement(
     contentAlignment: Alignment = Alignment.TopStart,
     shadowColor: Color = DefaultShadowColor,
     elevation: Dp = 0.dp,
+    onClick : (() -> Unit)? = null,
     content: @Composable () -> Unit,
 ) {
     Box(
@@ -61,7 +63,7 @@ fun SurfaceElement(
             .background(
                 color = getBackgroundColorForElevation(color, elevation),
                 shape = shape,
-            ),
+            ).clickable(enabled = onClick != null, onClick = { onClick?.let { it() } }),
         contentAlignment = contentAlignment
     ) {
         CompositionLocalProvider(LocalContentColor provides contentColor, content = content)

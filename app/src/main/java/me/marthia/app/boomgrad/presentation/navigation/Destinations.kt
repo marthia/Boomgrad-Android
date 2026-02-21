@@ -67,3 +67,18 @@ data class AttractionDetailDestination(
         const val ROUTE_PATTERN = "$BASE_ROUTE/{$ARG_ATTRACTION_ID}"
     }
 }
+
+data class GuideInfoDestination(
+    val guideId: Long
+) : AppDestination {
+
+    override val route: String
+        get() = "$BASE_ROUTE/$guideId"
+
+    companion object {
+        const val BASE_ROUTE = "guide"
+        const val ARG_GUIDE_ID = "guideId"
+        const val ROUTE_PATTERN = "$BASE_ROUTE/{$ARG_GUIDE_ID}"
+    }
+}
+

@@ -67,4 +67,136 @@
     <string name="label_attraction_detail_reviews">Reviews</string>
     <string name="label_attraction_detail_new_review">New Review</string>
     <string name="title_attraction_screen">Attractions</string>
+
+    <!-- CreateEditTour - Basic Info -->
+    <string name="label_basic_info">Basic Information</string>
+    <string name="label_tour_title">Tour Title</string>
+    <string name="placeholder_tour_title">Enter your desired title</string>
+    <string name="label_subtitle">Subtitle</string>
+    <string name="placeholder_subtitle">Enter your desired text</string>
+    <string name="label_city">City</string>
+    <string name="label_tour_type">Tour Type</string>
+    <string name="label_difficulty_level">Difficulty Level</string>
+    <string name="label_demographic">Demographic</string>
+    <string name="label_duration">Duration</string>
+    <string name="placeholder_duration">Enter your desired value</string>
+    <string name="label_select">Select</string>
+
+    <!-- Schedules -->
+    <string name="label_tour_dates">Tour Schedule(s)</string>
+    <string name="action_add_date">Add Schedule</string>
+    <string name="label_tour_date">Tour Date*</string>
+    <string name="label_start_time">Start Time*</string>
+    <string name="placeholder_enter_text">Enter your desired text</string>
+
+    <!-- Price and Capacity -->
+    <string name="label_price_and_capacity">Price &amp; Capacity</string>
+    <string name="label_price_toman">Price (Toman)*</string>
+    <string name="label_capacity">Capacity*</string>
+    <string name="placeholder_enter_value">Enter your desired value</string>
+    <string name="label_cancellation_policy">Cancellation Policy</string>
+
+    <!-- Tour Images -->
+    <string name="label_tour_images">Tour Images</string>
+    <string name="action_upload_image">Upload New Image</string>
+    <string name="label_image_limit">2/10 - Max 5MB</string>
+    <string name="cd_add_tour_photo">Add new tour photo</string>
+    <string name="cd_tour_photo">Tour photo</string>
+    <string name="cd_due_date">Due date</string>
+    <string name="cd_due_time">Due time</string>
+    <string name="cd_dropdown_arrow">Dropdown</string>
+
+    <!-- Misc Info -->
+    <string name="label_misc_info">Additional Information</string>
+    <string name="label_required_items">Required Items</string>
+    <string name="label_highlights">Highlights</string>
+    <string name="label_itinerary">Itinerary</string>
+    <string name="label_description">Description</string>
+    <string name="placeholder_required_items">Enter required items</string>
+    <string name="placeholder_highlights">Enter tour highlights</string>
+    <string name="placeholder_description">Enter tour description</string>
+
+    <!-- Itinerary -->
+    <string name="label_itinerary_section">Itinerary</string>
+    <string name="action_add_stop">Add Stop</string>
+    <string name="label_stop_number">Stop %d</string>
+    <string name="label_stop_title">Stop Title*</string>
+    <string name="placeholder_stop_title">e.g. City Gate, Waterfall Trail…</string>
+    <string name="label_stop_description">Description</string>
+    <string name="placeholder_stop_description">Briefly describe this stop</string>
+    <string name="label_stop_duration">Duration (min)</string>
+    <string name="placeholder_stop_duration">e.g. 30</string>
+    <string name="label_stop_location">Location Name</string>
+    <string name="placeholder_stop_location">e.g. Milad Tower</string>
+    <string name="label_stop_latitude">Latitude</string>
+    <string name="placeholder_stop_latitude">e.g. 35.7448</string>
+    <string name="label_stop_longitude">Longitude</string>
+    <string name="placeholder_stop_longitude">e.g. 51.3753</string>
+    <string name="action_pick_on_map">Pick on Map</string>
+    <string name="action_remove_stop">Remove Stop</string>
+    <string name="action_move_up">Move Up</string>
+    <string name="action_move_down">Move Down</string>
+    <string name="cd_drag_handle">Drag to reorder</string>
+    <string name="cd_remove_stop">Remove this stop</string>
+    <string name="cd_move_stop_up">Move stop up</string>
+    <string name="cd_move_stop_down">Move stop down</string>
+    <string name="cd_pick_on_map">Pick location on map</string>
+    <string name="label_itinerary_empty">No stops added yet.\nTap \"Add Stop\" to begin building your itinerary.</string>
+    <string name="label_itinerary_duration_minitues">%d Miniutes</string>
+    <string name="label_level_beginner">Beginner</string>
+    <string name="label_level_intermediate">Intermediate</string>
+    <string name="label_level_advanced">Advanced</string>
+    <string name="label_level_expert">Expert</string>
+    <string name="label_demographic_all_ages">All Ages</string>
+    <string name="label_demographic_families">Families</string>
+    <string name="label_demographic_adults_only">Adults Only</string>
+    <string name="label_demographic_seniors">Seniors</string>
+    <string name="label_demographic_youth">Youth</string>
+    <string name="label_demographic_couples">Couples</string>
+    <string name="label_tour_total_tours">Total tours</string>
+    <string name="cd_verified_guide">Verified Guide</string>
+    <string name="title_guide_info">Guide Info</string>
+
+
+    <!--    checkout-->
+
+
+    <!-- ── Cart Screen ──────────────────────────────────────────────────────── -->
+    <string name="cart_title">Cart</string>
+    <string name="cart_empty_title">Your cart is empty</string>
+    <string name="cart_empty_subtitle">Browse tours and add them to your cart</string>
+
+    <!-- ── Cart Item ─────────────────────────────────────────────────────────── -->
+    <string name="cart_item_per_person">%s / person</string>
+    <string name="cart_item_people_count">Number of people</string>
+    <string name="cart_item_subtotal">Subtotal</string>
+    <string name="cart_item_delete_description">Remove from cart</string>
+    <string name="cart_item_date_range">From %1$s to %2$s</string>
+
+    <!-- ── Availability Warnings ─────────────────────────────────────────────── -->
+    <string name="cart_warning_fully_booked">This tour is fully booked</string>
+    <string name="cart_warning_few_spots">Only %d spots left</string>
+
+    <!-- ── Order Summary (CartOverview) ─────────────────────────────────────── -->
+    <string name="cart_overview_title">Order Summary</string>
+    <string name="cart_overview_tours_subtotal">Tours subtotal</string>
+    <string name="cart_overview_service_fee">Service fee</string>
+    <string name="cart_overview_total">Total</string>
+
+    <!-- ── Cancellation Policy ───────────────────────────────────────────────── -->
+    <string name="cancellation_policy_title">Cancellation Policy</string>
+    <string name="cancellation_policy_48h">Full refund up to 48 hours before tour</string>
+    <string name="cancellation_policy_24h">50%% refund up to 24 hours before tour</string>
+    <string name="cancellation_policy_no_refund">No refund within 24 hours of tour</string>
+
+    <!-- ── Checkout Button ───────────────────────────────────────────────────── -->
+    <string name="cart_checkout_button">Proceed to Payment</string>
+    <string name="cart_checkout_total">Total: %s</string>
+
+    <!-- ── Quantity Selector ─────────────────────────────────────────────────── -->
+    <string name="quantity_increase">Increase count</string>
+    <string name="quantity_decrease">Decrease count</string>
+    <string name="quantity_current">%d people</string>
+    <string name="title_tour_detail_screen">Tour</string>
+
 </resources>

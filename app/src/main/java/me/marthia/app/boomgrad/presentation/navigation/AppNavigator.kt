@@ -4,9 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import timber.log.Timber
 
 @Composable
 fun rememberAppNavigator(
@@ -29,13 +29,17 @@ class AppNavigator(
     }
 
     fun navigateToBottomBarRoute(route: String) {
-        if (route == navController.currentDestination?.route) return
+        if (route == navController.currentDestination?.route) {
+            Timber.d("$route duplicate navigation: skipping")
+            return
+        }
 
         navController.navigate(route) {
             launchSingleTop = true
             restoreState = true
-
-            popUpTo(navController.graph.findStartDestination().id) {
+            // Pop up backstack to the first destination and save state. This makes going back
+            // to the start destination when pressing back in any other bottom tab.
+            popUpTo(findStartDestination(navController.graph).id) {
                 saveState = true
             }
         }
@@ -47,9 +51,7 @@ class AppNavigator(
     ) {
         if (!from.lifecycleIsResumed()) return
 
-        navController.navigate(
-            TourDetailDestination(tourId).route
-        )
+        navigate(destination = TourDetailDestination(tourId))
     }
 
     fun navigateToAttraction(
@@ -58,19 +60,19 @@ class AppNavigator(
     ) {
         if (!from.lifecycleIsResumed()) return
 
-        navController.navigate(
-            AttractionDetailDestination(attractionId)
-        )
+        navigate(destination = AttractionDetailDestination(attractionId))
     }
 
     fun navigateToLogin() {
-        navController.navigate(
-            LoginDestination.route
-        )
+        navigate(LoginDestination)
     }
 
     fun navigateToTours(categoryId: Long) {
-        navController.navigate(ToursDestination.route)
+        navigate(destination = ToursDestination)
+    }
+
+    fun navigateToGuideInfo(guideId: Long) {
+        navigate(destination = GuideInfoDestination(guideId = guideId))
     }
 }
 

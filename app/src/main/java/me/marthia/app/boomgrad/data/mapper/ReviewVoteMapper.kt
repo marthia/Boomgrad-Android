@@ -4,7 +4,7 @@ import me.marthia.app.boomgrad.data.remote.dto.ReviewVoteDto
 import me.marthia.app.boomgrad.domain.model.ReviewVote
 
 fun ReviewVoteDto.toDomain() = ReviewVote(
-    user = user.toDomain() ?: throw IllegalStateException("user cannot be  null"),
+    createdAt = createdAt,
     voteType = voteType,
 )
 

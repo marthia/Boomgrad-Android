@@ -12,6 +12,7 @@ import me.marthia.app.boomgrad.domain.usecase.login.ClearTokenUseCase
 import me.marthia.app.boomgrad.domain.usecase.login.LoginUseCase
 import me.marthia.app.boomgrad.domain.usecase.profile.GetProfileUseCase
 import me.marthia.app.boomgrad.domain.usecase.tour.GetForYouToursUseCase
+import me.marthia.app.boomgrad.domain.usecase.tour.GetGuideInfoUseCase
 import me.marthia.app.boomgrad.domain.usecase.tour.GetTourDetailUseCase
 import me.marthia.app.boomgrad.domain.usecase.tour.GetWeekRecommendedUseCase
 import org.koin.dsl.module
@@ -40,4 +41,7 @@ val useCaseModule = module {
     single<GetForYouToursUseCase> { GetForYouToursUseCase(get()) }
     single<GetTourDetailUseCase> { GetTourDetailUseCase(get()) }
     single<GetWeekRecommendedUseCase> { GetWeekRecommendedUseCase(get()) }
+
+    // guide
+    single<GetGuideInfoUseCase> { GetGuideInfoUseCase(get()) }
 }

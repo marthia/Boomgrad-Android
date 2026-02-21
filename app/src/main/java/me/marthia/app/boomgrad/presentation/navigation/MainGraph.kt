@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import me.marthia.app.boomgrad.presentation.MainContainer
 import me.marthia.app.boomgrad.presentation.attraction.detail.AttractionDetailScreen
+import me.marthia.app.boomgrad.presentation.guide.GuideInfoScreen
 import me.marthia.app.boomgrad.presentation.login.LoginScreen
 import me.marthia.app.boomgrad.presentation.tour.detail.TourDetailScreen
 
@@ -43,7 +44,9 @@ fun MainGraph(navigator: AppNavigator = rememberAppNavigator()) {
 
             TourDetailScreen(
                 tourId = tourId,
-                upPress = navigator::navigateUp
+                upPress = navigator::navigateUp,
+                onNavigateToGuideInfo = navigator::navigateToGuideInfo,
+                navigateToChat = {}
             )
         }
 
@@ -69,6 +72,25 @@ fun MainGraph(navigator: AppNavigator = rememberAppNavigator()) {
         composable(LoginDestination.route) {
             LoginScreen(
                 navigator::navigateUp
+            )
+        }
+
+        composable(
+            route = GuideInfoDestination.ROUTE_PATTERN,
+            arguments = listOf(
+                navArgument(GuideInfoDestination.ARG_GUIDE_ID) {
+                    type = NavType.LongType
+                }
+            )
+        ) { backStackEntry ->
+
+            val guideId =
+                requireNotNull(backStackEntry.arguments)
+                    .getLong(GuideInfoDestination.ARG_GUIDE_ID)
+
+            GuideInfoScreen(
+                guideId = guideId,
+                onBackClick = navigator::navigateUp
             )
         }
     }

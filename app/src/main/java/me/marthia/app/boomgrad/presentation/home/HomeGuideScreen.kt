@@ -39,13 +39,14 @@ import me.marthia.app.boomgrad.domain.model.Demographic
 import me.marthia.app.boomgrad.domain.model.Guide
 import me.marthia.app.boomgrad.domain.model.ItineraryStop
 import me.marthia.app.boomgrad.domain.model.TourDetail
+import me.marthia.app.boomgrad.domain.model.TourLevel
 import me.marthia.app.boomgrad.domain.model.TourStatus
 import me.marthia.app.boomgrad.presentation.components.AppContainer
-import me.marthia.app.boomgrad.presentation.components.IconText
-import me.marthia.app.boomgrad.presentation.components.JetHorizontalDivider
 import me.marthia.app.boomgrad.presentation.components.BackgroundElement
 import me.marthia.app.boomgrad.presentation.components.ButtonElement
 import me.marthia.app.boomgrad.presentation.components.CardElement
+import me.marthia.app.boomgrad.presentation.components.IconText
+import me.marthia.app.boomgrad.presentation.components.HorizontalDividerElement
 import me.marthia.app.boomgrad.presentation.components.SurfaceElement
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
 import me.marthia.app.boomgrad.presentation.theme.Theme
@@ -102,23 +103,59 @@ fun HomeScreen() {
                         "زیرانداز تک نفره",
                         "پول نقد",
                     ),
-                    level = "آسان",
+                    level = TourLevel.INTERMEDIATE,
                     dueDate = "۱۶ بهمن",
                     startTime = "۸ صبح",
                     demographic = Demographic.ALL_AGES,
                     itinerary =
                         listOf(
-                            ItineraryStop("میدان نقش جهان", "شنبه ۲۴ دی ساعت ۱۶"),
-                            ItineraryStop("سی و سه پل", "ساعت ۱۷"),
-                            ItineraryStop("کلیسای وانک", "ساعت ۱۸"),
-                            ItineraryStop("کلیسای مریم مقدس", "ساعت ۱۹"),
-                            ItineraryStop("میدان جلفا", "شنبه ۲۴ دی ساعت ۲۰"),
+                            ItineraryStop(
+                                id = 1634,
+                                stopOrder = 1,
+                                title = "میدان نقش جهان",
+                                description = "شنبه ۲۴ دی ساعت ۱۶",
+                                date = "چهارشنبه ۱۸ دی ۱۴۰۴",
+                            ),
+                            ItineraryStop(
+                                id = 166,
+                                stopOrder = 2,
+                                title = "سی و سه پل",
+                                description = "ساعت ۱۷",
+                                date = "چهارشنبه ۱۸ دی ۱۴۰۴",
+                            ),
+                            ItineraryStop(
+                                id = 1555,
+                                stopOrder = 3,
+                                title = "کلیسای وانک",
+                                description = "ساعت ۱۸",
+                                date = "چهارشنبه ۱۸ دی ۱۴۰۴",
+                            ),
+                            ItineraryStop(
+                                id = 144,
+                                stopOrder = 4,
+                                title = "کلیسای مریم مقدس",
+                                description = "ساعت ۱۹",
+                                date = "چهارشنبه ۱۸ دی ۱۴۰۴",
+                            ),
+                            ItineraryStop(
+                                id = 122,
+                                stopOrder = 5,
+                                title = "میدان جلفا",
+                                description = "شنبه ۲۴ دی ساعت ۲۰",
+                                date = "چهارشنبه ۱۸ دی ۱۴۰۴",
+                            ),
                         ),
                     city = City(
                         id = 1,
                         name = "اصفهان",
-                        county = "مرکزی",
-                        province = "اصفهان",
+                        latitude = 52.4888,
+                        countyId = 1,
+                        imageUrl = "",
+                        longitude = 32.4564,
+                        countyName = "اصفهان",
+                        provinceId = 1,
+                        description = "",
+                        provinceName = "اصفهان",
                     )
                 )
             )
@@ -167,23 +204,59 @@ fun HomeScreen() {
                         "زیرانداز تک نفره",
                         "پول نقد",
                     ),
-                    level = "آسان",
+                    level = TourLevel.INTERMEDIATE,
                     dueDate = "۱۶ بهمن",
                     startTime = "۸ صبح",
                     demographic = Demographic.ALL_AGES,
                     itinerary =
                         listOf(
-                            ItineraryStop("میدان نقش جهان", "شنبه ۲۴ دی ساعت ۱۶"),
-                            ItineraryStop("سی و سه پل", "ساعت ۱۷"),
-                            ItineraryStop("کلیسای وانک", "ساعت ۱۸"),
-                            ItineraryStop("کلیسای مریم مقدس", "ساعت ۱۹"),
-                            ItineraryStop("میدان جلفا", "شنبه ۲۴ دی ساعت ۲۰"),
+                            ItineraryStop(
+                                id = 1634,
+                                stopOrder = 1,
+                                title = "میدان نقش جهان",
+                                description = "شنبه ۲۴ دی ساعت ۱۶",
+                                date = "چهارشنبه ۱۸ دی ۱۴۰۴",
+                            ),
+                            ItineraryStop(
+                                id = 166,
+                                stopOrder = 2,
+                                title = "سی و سه پل",
+                                description = "ساعت ۱۷",
+                                date = "چهارشنبه ۱۸ دی ۱۴۰۴",
+                            ),
+                            ItineraryStop(
+                                id = 1555,
+                                stopOrder = 3,
+                                title = "کلیسای وانک",
+                                description = "ساعت ۱۸",
+                                date = "چهارشنبه ۱۸ دی ۱۴۰۴",
+                            ),
+                            ItineraryStop(
+                                id = 144,
+                                stopOrder = 4,
+                                title = "کلیسای مریم مقدس",
+                                description = "ساعت ۱۹",
+                                date = "چهارشنبه ۱۸ دی ۱۴۰۴",
+                            ),
+                            ItineraryStop(
+                                id = 122,
+                                stopOrder = 5,
+                                title = "میدان جلفا",
+                                description = "شنبه ۲۴ دی ساعت ۲۰",
+                                date = "چهارشنبه ۱۸ دی ۱۴۰۴",
+                            ),
                         ),
                     city = City(
                         id = 1,
                         name = "اصفهان",
-                        county = "مرکزی",
-                        province = "اصفهان",
+                        latitude = 52.4888,
+                        countyId = 1,
+                        imageUrl = "",
+                        longitude = 32.4564,
+                        countyName = "اصفهان",
+                        provinceId = 1,
+                        description = "",
+                        provinceName = "اصفهان",
                     )
                 )
             )
@@ -209,7 +282,7 @@ private fun TopBar(modifier: Modifier = Modifier) {
                 text = "محسن رضایی",
                 style = MaterialTheme.typography.titleSmall,
 
-            )
+                )
 
             SurfaceElement(
                 color = Theme.colors.materialTheme.primaryContainer,
@@ -391,7 +464,7 @@ fun TourItem(modifier: Modifier = Modifier, title: String) {
                         text = title,
                         style = MaterialTheme.typography.titleMedium,
 
-                    )
+                        )
 
                     Row {
                         IconText(
@@ -444,7 +517,7 @@ fun TourItem(modifier: Modifier = Modifier, title: String) {
                 }
 
             }
-            JetHorizontalDivider(Modifier.padding(12.dp))
+            HorizontalDividerElement(Modifier.padding(12.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
