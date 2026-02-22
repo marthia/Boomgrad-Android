@@ -1,4 +1,4 @@
-package me.marthia.app.boomgrad.presentation.tour.detail
+package me.marthia.app.boomgrad.presentation.tour.create
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,7 +14,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -247,14 +245,6 @@ private fun ItineraryStopCard(
             .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.Top,
     ) {
-        // ── timeline bullet + lines ────────────────────────────────────────
-        ItineraryBullet(
-            order = stop.stopOrder,
-            isFirst = isFirst,
-            isLast = isLast,
-        )
-
-        Spacer(modifier = Modifier.width(8.dp))
 
         // ── card content ──────────────────────────────────────────────────
         CardElement(
@@ -452,66 +442,6 @@ private fun ItineraryStopCard(
                 if (stop.latitude != null && stop.longitude != null) {
                     CoordinateChip(latitude = stop.latitude, longitude = stop.longitude)
                 }
-            }
-        }
-    }
-}
-
-// ── visual helpers ───────────────────────────────────────────────────────────
-
-/** Numbered bullet that sits on the timeline spine. */
-@Composable
-private fun ItineraryBullet(
-    order: Int,
-    isFirst: Boolean,
-    isLast: Boolean,
-) {
-    val bulletSize = 36.dp
-    val spineWidth = 2.dp
-    val spineColor = Theme.colors.materialTheme.primary.copy(alpha = 0.4f)
-
-    Box(
-        modifier = Modifier
-            .width(bulletSize)
-            .fillMaxHeight(),
-        contentAlignment = Alignment.TopCenter,
-    ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            // top spine (hidden for first item)
-            if (!isFirst) {
-                Box(
-                    modifier = Modifier
-                        .width(spineWidth)
-                        .height(12.dp)
-                        .background(spineColor)
-                )
-            } else {
-                Spacer(modifier = Modifier.height(12.dp))
-            }
-
-            // numbered circle
-            Box(
-                modifier = Modifier
-                    .size(bulletSize)
-                    .clip(CircleShape)
-                    .background(Theme.colors.materialTheme.primary),
-                contentAlignment = Alignment.Center,
-            ) {
-                Text(
-                    text = order.toString(),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = Theme.colors.materialTheme.onPrimary,
-                )
-            }
-
-            // bottom spine (hidden for last item)
-            if (!isLast) {
-                Box(
-                    modifier = Modifier
-                        .width(spineWidth)
-                        .height(12.dp)
-                        .background(spineColor)
-                )
             }
         }
     }

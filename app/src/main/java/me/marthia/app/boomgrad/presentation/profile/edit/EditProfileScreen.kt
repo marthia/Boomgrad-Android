@@ -14,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -44,13 +45,13 @@ fun EditProfileScreen() {
 fun EditProfileScreen(modifier: Modifier = Modifier) {
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
 
-        ProfilePicture()
+        ProfilePicture(modifier = Modifier.align(Alignment.CenterHorizontally))
 
         TextFieldElement(
             modifier = Modifier.fillMaxWidth(),
@@ -129,7 +130,7 @@ fun EditProfileScreen(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ProfilePicture() {
+fun ProfilePicture(modifier: Modifier = Modifier) {
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
             .data("image")
@@ -137,7 +138,7 @@ fun ProfilePicture() {
             .build(),
         contentDescription = "profile",
         placeholder = debugPlaceholder(debugPreview = R.drawable.placeholder),
-        modifier = Modifier
+        modifier = modifier
 
             .size(120.dp)
             .clip(CircleShape),
@@ -146,7 +147,7 @@ fun ProfilePicture() {
 }
 
 
-@Preview("default", showBackground = true, showSystemUi = true)
+@Preview("default", showBackground = true, showSystemUi = true, locale = "fa")
 @Composable
 private fun PreviewEditProfile() {
     AppTheme {

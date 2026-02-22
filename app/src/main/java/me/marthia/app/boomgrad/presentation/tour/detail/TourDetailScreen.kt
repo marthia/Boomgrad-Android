@@ -27,6 +27,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.rounded.FiberManualRecord
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -63,10 +65,10 @@ import me.marthia.app.boomgrad.domain.model.ItineraryStop
 import me.marthia.app.boomgrad.domain.model.TourDetail
 import me.marthia.app.boomgrad.domain.model.TourLevel
 import me.marthia.app.boomgrad.domain.model.TourStatus
+import me.marthia.app.boomgrad.presentation.cart.CartViewModel
 import me.marthia.app.boomgrad.presentation.common.ErrorScreen
 import me.marthia.app.boomgrad.presentation.common.LoadingScreen
 import me.marthia.app.boomgrad.presentation.components.BackgroundElement
-import me.marthia.app.boomgrad.presentation.components.ButtonElement
 import me.marthia.app.boomgrad.presentation.components.CardElement
 import me.marthia.app.boomgrad.presentation.components.HorizontalDividerElement
 import me.marthia.app.boomgrad.presentation.components.IconText
@@ -88,12 +90,12 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun TourDetailScreen(
     tourId: Long,
+    cartViewModel: CartViewModel = koinViewModel(),
+    viewModel: TourDetailViewModel = koinViewModel(),
     upPress: () -> Unit,
     onNavigateToGuideInfo: (Long) -> Unit,
     navigateToChat: () -> Unit,
 ) {
-
-    val viewModel: TourDetailViewModel = koinViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
@@ -124,7 +126,9 @@ fun TourDetailScreen(
                     TourDetailContent(
                         tour = state.value,
                         onNavigateToGuideInfo = onNavigateToGuideInfo,
-                        addToCart = {},
+                        addToCart = {
+
+                        },
                         directBook = {},
                         chatWithGuide = { navigateToChat() },
                     )
@@ -188,22 +192,18 @@ fun TourDetailContent(
             modifier = Modifier.padding(16.dp),
             itinerary = tour.itinerary
         )
+
+        HorizontalDividerElement(Modifier.padding(16.dp))
+
         Price(
             price = tour.price
         )
-        HorizontalDividerElement(Modifier.padding(16.dp))
 
         AddToCard(
             modifier = Modifier.padding(16.dp),
-            addToCart = {
-
-            },
-            directBook = {
-
-            },
-            chatWithGuide = {
-
-            })
+            addToCart = addToCart,
+            directBook = directBook,
+            chatWithGuide = chatWithGuide)
     }
 
 }
@@ -643,22 +643,33 @@ fun AddToCard(
     directBook: () -> Unit,
     chatWithGuide: () -> Unit,
 ) {
-    Column(modifier = modifier.fillMaxWidth()) {
-        OutlinedButton(onClick = addToCart) {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        OutlinedButton(
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.outlinedButtonColors(contentColor = Theme.colors.materialTheme.secondary),
+            onClick = addToCart
+        ) {
             Text("افزودن به سبد خرید")
         }
-        ButtonElement(onClick = directBook) {
+        Button(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = directBook
+        ) {
             Text("رزرو سریع")
         }
 
-        PlainButton(onClick = chatWithGuide) {
+        PlainButton(onClick = chatWithGuide, contentColor = Theme.colors.materialTheme.primary) {
             IconText(leadingIcon = {
                 Icon(
                     painter = painterResource(R.drawable.ic_chat_outlined_24),
                     contentDescription = null
                 )
             }, text = {
-                Text("چت با راهنما")
+                Text("چت با راهنما",)
             })
         }
     }

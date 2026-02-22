@@ -1,4 +1,4 @@
-package me.marthia.app.boomgrad.presentation.tour.detail
+package me.marthia.app.boomgrad.presentation.tour.create
 
 import androidx.lifecycle.ViewModel
 

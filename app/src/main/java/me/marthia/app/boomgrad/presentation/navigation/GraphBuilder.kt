@@ -32,6 +32,11 @@ fun NavGraphBuilder.addHomeGraph(
 
 
     composable(ProfileDestination.route) {
-        ProfileScreen(onNavigateToLogin = onNavigateToLogin)
+        ProfileScreen(
+            onNavigateToLogin = onNavigateToLogin,
+            onEditProfileClick = {},
+            onMyTripsClick = {},
+            onLogoutClick = {},
+        )
     }
 }

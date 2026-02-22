@@ -3,6 +3,7 @@ package me.marthia.app.boomgrad.presentation
 import android.app.Application
 import me.marthia.app.boomgrad.BuildConfig
 import me.marthia.app.boomgrad.di.appModule
+import me.marthia.app.boomgrad.di.cartModule
 import me.marthia.app.boomgrad.di.networkModule
 import me.marthia.app.boomgrad.di.repositoryModule
 import me.marthia.app.boomgrad.di.useCaseModule
@@ -20,7 +21,7 @@ class MyApplication : Application() {
         startKoin {
             androidLogger()
             androidContext(applicationContext)
-            modules(appModule, networkModule, repositoryModule, useCaseModule)
+            modules(appModule, networkModule, repositoryModule, useCaseModule, cartModule)
         }
 
         // init

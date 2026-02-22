@@ -2,8 +2,6 @@ package me.marthia.app.boomgrad.presentation.bottombar
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -13,13 +11,12 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.os.ConfigurationCompat
-import me.marthia.app.boomgrad.presentation.components.AppContainer
+import me.marthia.app.boomgrad.presentation.components.ContainerElement
 import me.marthia.app.boomgrad.presentation.navigation.BottomBarDestination
 import me.marthia.app.boomgrad.presentation.navigation.bottomBarDestinations
 import me.marthia.app.boomgrad.presentation.spatialExpressiveSpring
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
 import me.marthia.app.boomgrad.presentation.theme.Theme
-import timber.log.Timber
 import java.util.Locale
 
 @Composable
@@ -40,11 +37,7 @@ fun AppBottomBar(
     }
     val currentItem = tabs.getOrNull(currentIndex)
 
-    Timber.d("Current route: $currentRoute")
-    Timber.d("Current index: $currentIndex")
-    Timber.d("Selected item: $currentItem")
-
-    AppContainer(
+    ContainerElement(
         modifier = modifier,
         gradient = gradient,
         shape = shape,
@@ -81,10 +74,7 @@ fun AppBottomBar(
                         )
                     },
                     selected = selected,
-                    onSelected = {
-                        Timber.d("dddddadadadaaaaaaaaaaaaaaaaaaaa clicked")
-                        navigateToRoute(section.route)
-                                 },
+                    onSelected = { navigateToRoute(section.route) },
                     animSpec = springSpec,
                     modifier = BottomNavigationItemPadding.clip(BottomNavIndicatorShape),
                 )
@@ -93,7 +83,7 @@ fun AppBottomBar(
     }
 }
 
-@Preview
+@Preview(locale = "fa")
 @Composable
 private fun AppBottomNavPreview() {
     AppTheme {

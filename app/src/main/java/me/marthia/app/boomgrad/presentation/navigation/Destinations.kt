@@ -38,6 +38,16 @@ data object ToursDestination : AppDestination {
     override val route = "tours"
 }
 
+data object EditProfileDestination: AppDestination {
+    override val route: String
+        get() = "profile/edit"
+}
+
+data object MyTripsDestination: AppDestination {
+    override val route: String
+        get() = "profile/mytrips"
+}
+
 /* ---------- Dynamic Destinations ---------- */
 
 data class TourDetailDestination(

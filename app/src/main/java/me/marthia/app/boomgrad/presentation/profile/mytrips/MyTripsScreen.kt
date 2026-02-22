@@ -15,9 +15,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SecondaryTabRow
-import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -37,10 +34,14 @@ import kotlinx.coroutines.launch
 import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.presentation.common.ErrorScreen
 import me.marthia.app.boomgrad.presentation.common.LoadingScreen
-import me.marthia.app.boomgrad.presentation.components.ScaffoldElement
-import me.marthia.app.boomgrad.presentation.components.IconText
 import me.marthia.app.boomgrad.presentation.components.BackgroundElement
+import me.marthia.app.boomgrad.presentation.components.CardElement
+import me.marthia.app.boomgrad.presentation.components.IconText
+import me.marthia.app.boomgrad.presentation.components.ScaffoldElement
+import me.marthia.app.boomgrad.presentation.components.SurfaceElement
+import me.marthia.app.boomgrad.presentation.profile.component.PillTabRow
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
 import me.marthia.app.boomgrad.presentation.util.ViewState
 import org.koin.androidx.compose.koinViewModel
 
@@ -49,8 +50,6 @@ fun MyTripsScreen(
     viewModel: MyTripsViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-
 
     when (uiState) {
         is ViewState.Loading -> LoadingScreen()
@@ -78,46 +77,27 @@ fun MyTripsScreen(modifier: Modifier = Modifier, state: MyTripsUiState) {
         stringResource(R.string.label_my_trips_tab_completed),
         stringResource(R.string.label_my_trips_tab_Cancelled),
     )
-    val pagerState = rememberPagerState(initialPage = 0, pageCount = {
-        tabs.size
-    })
+    val pagerState = rememberPagerState(initialPage = 0, pageCount = { tabs.size })
 
-    Column(
-        modifier = modifier
-    ) {
-        // Tab Row
-        SecondaryTabRow(
-            selectedTabIndex = pagerState.currentPage,
-            modifier = Modifier.fillMaxWidth(),
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-            indicator = {
-                TabRowDefaults.SecondaryIndicator(
-                    Modifier.tabIndicatorOffset(pagerState.currentPage, matchContentSize = false)
-                )
-            }
-        ) {
-            tabs.forEachIndexed { index, title ->
-                Tab(
-                    selected = pagerState.currentPage == index,
-                    onClick = { scope.launch { pagerState.animateScrollToPage(index) } },
-                    text = { Text(title) }
-                )
-            }
-        }
+    Column(modifier = modifier) {
+        PillTabRow(
+            tabs = tabs,
+            selectedIndex = pagerState.currentPage,
+            onTabSelected = { scope.launch { pagerState.animateScrollToPage(it) } },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 16.dp, top = 16.dp),
+        )
 
-        // Pager with swipe support
         HorizontalPager(
             state = pagerState,
-            modifier = Modifier
-                .fillMaxSize(),
-            userScrollEnabled = true // Enables swipe gestures
+            modifier = Modifier.fillMaxSize(),
         ) { page ->
-            // Content for each tab
             TabContent(page = page)
         }
     }
 }
+
 
 @Composable
 fun TabContent(page: Int) {
@@ -125,15 +105,9 @@ fun TabContent(page: Int) {
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(16.dp)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Text(
-            text = "Content for Tab ${page + 1}",
-            style = MaterialTheme.typography.headlineSmall
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Add your content here
         repeat(20) { index ->
 
             TripItem(
@@ -147,54 +121,63 @@ fun TabContent(page: Int) {
 
 @Composable
 fun TripItem(modifier: Modifier = Modifier, tourTitle: String, dueTime: String, count: String) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = 12.dp, horizontal = 16.dp),
-    ) {
-        Text(
-            text = tourTitle,
-            style = MaterialTheme.typography.titleMedium,
-
-        )
-
-        Spacer(Modifier.height(16.dp))
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
+    CardElement() {
+        Column(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(vertical = 12.dp, horizontal = 16.dp),
         ) {
-
-            IconText(
-                modifier = Modifier.padding(bottom = 16.dp),
-                text = {
-                    Text(
-                        text = dueTime,
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                },
-                leadingIcon = {
-                    Icon(
-                        painter = painterResource(R.drawable.icon_due_date_16),
-                        tint = Color.Unspecified,
-                        contentDescription = "Featured",
-                    )
-                },
-            )
             Text(
-                text = count,
-                style = MaterialTheme.typography.bodyLarge,
+                text = tourTitle,
+                style = MaterialTheme.typography.titleMedium,
 
-            )
+                )
+
+            Spacer(Modifier.height(16.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+
+                IconText(
+                    modifier = Modifier.padding(bottom = 16.dp),
+                    text = {
+                        Text(
+                            text = dueTime,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    },
+                    leadingIcon = {
+                        Icon(
+                            painter = painterResource(R.drawable.icon_due_date_16),
+                            tint = Color.Unspecified,
+                            contentDescription = "Featured",
+                        )
+                    },
+                )
+                Text(
+                    text = count,
+                    style = MaterialTheme.typography.bodyLarge,
+
+                    )
+            }
+            SurfaceElement(
+                shape = MaterialTheme.shapes.small,
+                color = Theme.colors.materialTheme.secondaryContainer
+            ) {
+                Text(text = "تایید شده", modifier = Modifier.padding(4.dp))
+            }
         }
     }
 }
 
 
-@Preview("default", showBackground = true, showSystemUi = true)
-@Preview("dark theme", uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Preview("large font", fontScale = 2f)
+@Preview("default", showBackground = true, showSystemUi = true, locale = "fa")
+@Preview("dark theme", uiMode = Configuration.UI_MODE_NIGHT_YES, locale = "fa")
+@Preview("large font", fontScale = 2f, locale = "fa")
+
 @Composable
 private fun PreviewMyTrips() {
     AppTheme {

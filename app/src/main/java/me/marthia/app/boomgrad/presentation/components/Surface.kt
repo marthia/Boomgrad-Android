@@ -22,6 +22,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -55,6 +56,7 @@ fun SurfaceElement(
     onClick : (() -> Unit)? = null,
     content: @Composable () -> Unit,
 ) {
+
     Box(
         modifier = modifier
             .shadow(elevation = elevation, shape = shape, clip = true, spotColor = shadowColor)
@@ -63,7 +65,7 @@ fun SurfaceElement(
             .background(
                 color = getBackgroundColorForElevation(color, elevation),
                 shape = shape,
-            ).clickable(enabled = onClick != null, onClick = { onClick?.let { it() } }),
+            ).then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier),
         contentAlignment = contentAlignment
     ) {
         CompositionLocalProvider(LocalContentColor provides contentColor, content = content)

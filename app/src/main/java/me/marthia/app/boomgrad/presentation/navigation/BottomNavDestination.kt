@@ -37,4 +37,3 @@ val bottomBarDestinations = listOf(
         route = ProfileDestination.route
     ),
 )
-

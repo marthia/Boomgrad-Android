@@ -41,7 +41,7 @@ import me.marthia.app.boomgrad.domain.model.ItineraryStop
 import me.marthia.app.boomgrad.domain.model.TourDetail
 import me.marthia.app.boomgrad.domain.model.TourLevel
 import me.marthia.app.boomgrad.domain.model.TourStatus
-import me.marthia.app.boomgrad.presentation.components.AppContainer
+import me.marthia.app.boomgrad.presentation.components.ContainerElement
 import me.marthia.app.boomgrad.presentation.components.BackgroundElement
 import me.marthia.app.boomgrad.presentation.components.ButtonElement
 import me.marthia.app.boomgrad.presentation.components.CardElement
@@ -302,7 +302,7 @@ private fun TopBar(modifier: Modifier = Modifier) {
 
 @Composable
 fun CreateTour(modifier: Modifier = Modifier) {
-    AppContainer(
+    ContainerElement(
 
         modifier = modifier
             .fillMaxWidth()

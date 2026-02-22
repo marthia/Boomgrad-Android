@@ -9,6 +9,8 @@ import me.marthia.app.boomgrad.presentation.MainContainer
 import me.marthia.app.boomgrad.presentation.attraction.detail.AttractionDetailScreen
 import me.marthia.app.boomgrad.presentation.guide.GuideInfoScreen
 import me.marthia.app.boomgrad.presentation.login.LoginScreen
+import me.marthia.app.boomgrad.presentation.profile.edit.EditProfileScreen
+import me.marthia.app.boomgrad.presentation.profile.mytrips.MyTripsScreen
 import me.marthia.app.boomgrad.presentation.tour.detail.TourDetailScreen
 
 @Composable
@@ -92,6 +94,19 @@ fun MainGraph(navigator: AppNavigator = rememberAppNavigator()) {
                 guideId = guideId,
                 onBackClick = navigator::navigateUp
             )
+        }
+
+        composable(
+            route = EditProfileDestination.route,
+        ) { backStackEntry ->
+
+            EditProfileScreen()
+        }
+
+        composable(
+            route = MyTripsDestination.route,
+        ) { backStackEntry ->
+            MyTripsScreen()
         }
     }
 }

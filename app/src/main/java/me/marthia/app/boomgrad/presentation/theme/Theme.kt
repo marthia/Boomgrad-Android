@@ -72,7 +72,7 @@ private val LightColorPalette = AppColorScheme(
         surfaceContainerLow = Green0, // Level 1 - very light green tint
         surfaceContainer = Green1, // Level 2 - light green tint
         surfaceContainerHigh = Green2, // Level 3 - your outline color
-        surfaceContainerHighest = Green3, // Level 4 - your uiFloated
+        surfaceContainerHighest = Color(0x28009896), // Level 4 - your uiFloated
 
         // Inverse colors (for dark elements on light theme)
         inverseSurface = Green8,

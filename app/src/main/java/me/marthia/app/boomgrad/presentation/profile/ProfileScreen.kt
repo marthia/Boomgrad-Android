@@ -38,9 +38,9 @@ import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.domain.model.User
 import me.marthia.app.boomgrad.presentation.common.ErrorScreen
 import me.marthia.app.boomgrad.presentation.common.LoadingScreen
-import me.marthia.app.boomgrad.presentation.components.ScaffoldElement
 import me.marthia.app.boomgrad.presentation.components.BackgroundElement
 import me.marthia.app.boomgrad.presentation.components.ButtonElement
+import me.marthia.app.boomgrad.presentation.components.ScaffoldElement
 import me.marthia.app.boomgrad.presentation.profile.component.LinkItem
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
 import me.marthia.app.boomgrad.presentation.theme.Theme
@@ -51,7 +51,10 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun ProfileScreen(
     viewModel: ProfileViewModel = koinViewModel(),
-    onNavigateToLogin: () -> Unit
+    onNavigateToLogin: () -> Unit,
+    onEditProfileClick: () -> Unit,
+    onMyTripsClick: () -> Unit,
+    onLogoutClick: () -> Unit,
 ) {
 
     if (viewModel.isLogin()) {
@@ -67,7 +70,10 @@ fun ProfileScreen(
                     ProfileScreen(
                         modifier = Modifier
                             .padding(it),
-                        state = (uiState as ViewState.Success<ProfileUiState>).value
+                        state = (uiState as ViewState.Success<ProfileUiState>).value,
+                        onEditProfileClick = onEditProfileClick,
+                        onMyTripsClick = onMyTripsClick,
+                        onLogoutClick = onLogoutClick,
                     )
                 }
             }
@@ -101,7 +107,13 @@ fun ProfileScreen(
 
 
 @Composable
-fun ProfileScreen(modifier: Modifier = Modifier, state: ProfileUiState) {
+fun ProfileScreen(
+    modifier: Modifier = Modifier,
+    state: ProfileUiState,
+    onEditProfileClick: () -> Unit,
+    onMyTripsClick: () -> Unit,
+    onLogoutClick: () -> Unit,
+) {
 
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Banner(
@@ -109,8 +121,11 @@ fun ProfileScreen(modifier: Modifier = Modifier, state: ProfileUiState) {
             name = state.item.name,
             phone = state.item.phone,
         )
-        Links()
-        Logout()
+        Links(
+            onEditProfileClick = onEditProfileClick,
+            onMyTripsClick = onMyTripsClick,
+            onLogoutClick = onLogoutClick,
+        )
     }
 }
 
@@ -144,7 +159,11 @@ private fun ColumnScope.Banner(image: String, name: String, phone: String) {
 }
 
 @Composable
-private fun Links() {
+private fun Links(
+    onEditProfileClick: () -> Unit,
+    onMyTripsClick: () -> Unit,
+    onLogoutClick: () -> Unit,
+) {
 
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -153,11 +172,13 @@ private fun Links() {
     ) {
         LinkItem(
             label = stringResource(R.string.label_profile_edit),
-            icon = painterResource(R.drawable.icon_user_edit_24)
+            icon = painterResource(R.drawable.icon_user_edit_24),
+            onAction = onEditProfileClick
         )
         LinkItem(
             label = stringResource(R.string.label_profile_my_trips),
-            icon = painterResource(R.drawable.icon_briefcase_24)
+            icon = painterResource(R.drawable.icon_briefcase_24),
+            onAction = onMyTripsClick
         )
 
         LinkItem(
@@ -167,17 +188,11 @@ private fun Links() {
             iconContainerColor = Theme.colors.materialTheme.surface,
             iconTint = Theme.colors.materialTheme.error,
             textColor = Theme.colors.materialTheme.error,
-            navigateIconVisible = false
+            navigateIconVisible = false,
+            onAction = onLogoutClick
         )
     }
 }
-
-
-@Composable
-private fun Logout() {
-
-}
-
 
 @Preview("default", showBackground = true, showSystemUi = true, locale = "fa")
 @Preview("dark theme", uiMode = Configuration.UI_MODE_NIGHT_YES)
@@ -198,8 +213,12 @@ private fun PreviewProfile() {
                             email = "",
                             phone = "09035135466",
                             image = "",
-                        )
-                    )
+                        ),
+                        ),
+                        onEditProfileClick = {},
+                        onMyTripsClick = {},
+                        onLogoutClick = {},
+
                 )
             }
         }

@@ -1,6 +1,7 @@
 package me.marthia.app.boomgrad.presentation.profile.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -44,13 +45,15 @@ fun LinkItem(
     iconContainerColor: Color = Theme.colors.materialTheme.primaryContainer,
     iconTint: Color = Theme.colors.materialTheme.primary,
     containerColor: Color = Theme.colors.materialTheme.surface,
-    shape: Shape = RoundedCornerShape(50)
+    shape: Shape = RoundedCornerShape(50),
+    onAction: () -> Unit,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .background(color = containerColor, shape = shape),
+            .background(color = containerColor, shape = shape)
+            .clickable(onClick = onAction),
 
         verticalAlignment = Alignment.CenterVertically,
 
@@ -97,7 +100,8 @@ private fun PreviewLinkItem() {
                 LinkItem(
                     modifier = Modifier.padding(top = 45.dp),
                     label = stringResource(R.string.label_profile_edit),
-                    icon = painterResource(R.drawable.icon_user_edit_24)
+                    icon = painterResource(R.drawable.icon_user_edit_24),
+                    onAction = {}
                 )
             }
         }
