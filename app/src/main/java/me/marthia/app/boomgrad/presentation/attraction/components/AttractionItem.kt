@@ -23,11 +23,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import me.marthia.app.boomgrad.domain.model.Attraction
+import me.marthia.app.boomgrad.presentation.attraction.model.AttractionUi
 
 @Composable
 fun AttractionItem(
-    attraction: Attraction,
+    attraction: AttractionUi,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -67,7 +67,7 @@ fun AttractionItem(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = attraction.category.name,
+                    text = attraction.category.type,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

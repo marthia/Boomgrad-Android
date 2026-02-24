@@ -31,8 +31,8 @@ fun AttractionDto.toDomain(): Attraction {
 
 fun ContactInfoDto.toDomain(): AttractionContactInfo {
     return AttractionContactInfo(
-        phone = phone ?: throw IllegalStateException("phone cannot be null"),
+        phone = phone ?: "",
         address = address ?: throw IllegalStateException("address cannot be null"),
-        website = website ?: throw IllegalStateException("website cannot be null"),
+        website = website ?: "",
     )
 }

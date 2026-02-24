@@ -50,7 +50,7 @@
     <string name="description_home_create_tour">Share you new experiences with others</string>
     <string name="home_screen_active_tours_label">Active Tours</string>
     <string name="label_attraction_detail_phone">Contact Phone</string>
-    <string name="label_attraction_detail_mail">Email</string>
+    <string name="label_attraction_detail_website">Website</string>
     <string name="label_attraction_detail_working_time">Working Time</string>
     <string name="label_attraction_detail_address">Address</string>
     <string name="label_home_guide_tours_stat">Tours</string>
@@ -198,5 +198,20 @@
     <string name="quantity_decrease">Decrease count</string>
     <string name="quantity_current">%d people</string>
     <string name="title_tour_detail_screen">Tour</string>
+
+    <string name="label_category_type_cultural">Cultural</string>
+    <string name="label_category_type_urban">Urban</string>
+    <string name="label_category_type_rural">Rural</string>
+    <string name="label_category_type_religious">Religious</string>
+    <string name="label_category_type_adventurous">Adventure</string>
+    <string name="label_category_type_business">Business</string>
+    <string name="label_category_type_health">Health</string>
+    <string name="label_category_type_literature">Literature</string>
+    <string name="label_category_type_creative">Creative</string>
+    <string name="label_category_type_culinary">Culinary</string>
+    <string name="label_category_type_educational">Educational</string>
+    <string name="label_category_type_wellness">Wellness</string>
+    <string name="label_category_type_nature">Nature</string>
+    <string name="label_category_type_heritage">Heritage</string>
 
 </resources>

@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.domain.model.AttractionCategory
+import me.marthia.app.boomgrad.domain.model.CategoryType
 import me.marthia.app.boomgrad.domain.model.City
 import me.marthia.app.boomgrad.domain.model.Demographic
 import me.marthia.app.boomgrad.domain.model.Guide
@@ -41,12 +42,13 @@ import me.marthia.app.boomgrad.domain.model.ItineraryStop
 import me.marthia.app.boomgrad.domain.model.TourDetail
 import me.marthia.app.boomgrad.domain.model.TourLevel
 import me.marthia.app.boomgrad.domain.model.TourStatus
-import me.marthia.app.boomgrad.presentation.components.ContainerElement
+import me.marthia.app.boomgrad.presentation.category.model.CategoryUi
 import me.marthia.app.boomgrad.presentation.components.BackgroundElement
 import me.marthia.app.boomgrad.presentation.components.ButtonElement
 import me.marthia.app.boomgrad.presentation.components.CardElement
-import me.marthia.app.boomgrad.presentation.components.IconText
+import me.marthia.app.boomgrad.presentation.components.ContainerElement
 import me.marthia.app.boomgrad.presentation.components.HorizontalDividerElement
+import me.marthia.app.boomgrad.presentation.components.IconText
 import me.marthia.app.boomgrad.presentation.components.SurfaceElement
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
 import me.marthia.app.boomgrad.presentation.theme.Theme
@@ -86,7 +88,7 @@ fun HomeScreen() {
                     price = 123546.8,
                     category = AttractionCategory(
                         id = 0,
-                        name = "تاریخی",
+                        type = CategoryType.HERITAGE,
                         description = "",
                         image = ""
                     ),
@@ -187,7 +189,7 @@ fun HomeScreen() {
                     price = 123546.8,
                     category = AttractionCategory(
                         id = 0,
-                        name = "تاریخی",
+                        type = CategoryType.HERITAGE,
                         description = "",
                         image = ""
                     ),

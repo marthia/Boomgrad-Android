@@ -37,7 +37,9 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.domain.model.AttractionCategory
+import me.marthia.app.boomgrad.domain.model.CategoryType
 import me.marthia.app.boomgrad.domain.model.TourList
+import me.marthia.app.boomgrad.presentation.category.model.CategoryUi
 import me.marthia.app.boomgrad.presentation.common.EmptyScreen
 import me.marthia.app.boomgrad.presentation.common.ErrorScreen
 import me.marthia.app.boomgrad.presentation.common.LoadingScreen
@@ -295,7 +297,7 @@ private fun createMockTours(count: Int) = List(count) { index ->
         city = "اصفهان",
         category = AttractionCategory(
             id = 0,
-            name = "تاریخی",
+            type = CategoryType.CREATIVE,
             description = "",
             image = ""
         ),

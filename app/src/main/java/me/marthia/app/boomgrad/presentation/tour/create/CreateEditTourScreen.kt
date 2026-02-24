@@ -39,12 +39,14 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.domain.model.AttractionCategory
+import me.marthia.app.boomgrad.domain.model.CategoryType
 import me.marthia.app.boomgrad.domain.model.City
 import me.marthia.app.boomgrad.domain.model.Demographic
 import me.marthia.app.boomgrad.domain.model.Guide
 import me.marthia.app.boomgrad.domain.model.TourDetail
 import me.marthia.app.boomgrad.domain.model.TourLevel
 import me.marthia.app.boomgrad.domain.model.TourStatus
+import me.marthia.app.boomgrad.presentation.category.model.CategoryUi
 import me.marthia.app.boomgrad.presentation.components.BackgroundElement
 import me.marthia.app.boomgrad.presentation.components.CardElement
 import me.marthia.app.boomgrad.presentation.components.IconText
@@ -223,7 +225,7 @@ fun CreateEditTour(
                         style = MaterialTheme.typography.bodyMedium,
                     )
                 },
-                value = tourDetail?.category?.name ?: stringResource(R.string.label_select),
+                value = tourDetail?.category?.type ?: stringResource(R.string.label_select),
                 readOnly = true,
                 trailingIcon = {
                     Icon(
@@ -625,7 +627,12 @@ private fun PreviewCreateEditTour() {
         highlights = listOf("Great views", "Local food"),
         duration = 3,
         price = 250000.0,
-        category = AttractionCategory(id = 1, name = "HIKING", description = "", image = ""),
+        category = AttractionCategory(
+            id = 0,
+            type = CategoryType.HERITAGE,
+            description = "",
+            image = ""
+        ),
         maxPeople = 20,
         status = TourStatus.PENDING,
         rate = 4.5f,

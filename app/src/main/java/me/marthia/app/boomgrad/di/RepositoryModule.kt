@@ -3,6 +3,8 @@ package me.marthia.app.boomgrad.di
 import me.marthia.app.boomgrad.data.local.TokenManager
 import me.marthia.app.boomgrad.data.remote.api.AttractionApiService
 import me.marthia.app.boomgrad.data.remote.api.AttractionApiServiceImpl
+import me.marthia.app.boomgrad.data.remote.api.CartApiService
+import me.marthia.app.boomgrad.data.remote.api.CartApiServiceImpl
 import me.marthia.app.boomgrad.data.remote.api.CategoryApiService
 import me.marthia.app.boomgrad.data.remote.api.CategoryApiServiceImpl
 import me.marthia.app.boomgrad.data.remote.api.GuideApiService
@@ -16,6 +18,7 @@ import me.marthia.app.boomgrad.data.remote.api.ProvinceCityServiceImpl
 import me.marthia.app.boomgrad.data.remote.api.TourApiService
 import me.marthia.app.boomgrad.data.remote.api.TourApiServiceImpl
 import me.marthia.app.boomgrad.data.remote.repository.AttractionRepositoryImpl
+import me.marthia.app.boomgrad.data.remote.repository.CartRepositoryImpl
 import me.marthia.app.boomgrad.data.remote.repository.CategoryRepositoryImpl
 import me.marthia.app.boomgrad.data.remote.repository.GuideRepositoryImpl
 import me.marthia.app.boomgrad.data.remote.repository.LoginRepositoryImpl
@@ -23,6 +26,7 @@ import me.marthia.app.boomgrad.data.remote.repository.ProfileRepositoryImpl
 import me.marthia.app.boomgrad.data.remote.repository.ProvinceRepositoryImpl
 import me.marthia.app.boomgrad.data.remote.repository.TourRepositoryImpl
 import me.marthia.app.boomgrad.domain.repository.AttractionRepository
+import me.marthia.app.boomgrad.domain.repository.CartRepository
 import me.marthia.app.boomgrad.domain.repository.CategoryRepository
 import me.marthia.app.boomgrad.domain.repository.GuideRepository
 import me.marthia.app.boomgrad.domain.repository.LoginRepository
@@ -62,4 +66,7 @@ val repositoryModule = module {
 
     singleOf(::GuideApiServiceImpl) bind GuideApiService::class
     singleOf(::GuideRepositoryImpl) bind GuideRepository::class
+
+    single<CartRepository> { CartRepositoryImpl(api = get()) }
+    single<CartApiService> { CartApiServiceImpl(client = get()) }
 }

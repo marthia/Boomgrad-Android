@@ -29,6 +29,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -51,26 +52,28 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import me.marthia.app.boomgrad.R
-import me.marthia.app.boomgrad.domain.model.Attraction
 import me.marthia.app.boomgrad.domain.model.AttractionCategory
 import me.marthia.app.boomgrad.domain.model.AttractionContactInfo
 import me.marthia.app.boomgrad.domain.model.AttractionImage
 import me.marthia.app.boomgrad.domain.model.AttractionOpeningHours
+import me.marthia.app.boomgrad.domain.model.CategoryType
 import me.marthia.app.boomgrad.domain.model.Location
 import me.marthia.app.boomgrad.domain.model.LocationType
 import me.marthia.app.boomgrad.domain.model.Review
 import me.marthia.app.boomgrad.domain.model.TourList
 import me.marthia.app.boomgrad.domain.model.User
 import me.marthia.app.boomgrad.presentation.attraction.components.ComposeNewCommentBottomSheet
+import me.marthia.app.boomgrad.presentation.attraction.model.AttractionUi
 import me.marthia.app.boomgrad.presentation.category.CategoryTag
+import me.marthia.app.boomgrad.presentation.category.model.CategoryUi
 import me.marthia.app.boomgrad.presentation.common.ErrorScreen
 import me.marthia.app.boomgrad.presentation.common.LoadingScreen
-import me.marthia.app.boomgrad.presentation.components.ScaffoldElement
 import me.marthia.app.boomgrad.presentation.components.BackgroundElement
 import me.marthia.app.boomgrad.presentation.components.ButtonElement
 import me.marthia.app.boomgrad.presentation.components.CardElement
-import me.marthia.app.boomgrad.presentation.components.IconText
 import me.marthia.app.boomgrad.presentation.components.HorizontalDividerElement
+import me.marthia.app.boomgrad.presentation.components.IconText
+import me.marthia.app.boomgrad.presentation.components.ScaffoldElement
 import me.marthia.app.boomgrad.presentation.components.SurfaceElement
 import me.marthia.app.boomgrad.presentation.components.TopBar
 import me.marthia.app.boomgrad.presentation.profile.component.dashedBorder
@@ -90,6 +93,11 @@ fun AttractionDetailScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        viewModel.loadAttractionDetail(context = context)
+    }
+
     ScaffoldElement(
         topBar = {
             TopBar(
@@ -107,14 +115,9 @@ fun AttractionDetailScreen(
         ) {
             when (val state = uiState) {
                 is ViewState.Loading -> LoadingScreen()
+                is ViewState.Error -> ErrorScreen(onBack = onBackClick)
                 is ViewState.Success -> {
                     AttractionDetailContent(state.value)
-                }
-
-                is ViewState.Error -> {
-                    ErrorScreen(
-                        onRetry = { viewModel.retry() }
-                    )
                 }
 
                 else -> {}
@@ -227,7 +230,7 @@ fun AttractionGist(
 
 
 @Composable
-private fun AttractionDetailContent(attraction: Attraction) {
+private fun AttractionDetailContent(attraction: AttractionUi) {
     var showBottomSheet by remember { mutableStateOf(false) }
 
     Column(
@@ -245,7 +248,7 @@ private fun AttractionDetailContent(attraction: Attraction) {
             title = attraction.location.name,
             reviewCount = attraction.reviewCount,
             rate = attraction.rating,
-            category = attraction.category.name,
+            category = attraction.category.type,
             city = "${attraction.location.province} , ${attraction.location.city}"
         )
 
@@ -312,7 +315,7 @@ fun AttractionSpecs(
 
             AttractionSpecItem(
                 modifier = Modifier.weight(1f),
-                label = stringResource(R.string.label_attraction_detail_mail),
+                label = stringResource(R.string.label_attraction_detail_website),
                 labelIcon = R.drawable.ic_email_16,
                 value = contactInfo.website
             )
@@ -634,9 +637,9 @@ private fun PreviewAttraction() {
         RightToLeftLayout {
             BackgroundElement {
                 AttractionDetailContent(
-                    Attraction(
+                    AttractionUi(
                         id = -1,
-                        category = AttractionCategory(1, "تاریخی", "", ""),
+                        category = CategoryUi(1, "", "", ""),
                         images = listOf(
                             AttractionImage(1, "https://picsum.photos/1200"),
                             AttractionImage(2, "https://picsum.photos/1300")
@@ -745,7 +748,7 @@ private fun PreviewAttraction() {
                                 city = "اصفهان",
                                 category = AttractionCategory(
                                     id = 0,
-                                    name = "تاریخی",
+                                    type = CategoryType.HERITAGE,
                                     description = "",
                                     image = ""
                                 ),

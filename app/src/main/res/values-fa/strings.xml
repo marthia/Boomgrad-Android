@@ -52,7 +52,7 @@
     <string name="description_home_create_tour">تجربیات جدید خود را با دیگران به اشتراک بگذارید</string>
     <string name="home_screen_active_tours_label">تورهای فعال</string>
     <string name="label_attraction_detail_phone">تلفن تماس</string>
-    <string name="label_attraction_detail_mail">ایمیل</string>
+    <string name="label_attraction_detail_website">وبسایت</string>
     <string name="label_attraction_detail_working_time">ساعات بازدید</string>
     <string name="label_attraction_detail_address">آدرس</string>
     <string name="label_home_guide_tours_stat">تورها</string>
@@ -197,6 +197,21 @@
     <string name="quantity_decrease">کاهش تعداد</string>
     <string name="quantity_current">%d نفر</string>
     <string name="title_tour_detail_screen">جزییات تور</string>
+
+    <string name="label_category_type_cultural">فرهنگی</string>
+    <string name="label_category_type_urban">شهری</string>
+    <string name="label_category_type_rural">روستایی</string>
+    <string name="label_category_type_religious">مذهبی</string>
+    <string name="label_category_type_adventurous">ماجراجویانه</string>
+    <string name="label_category_type_business">تجاری</string>
+    <string name="label_category_type_health">سلامتی</string>
+    <string name="label_category_type_literature">ادبی</string>
+    <string name="label_category_type_creative">خلاق</string>
+    <string name="label_category_type_culinary">غذا</string>
+    <string name="label_category_type_educational">آموزشی</string>
+    <string name="label_category_type_wellness">تندرستی</string>
+    <string name="label_category_type_nature">طبیعت</string>
+    <string name="label_category_type_heritage">میراث</string>
 
 
 </resources>

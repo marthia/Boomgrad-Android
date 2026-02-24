@@ -1,5 +1,6 @@
 package me.marthia.app.boomgrad.presentation.home
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.async
@@ -8,15 +9,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import me.marthia.app.boomgrad.domain.model.City
-import me.marthia.app.boomgrad.domain.model.County
-import me.marthia.app.boomgrad.domain.model.Province
 import me.marthia.app.boomgrad.domain.usecase.attraction.GetTopAttractionsUseCase
 import me.marthia.app.boomgrad.domain.usecase.category.GetAttractionCategoryUseCase
 import me.marthia.app.boomgrad.domain.usecase.common.GetCityUseCase
-import me.marthia.app.boomgrad.domain.usecase.common.GetCountyUseCase
-import me.marthia.app.boomgrad.domain.usecase.common.GetProvinceUseCase
 import me.marthia.app.boomgrad.domain.usecase.tour.GetForYouToursUseCase
 import me.marthia.app.boomgrad.domain.usecase.tour.GetWeekRecommendedUseCase
+import me.marthia.app.boomgrad.presentation.category.model.toUi
 import me.marthia.app.boomgrad.presentation.home.model.HomeUiState
 import me.marthia.app.boomgrad.presentation.util.ViewState
 
@@ -52,11 +50,7 @@ class HomeViewModel(
         }
     }
 
-    init {
-        getAll()
-    }
-
-    fun getAll() {
+    fun getAll(context: Context) {
         viewModelScope.launch {
             val forYouToursDeferred = async { getForYouTours.invoke() }
             val topAttractionsDeferred = async { getTopAttractions.invoke() }
@@ -70,7 +64,7 @@ class HomeViewModel(
 
             _uiState.value = ViewState.Success(
                 HomeUiState(
-                    categories = categories,
+                    categories = categories.map { it.toUi(context = context) },
                     forYouTours = forYouTours,
                     topAttractions = topAttractions,
                     weekRecommended = weekRecommended

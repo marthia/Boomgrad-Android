@@ -3,8 +3,8 @@ package me.marthia.app.boomgrad.di
 
 import me.marthia.app.boomgrad.presentation.attraction.detail.AttractionDetailViewModel
 import me.marthia.app.boomgrad.presentation.attraction.list.AttractionsViewModel
+import me.marthia.app.boomgrad.presentation.cart.CartViewModel
 import me.marthia.app.boomgrad.presentation.components.SnackbarManager
-import me.marthia.app.boomgrad.presentation.favorites.FavoritesViewModel
 import me.marthia.app.boomgrad.presentation.guide.GuideInfoViewModel
 import me.marthia.app.boomgrad.presentation.home.HomeViewModel
 import me.marthia.app.boomgrad.presentation.login.LoginViewModel
@@ -20,12 +20,19 @@ import org.koin.dsl.module
 val appModule = module {
     viewModel { AttractionsViewModel(get()) }
     viewModel { AttractionDetailViewModel(get(), get()) }
-    viewModel { FavoritesViewModel(repository = get()) }
     viewModel { SearchViewModel(get()) }
     viewModel { ProfileViewModel(get(), get()) }
     viewModel { LoginViewModel(get(), get(), SnackbarManager) }
     viewModel { TourDetailViewModel(get(), get()) }
     viewModel { GuideInfoViewModel(get(), get()) }
+
+    viewModel {
+        CartViewModel(
+            getCart = get(),
+            removeCartItem = get(),
+            updateCartItem = get(),
+        )
+    }
 
     viewModel {
         HomeViewModel(

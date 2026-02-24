@@ -5,6 +5,7 @@ import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.domain.model.Demographic
 import me.marthia.app.boomgrad.domain.model.TourDetail
 import me.marthia.app.boomgrad.domain.model.TourLevel
+import me.marthia.app.boomgrad.presentation.category.model.toUi
 
 fun TourDetail.toUi(context: Context) = TourDetailUi(
     id = id,
@@ -14,7 +15,7 @@ fun TourDetail.toUi(context: Context) = TourDetailUi(
     highlights = highlights,
     duration = duration,
     price = price,
-    category = category,
+    category = category.toUi(context),
     maxPeople = maxPeople,
     status = status,
     rate = rate,

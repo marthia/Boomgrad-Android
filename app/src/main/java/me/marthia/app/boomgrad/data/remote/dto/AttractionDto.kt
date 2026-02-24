@@ -12,9 +12,9 @@ data class AttractionDto(
     @SerialName("images")
     val images: List<AttractionImageDto>?,
     @SerialName("rating")
-    val rating: Float?,
+    val rating: Float? = 0.0f,
     @SerialName("review_count")
-    val reviewCount: Int?,
+    val reviewCount: Int? = 0,
     @SerialName("contact_info")
     val contactInfo: ContactInfoDto?,
     @SerialName("opening_hours")

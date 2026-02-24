@@ -1,11 +1,11 @@
 package me.marthia.app.boomgrad.presentation.tour.model
 
-import me.marthia.app.boomgrad.domain.model.AttractionCategory
 import me.marthia.app.boomgrad.domain.model.City
 import me.marthia.app.boomgrad.domain.model.Guide
 import me.marthia.app.boomgrad.domain.model.ItineraryStop
 import me.marthia.app.boomgrad.domain.model.Review
 import me.marthia.app.boomgrad.domain.model.TourStatus
+import me.marthia.app.boomgrad.presentation.category.model.CategoryUi
 
 data class TourDetailUi(
     val id: Long,
@@ -15,7 +15,7 @@ data class TourDetailUi(
     val highlights: List<String>,
     val duration: Int,
     val price: Double,
-    val category: AttractionCategory,
+    val category: CategoryUi,
     val maxPeople: Int,
     val status: TourStatus,
     val rate: Float,

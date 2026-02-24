@@ -3,6 +3,12 @@ package me.marthia.app.boomgrad.di
 import me.marthia.app.boomgrad.domain.usecase.attraction.GetAttractionDetailUseCase
 import me.marthia.app.boomgrad.domain.usecase.attraction.GetAttractionsUseCase
 import me.marthia.app.boomgrad.domain.usecase.attraction.GetTopAttractionsUseCase
+import me.marthia.app.boomgrad.domain.usecase.cart.AddCartItemUseCase
+import me.marthia.app.boomgrad.domain.usecase.cart.CheckoutUseCase
+import me.marthia.app.boomgrad.domain.usecase.cart.ConfirmCartPaymentUseCase
+import me.marthia.app.boomgrad.domain.usecase.cart.GetCartUseCase
+import me.marthia.app.boomgrad.domain.usecase.cart.RemoveCartItemUseCase
+import me.marthia.app.boomgrad.domain.usecase.cart.UpdateCartItemUseCase
 import me.marthia.app.boomgrad.domain.usecase.category.GetAttractionCategoryUseCase
 import me.marthia.app.boomgrad.domain.usecase.common.GetCityUseCase
 import me.marthia.app.boomgrad.domain.usecase.common.GetCountyUseCase
@@ -19,29 +25,38 @@ import org.koin.dsl.module
 
 val useCaseModule = module {
     // attraction
-    single<GetAttractionsUseCase> { GetAttractionsUseCase(get()) }
-    single<GetAttractionDetailUseCase> { GetAttractionDetailUseCase(get()) }
-    single<GetTopAttractionsUseCase> { GetTopAttractionsUseCase(get()) }
+    factory { GetAttractionsUseCase(get()) }
+    factory { GetAttractionDetailUseCase(get()) }
+    factory { GetTopAttractionsUseCase(get()) }
 
 
-    single<LoginUseCase> { LoginUseCase(get()) }
-    single<ClearTokenUseCase> { ClearTokenUseCase(get()) }
+    factory { LoginUseCase(get()) }
+    factory { ClearTokenUseCase(get()) }
 
     // geo
-    single<GetProvinceUseCase> { GetProvinceUseCase(get()) }
-    single<GetCountyUseCase> { GetCountyUseCase(get()) }
-    single<GetCityUseCase> { GetCityUseCase(get()) }
+    factory { GetProvinceUseCase(get()) }
+    factory { GetCountyUseCase(get()) }
+    factory { GetCityUseCase(get()) }
 
     // profile
-    single<GetProfileUseCase> { GetProfileUseCase(get()) }
-    single<CheckAuthorizationUseCase> { CheckAuthorizationUseCase(get()) }
-    single<GetAttractionCategoryUseCase> { GetAttractionCategoryUseCase(get()) }
+    factory { GetProfileUseCase(get()) }
+    factory { CheckAuthorizationUseCase(get()) }
+    factory { GetAttractionCategoryUseCase(get()) }
 
     // tours
-    single<GetForYouToursUseCase> { GetForYouToursUseCase(get()) }
-    single<GetTourDetailUseCase> { GetTourDetailUseCase(get()) }
-    single<GetWeekRecommendedUseCase> { GetWeekRecommendedUseCase(get()) }
+    factory { GetForYouToursUseCase(get()) }
+    factory { GetTourDetailUseCase(get()) }
+    factory { GetWeekRecommendedUseCase(get()) }
 
     // guide
-    single<GetGuideInfoUseCase> { GetGuideInfoUseCase(get()) }
+    factory { GetGuideInfoUseCase(get()) }
+
+
+    // ── Use cases ─────────────────────────────────────────────────────────────
+    factory { GetCartUseCase(get()) }
+    factory { AddCartItemUseCase(get()) }
+    factory { UpdateCartItemUseCase(get()) }
+    factory { RemoveCartItemUseCase(get()) }
+    factory { CheckoutUseCase(get()) }
+    factory { ConfirmCartPaymentUseCase(get()) }
 }

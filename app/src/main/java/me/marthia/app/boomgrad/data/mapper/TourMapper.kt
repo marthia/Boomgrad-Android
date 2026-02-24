@@ -3,6 +3,7 @@ package me.marthia.app.boomgrad.data.mapper
 import me.marthia.app.boomgrad.data.remote.dto.TourDetailDto
 import me.marthia.app.boomgrad.data.remote.dto.TourListDto
 import me.marthia.app.boomgrad.domain.model.AttractionCategory
+import me.marthia.app.boomgrad.domain.model.CategoryType
 import me.marthia.app.boomgrad.domain.model.TourDetail
 import me.marthia.app.boomgrad.domain.model.TourList
 
@@ -20,12 +21,7 @@ fun TourListDto.toDomain(): TourList {
         price = price ?: 0.0,
         dueDate = dueDate ?: "",
         city = city ?: "",
-        category = category?.toDomain() ?: AttractionCategory(
-            id = 0,
-            name = "تاریخی",
-            description = "",
-            image = ""
-        ),
+        category = category?.toDomain() ?: throw IllegalStateException("category is null"),
     )
 }
 

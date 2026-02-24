@@ -16,10 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.presentation.theme.Theme
 import me.marthia.app.boomgrad.presentation.util.debugPlaceholder
@@ -49,12 +47,8 @@ fun Story(
                 .padding(5.dp), // 2dp border + 3dp gap
         ) {
             AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(image)
-                    .crossfade(true)
-                    .build(),
+                model = image,
                 contentDescription = "profile",
-                placeholder = debugPlaceholder(debugPreview = R.drawable.placeholder),
                 modifier = Modifier
                     .fillMaxSize()
                     .clip(CircleShape)

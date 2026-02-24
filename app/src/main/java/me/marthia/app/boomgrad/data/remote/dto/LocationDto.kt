@@ -11,7 +11,7 @@ data class LocationDto(
     @SerialName("name")
     val name: String?,
     @SerialName("description")
-    val description: String?,
+    val description: String? = "",
     @SerialName("latitude")
     val latitude: Double?,
     @SerialName("longitude")

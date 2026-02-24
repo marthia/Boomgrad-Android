@@ -20,10 +20,9 @@ class CartViewModel(
     private val getCart: GetCartUseCase,
     private val removeCartItem: RemoveCartItemUseCase,
     private val updateCartItem: UpdateCartItemUseCase,
-    private val locale: Locale,          // injected via Koin — Locale("fa", "IR") or Locale.ENGLISH
 ) : ViewModel() {
 
-    private val mapper = CartUiMapper(locale)
+    private val mapper = CartUiMapper(Locale("fa")) // fixme
 
     // ── UI state ──────────────────────────────────────────────────────────────
     private val _uiState = MutableStateFlow<ViewState<CartUiModel>>(ViewState.Loading)

@@ -54,6 +54,7 @@ import me.marthia.app.boomgrad.domain.model.AttractionCategory
 import me.marthia.app.boomgrad.domain.model.AttractionContactInfo
 import me.marthia.app.boomgrad.domain.model.AttractionImage
 import me.marthia.app.boomgrad.domain.model.AttractionOpeningHours
+import me.marthia.app.boomgrad.domain.model.CategoryType
 import me.marthia.app.boomgrad.domain.model.Location
 import me.marthia.app.boomgrad.domain.model.LocationType
 import me.marthia.app.boomgrad.presentation.common.EmptyScreen
@@ -411,7 +412,12 @@ private fun PreviewAttractionListEmpty() {
 private fun createMockAttractions(count: Int) = List(count) { index ->
     Attraction(
         id = index.toLong(),
-        category = AttractionCategory(1, "Category", "", ""),
+        category = AttractionCategory(
+            id = 0,
+            type = CategoryType.HERITAGE,
+            description = "",
+            image = ""
+        ),
         images = listOf(
             AttractionImage(1, "https://picsum.photos/400"),
             AttractionImage(2, "https://picsum.photos/400")

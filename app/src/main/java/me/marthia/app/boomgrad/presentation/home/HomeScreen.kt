@@ -49,6 +49,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -70,21 +71,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import me.marthia.app.boomgrad.R
 import me.marthia.app.boomgrad.domain.model.Attraction
-import me.marthia.app.boomgrad.domain.model.AttractionCategory
 import me.marthia.app.boomgrad.domain.model.TourList
 import me.marthia.app.boomgrad.presentation.FilterSharedElementKey
 import me.marthia.app.boomgrad.presentation.category.CategoryTag
+import me.marthia.app.boomgrad.presentation.category.model.CategoryUi
+import me.marthia.app.boomgrad.presentation.category.model.toUi
 import me.marthia.app.boomgrad.presentation.common.ErrorScreen
 import me.marthia.app.boomgrad.presentation.common.LoadingScreen
 import me.marthia.app.boomgrad.presentation.components.BackgroundElement
 import me.marthia.app.boomgrad.presentation.components.ButtonElement
 import me.marthia.app.boomgrad.presentation.components.CardElement
-import me.marthia.app.boomgrad.presentation.components.IconText
 import me.marthia.app.boomgrad.presentation.components.HorizontalDividerElement
+import me.marthia.app.boomgrad.presentation.components.IconText
 import me.marthia.app.boomgrad.presentation.components.JetVerticalDivider
 import me.marthia.app.boomgrad.presentation.components.PlainButton
 import me.marthia.app.boomgrad.presentation.components.ScaffoldElement
@@ -108,7 +111,10 @@ fun HomeScreen(
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        viewModel.getAll(context)
+    }
 
     ScaffoldElement() {
         when (val state = uiState) {
@@ -146,7 +152,7 @@ private fun HomeScreenContent(
     modifier: Modifier = Modifier,
     sharedTransitionScope: SharedTransitionScope,
     paddingValues: PaddingValues,
-    categories: List<AttractionCategory>,
+    categories: List<CategoryUi>,
     topAttractions: List<Attraction>,
     forYouTours: List<TourList>,
     recommendedThisWeek: List<TourList>,
@@ -354,7 +360,7 @@ fun HomeTopBar(modifier: Modifier = Modifier) {
 @Composable
 fun StorySection(
     modifier: Modifier = Modifier,
-    categories: List<AttractionCategory>,
+    categories: List<CategoryUi>,
     onCategorySelected: (Long) -> Unit
 ) {
     LazyRow(
@@ -365,7 +371,7 @@ fun StorySection(
         items(categories) { category ->
             Story(
                 id = category.id,
-                title = category.name,
+                title = category.type,
                 image = category.image,
                 onCategorySelected = onCategorySelected
             )
@@ -409,7 +415,12 @@ fun Recommended(list: List<TourList>, onTourSelected: (Long) -> Unit) {
                         images = list[index].images
                     )
 
-                    HorizontalDividerElement(modifier = Modifier.padding(top = 60.dp, bottom = 24.dp))
+                    HorizontalDividerElement(
+                        modifier = Modifier.padding(
+                            top = 60.dp,
+                            bottom = 24.dp
+                        )
+                    )
 
 
                     Text(text = list[index].title, style = MaterialTheme.typography.titleMedium)
@@ -427,7 +438,7 @@ fun Recommended(list: List<TourList>, onTourSelected: (Long) -> Unit) {
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
 
-                        CategoryTag(title = list[index].category.name)
+                        CategoryTag(title = list[index].category.toUi(LocalContext.current).type)
 
                         ButtonElement(
                             shape = CircleShape,
