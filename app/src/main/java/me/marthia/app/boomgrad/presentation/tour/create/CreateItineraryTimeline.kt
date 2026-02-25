@@ -52,7 +52,7 @@ import me.marthia.app.boomgrad.presentation.theme.AppTheme
 import me.marthia.app.boomgrad.presentation.theme.Theme
 
 // ---------------------------------------------------------------------------
-// ItinerarySection.kt
+// CreateItineraryTimeline.kt
 // Drop this file next to CreateEditTourScreen.kt and wire it into the screen.
 // ---------------------------------------------------------------------------
 
@@ -89,8 +89,8 @@ import me.marthia.app.boomgrad.presentation.theme.Theme
 @Composable
 fun ItinerarySection(
     modifier: Modifier = Modifier,
-    stops: List<ItineraryStop> = emptyList(),
-    onStopsChange: (List<ItineraryStop>) -> Unit = {},
+    stops: List<ItineraryStopUi> = emptyList(),
+    onStopsChange: (List<ItineraryStopUi>) -> Unit = {},
     onPickOnMapClick: (stopIndex: Int) -> Unit = {},
 ) {
     // ── header row ──────────────────────────────────────────────────────────
@@ -122,7 +122,7 @@ fun ItinerarySection(
                 )
             },
             onClick = {
-                val newStop = ItineraryStop(
+                val newStop = ItineraryStopUi(
                     stopOrder = stops.size + 1,
                     title = "",
                     date = ""
@@ -221,11 +221,11 @@ fun ItinerarySection(
 
 @Composable
 private fun ItineraryStopCard(
-    stop: ItineraryStop,
+    stop: ItineraryStopUi,
     index: Int,
     isFirst: Boolean,
     isLast: Boolean,
-    onStopChange: (ItineraryStop) -> Unit,
+    onStopChange: (ItineraryStopUi) -> Unit,
     onRemove: () -> Unit,
     onMoveUp: () -> Unit,
     onMoveDown: () -> Unit,
@@ -343,7 +343,7 @@ private fun ItineraryStopCard(
                         )
                     },
                     placeholder = { Text(stringResource(R.string.placeholder_stop_description)) },
-                    onValueChange = { onStopChange(stop.copy(description = it.ifBlank { null })) },
+                    onValueChange = { onStopChange(stop.copy(description = it)) },
                     minLines = 2,
                 )
 
@@ -354,7 +354,7 @@ private fun ItineraryStopCard(
                 ) {
                     TextFieldElement(
                         modifier = Modifier.weight(1f),
-                        value = stop.durationMinutes?.toString().orEmpty(),
+                        value = stop.durationMinutes.toString(),
                         label = {
                             Text(
                                 text = stringResource(R.string.label_stop_duration),
@@ -364,13 +364,13 @@ private fun ItineraryStopCard(
                         placeholder = { Text(stringResource(R.string.placeholder_stop_duration)) },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         onValueChange = { raw ->
-                            onStopChange(stop.copy(durationMinutes = raw.toIntOrNull()))
+                            onStopChange(stop.copy(durationMinutes = raw.toInt()))
                         },
                     )
 
                     TextFieldElement(
                         modifier = Modifier.weight(2f),
-                        value = stop.location.orEmpty(),
+                        value = stop.location,
                         label = {
                             Text(
                                 text = stringResource(R.string.label_stop_location),
@@ -378,7 +378,7 @@ private fun ItineraryStopCard(
                             )
                         },
                         placeholder = { Text(stringResource(R.string.placeholder_stop_location)) },
-                        onValueChange = { onStopChange(stop.copy(location = it.ifBlank { null })) },
+                        onValueChange = { onStopChange(stop.copy(location = it)) },
                     )
                 }
 
@@ -401,7 +401,7 @@ private fun ItineraryStopCard(
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                         onValueChange = { raw ->
                             latText = raw
-                            onStopChange(stop.copy(latitude = raw.toDoubleOrNull()))
+                            onStopChange(stop.copy(latitude = raw.toDouble()))
                         },
                     )
 
@@ -418,7 +418,7 @@ private fun ItineraryStopCard(
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                         onValueChange = { raw ->
                             lngText = raw
-                            onStopChange(stop.copy(longitude = raw.toDoubleOrNull()))
+                            onStopChange(stop.copy(longitude = raw.toDouble()))
                         },
                     )
 
@@ -499,7 +499,7 @@ private fun CoordinateChip(latitude: Double, longitude: Double) {
 // ── private extension ────────────────────────────────────────────────────────
 
 /** Reassigns [ItineraryStop.stopOrder] (1-based) after any list mutation. */
-private fun List<ItineraryStop>.reindexed(): List<ItineraryStop> =
+private fun List<ItineraryStopUi>.reindexed(): List<ItineraryStopUi> =
     mapIndexed { i, stop -> stop.copy(stopOrder = i + 1) }
 
 // ── preview ─────────────────────────────────────────────────────────────────
@@ -508,7 +508,7 @@ private fun List<ItineraryStop>.reindexed(): List<ItineraryStop> =
 @Composable
 private fun PreviewItinerarySection() {
     val sampleStops = listOf(
-        ItineraryStop(
+        ItineraryStopUi(
             stopOrder = 1,
             title = "City Gate",
             description = "Historic entrance to the old city.",
@@ -518,17 +518,17 @@ private fun PreviewItinerarySection() {
             longitude = 51.4220,
             date = ""
         ),
-        ItineraryStop(
+        ItineraryStopUi(
             stopOrder = 2,
             title = "Milad Tower",
-            description = null,
+            description = "",
             durationMinutes = 60,
             location = "Milad Tower",
             latitude = 35.7448,
             longitude = 51.3753,
             date = ""
         ),
-        ItineraryStop(
+        ItineraryStopUi(
             stopOrder = 3,
             title = "Lunch break",
             durationMinutes = 45,

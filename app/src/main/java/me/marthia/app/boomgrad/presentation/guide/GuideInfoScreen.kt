@@ -26,7 +26,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import me.marthia.app.boomgrad.R
-import me.marthia.app.boomgrad.presentation.attraction.detail.AvailableTours
 import me.marthia.app.boomgrad.presentation.common.ErrorScreen
 import me.marthia.app.boomgrad.presentation.common.LoadingScreen
 import me.marthia.app.boomgrad.presentation.components.ScaffoldElement
@@ -90,7 +89,7 @@ fun GuideInfoScreen(modifier: Modifier = Modifier, state: GuideUi) {
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Justify,
         )
-        AvailableTours(tours = state.tours)
+//        AvailableTours(tours = state.tours)
     }
 }
 

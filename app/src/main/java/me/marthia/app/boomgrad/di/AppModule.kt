@@ -1,8 +1,6 @@
 package me.marthia.app.boomgrad.di
 
 
-import me.marthia.app.boomgrad.presentation.attraction.detail.AttractionDetailViewModel
-import me.marthia.app.boomgrad.presentation.attraction.list.AttractionsViewModel
 import me.marthia.app.boomgrad.presentation.cart.CartViewModel
 import me.marthia.app.boomgrad.presentation.components.SnackbarManager
 import me.marthia.app.boomgrad.presentation.guide.GuideInfoViewModel
@@ -18,8 +16,6 @@ import org.koin.dsl.module
  * Koin module for providing ViewModels.
  */
 val appModule = module {
-    viewModel { AttractionsViewModel(get()) }
-    viewModel { AttractionDetailViewModel(get(), get()) }
     viewModel { SearchViewModel(get()) }
     viewModel { ProfileViewModel(get(), get()) }
     viewModel { LoginViewModel(get(), get(), SnackbarManager) }

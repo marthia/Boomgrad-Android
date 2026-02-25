@@ -212,6 +212,8 @@
     <string name="label_category_type_wellness">تندرستی</string>
     <string name="label_category_type_nature">طبیعت</string>
     <string name="label_category_type_heritage">میراث</string>
+    <string name="label_home_bottom_nav_my_tours">تورهای من</string>
+    <string name="label_home_bottom_nav_bookings">رزروها</string>
 
 
 </resources>

@@ -31,10 +31,7 @@ import me.marthia.app.boomgrad.presentation.navigation.rememberAppNavigator
 @Composable
 fun MainContainer(
     modifier: Modifier = Modifier,
-    onTourSelected: (Long, NavBackStackEntry) -> Unit,
-    onCategorySelected: (Long, NavBackStackEntry) -> Unit,
     onNavigateToLogin: () -> Unit,
-    onAttractionSelected: (Long, NavBackStackEntry) -> Unit,
 ) {
     val scaffoldState = rememberAppScaffoldState()
     val nestedNavController = rememberAppNavigator()
@@ -88,9 +85,6 @@ fun MainContainer(
             startDestination = FeedDestination.route,
         ) {
             addHomeGraph(
-                onTourSelected = onTourSelected,
-                onCategorySelected = onCategorySelected,
-                onAttractionSelected = onAttractionSelected,
                 onNavigateToLogin = onNavigateToLogin,
             )
 

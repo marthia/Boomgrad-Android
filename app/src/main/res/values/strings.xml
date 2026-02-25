@@ -213,5 +213,7 @@
     <string name="label_category_type_wellness">Wellness</string>
     <string name="label_category_type_nature">Nature</string>
     <string name="label_category_type_heritage">Heritage</string>
+    <string name="label_home_bottom_nav_my_tours">My Tours</string>
+    <string name="label_home_bottom_nav_bookings">Bookings</string>
 
 </resources>

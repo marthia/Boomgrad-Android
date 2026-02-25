@@ -9,6 +9,7 @@ import me.marthia.app.boomgrad.data.mapper.toDomainDetail
 import me.marthia.app.boomgrad.data.mapper.toDomainList
 import me.marthia.app.boomgrad.data.remote.api.TourApiService
 import me.marthia.app.boomgrad.data.remote.datasource.ToursPagingDataSource
+import me.marthia.app.boomgrad.domain.model.CreateTour
 import me.marthia.app.boomgrad.domain.model.TourDetail
 import me.marthia.app.boomgrad.domain.model.TourList
 import me.marthia.app.boomgrad.domain.repository.TourRepository
@@ -44,4 +45,7 @@ class TourRepositoryImpl(
             pagingSourceFactory = { ToursPagingDataSource(api) }
         ).flow
     }
+
+    override suspend fun createTour(tour: CreateTour): Result<TourDetail> =
+        api.createTour(tour.toDto()).map { it.data.toDomain() }
 }

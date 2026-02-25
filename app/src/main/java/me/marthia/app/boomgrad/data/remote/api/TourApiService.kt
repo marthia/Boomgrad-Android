@@ -1,6 +1,7 @@
 package me.marthia.app.boomgrad.data.remote.api
 
 import me.marthia.app.boomgrad.data.remote.dto.BaseResponse
+import me.marthia.app.boomgrad.data.remote.dto.CreateTourDto
 import me.marthia.app.boomgrad.data.remote.dto.PagedResponse
 import me.marthia.app.boomgrad.data.remote.dto.TourDetailDto
 import me.marthia.app.boomgrad.data.remote.dto.TourListDto
@@ -20,4 +21,6 @@ interface TourApiService {
         query: String,
         limit: Int = 20
     ): Result<BaseResponse<PagedResponse<TourDetailDto>>>
+
+    suspend fun createTour(body: CreateTourDto): Result<BaseResponse<TourDetailDto>>
 }

@@ -54,15 +54,6 @@ class AppNavigator(
         navigate(destination = TourDetailDestination(tourId))
     }
 
-    fun navigateToAttraction(
-        attractionId: Long,
-        from: NavBackStackEntry
-    ) {
-        if (!from.lifecycleIsResumed()) return
-
-        navigate(destination = AttractionDetailDestination(attractionId))
-    }
-
     fun navigateToLogin() {
         navigate(LoginDestination)
     }

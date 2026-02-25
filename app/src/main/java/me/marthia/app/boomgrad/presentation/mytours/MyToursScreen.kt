@@ -1,0 +1,240 @@
+package me.marthia.app.boomgrad.presentation.mytours
+
+import android.content.res.Configuration
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
+import kotlinx.coroutines.launch
+import me.marthia.app.boomgrad.R
+import me.marthia.app.boomgrad.presentation.common.ErrorScreen
+import me.marthia.app.boomgrad.presentation.common.LoadingScreen
+import me.marthia.app.boomgrad.presentation.components.BackgroundElement
+import me.marthia.app.boomgrad.presentation.components.ButtonElement
+import me.marthia.app.boomgrad.presentation.components.CardElement
+import me.marthia.app.boomgrad.presentation.components.HorizontalDividerElement
+import me.marthia.app.boomgrad.presentation.components.IconText
+import me.marthia.app.boomgrad.presentation.components.ScaffoldElement
+import me.marthia.app.boomgrad.presentation.components.SurfaceElement
+import me.marthia.app.boomgrad.presentation.profile.component.PillTabRow
+import me.marthia.app.boomgrad.presentation.profile.mytrips.MyTripsUiState
+import me.marthia.app.boomgrad.presentation.profile.mytrips.MyTripsViewModel
+import me.marthia.app.boomgrad.presentation.theme.AppTheme
+import me.marthia.app.boomgrad.presentation.theme.Theme
+import me.marthia.app.boomgrad.presentation.util.ViewState
+import org.koin.androidx.compose.koinViewModel
+
+@Composable
+fun MyToursScreen(
+    viewModel: MyTripsViewModel = koinViewModel()
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    when (uiState) {
+        is ViewState.Loading -> LoadingScreen()
+        is ViewState.Error -> ErrorScreen()
+        is ViewState.Success -> {
+
+            ScaffoldElement() {
+                MyToursScreen(
+                    modifier = Modifier
+                        .padding(it),
+                    state = (uiState as ViewState.Success<MyTripsUiState>).value
+                )
+            }
+        }
+
+        else -> {}
+    }
+}
+
+@Composable
+fun MyToursScreen(modifier: Modifier = Modifier, state: MyTripsUiState) {
+    val scope = rememberCoroutineScope()
+    val tabs = listOf(
+        stringResource(R.string.label_my_trips_tab_scheduled),
+        stringResource(R.string.label_my_trips_tab_completed),
+        stringResource(R.string.label_my_trips_tab_Cancelled),
+    )
+    val pagerState = rememberPagerState(initialPage = 0, pageCount = { tabs.size })
+
+    Column(modifier = modifier) {
+        PillTabRow(
+            tabs = tabs,
+            selectedIndex = pagerState.currentPage,
+            onTabSelected = { scope.launch { pagerState.animateScrollToPage(it) } },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 16.dp, top = 16.dp),
+        )
+
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier.fillMaxSize(),
+        ) { page ->
+            TabContent(page = page)
+        }
+    }
+}
+
+
+@Composable
+fun TabContent(page: Int) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        repeat(20) { index ->
+
+            TripItem(
+                tourTitle = "تور نیم‌روزه‌ی میدان نقش جهان",
+                dueTime = "۲۰ دی",
+                count = "4 نفر"
+            )
+        }
+    }
+}
+
+@Composable
+fun TripItem(modifier: Modifier = Modifier, tourTitle: String, dueTime: String, count: String) {
+    CardElement() {
+
+        Column(modifier = modifier.fillMaxWidth()) {
+            Row(Modifier.fillMaxWidth()) {
+                AsyncImage(
+                    modifier = Modifier.size(120.dp),
+                    model = R.drawable.placeholder,
+                    contentDescription = "Tour Image"
+                )
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 12.dp, horizontal = 16.dp),
+                ) {
+                    Text(
+                        text = tourTitle,
+                        style = MaterialTheme.typography.titleMedium,
+
+                        )
+                    Spacer(Modifier.height(8.dp))
+                    Text(
+                        text = "هر نفر ۱۲۰ هزار تومان",
+                        style = MaterialTheme.typography.bodyMedium,
+
+                        )
+                    Spacer(Modifier.height(8.dp))
+
+                    IconText(
+                        modifier = Modifier.padding(bottom = 8.dp),
+                        text = {
+                            Text(
+                                text = dueTime,
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                        },
+                        leadingIcon = {
+                            Icon(
+                                painter = painterResource(R.drawable.icon_due_date_16),
+                                tint = Color.Unspecified,
+                                contentDescription = "Featured",
+                            )
+                        },
+                    )
+                    IconText(
+                        modifier = Modifier.padding(bottom = 8.dp),
+                        text = {
+                            Text(
+                                text = count,
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                        },
+                        leadingIcon = {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_people_outline_16),
+                                tint = Color.Unspecified,
+                                contentDescription = "Featured",
+                            )
+                        },
+                    )
+                }
+
+            }
+            HorizontalDividerElement(Modifier.padding(horizontal = 16.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                SurfaceElement(
+                    shape = MaterialTheme.shapes.small,
+                    color = Theme.colors.materialTheme.secondaryContainer
+                ) {
+                    Text(
+                        text = "تکمیل ظرفیت",
+                        modifier = Modifier.padding(4.dp),
+                        style = MaterialTheme.typography.labelMedium
+                    )
+                }
+                ButtonElement(onClick = {}, shape = MaterialTheme.shapes.small) {
+                    Text(
+                        text = "مدیریت",
+                        modifier = Modifier.padding(4.dp),
+                        style = MaterialTheme.typography.labelMedium
+                    )
+                }
+            }
+        }
+    }
+}
+
+
+@Preview("default", showBackground = true, showSystemUi = true, locale = "fa")
+@Preview("dark theme", uiMode = Configuration.UI_MODE_NIGHT_YES, locale = "fa")
+@Preview("large font", fontScale = 2f, locale = "fa")
+
+@Composable
+private fun PreviewMyTrips() {
+    AppTheme {
+
+        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+
+            BackgroundElement(modifier = Modifier.fillMaxSize()) {
+
+                MyToursScreen(modifier = Modifier, state = MyTripsUiState("خالی"))
+            }
+        }
+    }
+}

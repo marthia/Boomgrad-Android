@@ -22,6 +22,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,54 +31,113 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import me.marthia.app.boomgrad.R
-import me.marthia.app.boomgrad.domain.model.AttractionCategory
-import me.marthia.app.boomgrad.domain.model.CategoryType
-import me.marthia.app.boomgrad.domain.model.City
-import me.marthia.app.boomgrad.domain.model.Demographic
-import me.marthia.app.boomgrad.domain.model.Guide
-import me.marthia.app.boomgrad.domain.model.TourDetail
-import me.marthia.app.boomgrad.domain.model.TourLevel
-import me.marthia.app.boomgrad.domain.model.TourStatus
-import me.marthia.app.boomgrad.presentation.category.model.CategoryUi
 import me.marthia.app.boomgrad.presentation.components.BackgroundElement
+import me.marthia.app.boomgrad.presentation.components.ButtonElement
 import me.marthia.app.boomgrad.presentation.components.CardElement
 import me.marthia.app.boomgrad.presentation.components.IconText
 import me.marthia.app.boomgrad.presentation.components.TextFieldElement
 import me.marthia.app.boomgrad.presentation.profile.component.dashedBorder
 import me.marthia.app.boomgrad.presentation.theme.AppTheme
 import me.marthia.app.boomgrad.presentation.theme.Theme
-import me.marthia.app.boomgrad.presentation.tour.model.TourDetailUi
-import me.marthia.app.boomgrad.presentation.tour.model.toUi
 import me.marthia.app.boomgrad.presentation.util.debugPlaceholder
+import org.koin.androidx.compose.koinViewModel
+import java.time.LocalDate
+import java.time.LocalTime
+
+// ─── Stateful entry point ─────────────────────────────────────────────────────
 
 @Composable
 fun CreateEditTourScreen(
-    tourDetail: TourDetailUi? = null,
-    onTitleChange: (String) -> Unit = {},
-    onDescriptionChange: (String) -> Unit = {},
-    onCityClick: () -> Unit = {},
-    onTourTypeClick: () -> Unit = {},
-    onDifficultyClick: () -> Unit = {},
-    onDemographicClick: () -> Unit = {},
-    onDurationChange: (String) -> Unit = {},
-    onAddDateClick: () -> Unit = {},
-    onDateChange: (String) -> Unit = {},
-    onStartTimeChange: (String) -> Unit = {},
-    onPriceChange: (String) -> Unit = {},
-    onCapacityChange: (String) -> Unit = {},
-    onCancellationPolicyChange: (String) -> Unit = {},
-    onUploadImageClick: () -> Unit = {},
-    onRequiredItemsChange: (String) -> Unit = {},
-    onHighlightsChange: (String) -> Unit = {},
-    onDescriptionMiscChange: (String) -> Unit = {},
+    onNavigateToCityPicker: () -> Unit,
+    onNavigateToCategoryPicker: () -> Unit,
+    onNavigateToDifficultyPicker: () -> Unit,
+    onNavigateToDemographicPicker: () -> Unit,
+    onNavigateToDatePicker: () -> Unit,
+    onTourCreated: (tourId: Long) -> Unit,
+    onShowError: (message: String) -> Unit,
+    viewModel: CreateTourViewModel = koinViewModel(),
+) {
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    // ── One-shot events ───────────────────────────────────────────────────────
+    LaunchedEffect(Unit) {
+        viewModel.events.collect { event ->
+            when (event) {
+                is CreateTourEvent.NavigateToCityPicker -> onNavigateToCityPicker()
+                is CreateTourEvent.NavigateToCategoryPicker -> onNavigateToCategoryPicker()
+                is CreateTourEvent.NavigateToDifficultyPicker -> onNavigateToDifficultyPicker()
+                is CreateTourEvent.NavigateToDemographicPicker -> onNavigateToDemographicPicker()
+                is CreateTourEvent.NavigateToDatePicker -> onNavigateToDatePicker()
+                is CreateTourEvent.Success -> onTourCreated(event.tourId)
+                is CreateTourEvent.ShowError -> onShowError(event.message)
+            }
+        }
+    }
+
+    CreateEditTourContent(
+        state = state,
+        onTitleChange = viewModel::onTitleChange,
+        onDescriptionChange = viewModel::onDescriptionChange,
+        onCityClick = viewModel::onCityClick,
+        onTourTypeClick = viewModel::onTourTypeClick,
+        onDifficultyClick = viewModel::onDifficultyClick,
+        onDemographicClick = viewModel::onDemographicClick,
+        onDurationChange = viewModel::onDurationChange,
+        onAddDateClick = viewModel::onAddDateClick,
+        onDateChange = viewModel::onDateChange,
+        onStartTimeChange = viewModel::onStartTimeChange,
+        onPriceChange = viewModel::onPriceChange,
+        onCapacityChange = viewModel::onCapacityChange,
+        onCancellationPolicyChange = viewModel::onCancellationPolicyChange,
+        onUploadImageClick = viewModel::onUploadImageClick,
+        onImageRemoved = viewModel::onImageRemoved,
+        onRequiredItemsChange = viewModel::onRequiredItemsChange,
+        onHighlightsChange = viewModel::onHighlightsChange,
+        onDescriptionMiscChange = viewModel::onDescriptionMiscChange,
+        onAddItineraryStop = viewModel::onAddItineraryStop,
+        onItineraryTitleChange = viewModel::onItineraryStopTitleChange,
+        onItineraryDescChange = viewModel::onItineraryStopDescriptionChange,
+        onRemoveItineraryStop = viewModel::onRemoveItineraryStop,
+        onSubmit = viewModel::onSubmit,
+    )
+}
+
+// ─── Stateless content ────────────────────────────────────────────────────────
+
+@Composable
+fun CreateEditTourContent(
+    state: CreateEditTourUiState,
+    onTitleChange: (String) -> Unit,
+    onDescriptionChange: (String) -> Unit,
+    onCityClick: () -> Unit,
+    onTourTypeClick: () -> Unit,
+    onDifficultyClick: () -> Unit,
+    onDemographicClick: () -> Unit,
+    onDurationChange: (String) -> Unit,
+    onAddDateClick: () -> Unit,
+    onDateChange: (String) -> Unit,
+    onStartTimeChange: (String) -> Unit,
+    onPriceChange: (String) -> Unit,
+    onCapacityChange: (String) -> Unit,
+    onCancellationPolicyChange: (String) -> Unit,
+    onUploadImageClick: () -> Unit,
+    onImageRemoved: (String) -> Unit,
+    onRequiredItemsChange: (String) -> Unit,
+    onHighlightsChange: (String) -> Unit,
+    onDescriptionMiscChange: (String) -> Unit,
+    onAddItineraryStop: () -> Unit,
+    onItineraryTitleChange: (index: Int, value: String) -> Unit,
+    onItineraryDescChange: (index: Int, value: String) -> Unit,
+    onRemoveItineraryStop: (index: Int) -> Unit,
+    onSubmit: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -85,7 +145,14 @@ fun CreateEditTourScreen(
             .verticalScroll(rememberScrollState()),
     ) {
         CreateEditTour(
-            tourDetail = tourDetail,
+            title = state.title,
+            description = state.description,
+            cityName = state.selectedCityName,
+            categoryName = state.selectedCategoryName,
+            level = state.selectedLevel,
+            demographic = state.selectedDemographic,
+            duration = state.duration,
+            fieldErrors = state.fieldErrors,
             onTitleChange = onTitleChange,
             onDescriptionChange = onDescriptionChange,
             onCityClick = onCityClick,
@@ -94,41 +161,76 @@ fun CreateEditTourScreen(
             onDemographicClick = onDemographicClick,
             onDurationChange = onDurationChange,
         )
+
         Schedules(
-            tourDetail = tourDetail,
+            dueDate = state.dueDate,
+            startTime = state.startTime,
+            fieldErrors = state.fieldErrors,
             onAddDateClick = onAddDateClick,
             onDateChange = onDateChange,
             onStartTimeChange = onStartTimeChange,
         )
+
         PriceAndCapacity(
-            tourDetail = tourDetail,
+            price = state.price,
+            maxPeople = state.maxPeople,
+            cancellationPolicy = state.cancellationPolicy,
+            fieldErrors = state.fieldErrors,
             onPriceChange = onPriceChange,
             onCapacityChange = onCapacityChange,
             onCancellationPolicyChange = onCancellationPolicyChange,
         )
+
         TourImages(
-            images = tourDetail?.images.orEmpty(),
+            images = state.images,
             onUploadImageClick = onUploadImageClick,
+//            onImageRemoved = onImageRemoved,
         )
+
         MiscInfo(
-            tourDetail = tourDetail,
+            requiredItems = state.requiredItems,
+            highlights = state.highlights,
+            descriptionMisc = state.descriptionMisc,
             onRequiredItemsChange = onRequiredItemsChange,
             onHighlightsChange = onHighlightsChange,
             onDescriptionChange = onDescriptionMiscChange,
         )
 
         ItinerarySection(
-            stops = tourDetail?.itinerary ?: emptyList(),
-            onStopsChange = {},
+            stops = state.itinerary,
+//            onAddStop = onAddItineraryStop,
+//            onTitleChange = onItineraryTitleChange,
+//            onDescChange = onItineraryDescChange,
+//            onRemoveStop = onRemoveItineraryStop,
             onPickOnMapClick = {},
+        )
+
+        SubmitButton(
+            isLoading = state.isLoading,
+            onClick = onSubmit,
+            modifier = Modifier.padding(16.dp),
         )
     }
 }
 
 @Composable
+fun SubmitButton(isLoading: Boolean, onClick: () -> Unit, modifier: Modifier) {
+    ButtonElement(onClick = onClick) {
+        Text("ارسال")
+    }
+}
+
+
+@Composable
 fun CreateEditTour(
     modifier: Modifier = Modifier,
-    tourDetail: TourDetailUi? = null,
+    title: String,
+    description: String,
+    cityName: String,
+    categoryName: String,
+    level: String,
+    demographic: String,
+    duration: String,
     onTitleChange: (String) -> Unit = {},
     onDescriptionChange: (String) -> Unit = {},
     onCityClick: () -> Unit = {},
@@ -136,6 +238,7 @@ fun CreateEditTour(
     onDifficultyClick: () -> Unit = {},
     onDemographicClick: () -> Unit = {},
     onDurationChange: (String) -> Unit = {},
+    fieldErrors: Map<FormField, String>,
 ) {
     var cityDropDownExpanded by remember { mutableStateOf(false) }
     var tourTypeExpanded by remember { mutableStateOf(false) }
@@ -160,7 +263,7 @@ fun CreateEditTour(
 
             TextFieldElement(
                 modifier = Modifier.fillMaxWidth(),
-                value = tourDetail?.title.orEmpty(),
+                value = title,
                 label = {
                     Text(
                         text = stringResource(R.string.label_tour_title),
@@ -175,7 +278,7 @@ fun CreateEditTour(
 
             TextFieldElement(
                 modifier = Modifier.fillMaxWidth(),
-                value = tourDetail?.description.orEmpty(),
+                value = description,
                 label = {
                     Text(
                         text = stringResource(R.string.label_subtitle),
@@ -201,7 +304,7 @@ fun CreateEditTour(
                         style = MaterialTheme.typography.bodyMedium,
                     )
                 },
-                value = tourDetail?.city?.name ?: stringResource(R.string.label_select),
+                value = cityName,
                 readOnly = true,
                 trailingIcon = {
                     Icon(
@@ -225,7 +328,7 @@ fun CreateEditTour(
                         style = MaterialTheme.typography.bodyMedium,
                     )
                 },
-                value = tourDetail?.category?.type ?: stringResource(R.string.label_select),
+                value = categoryName,
                 readOnly = true,
                 trailingIcon = {
                     Icon(
@@ -249,7 +352,7 @@ fun CreateEditTour(
                         style = MaterialTheme.typography.bodyMedium,
                     )
                 },
-                value = tourDetail?.level ?: stringResource(R.string.label_select),
+                value = level,
                 readOnly = true,
                 trailingIcon = {
                     Icon(
@@ -277,7 +380,7 @@ fun CreateEditTour(
                             style = MaterialTheme.typography.bodyMedium,
                         )
                     },
-                    value = tourDetail?.demographic ?: stringResource(R.string.label_select),
+                    value = demographic,
                     readOnly = true,
                     trailingIcon = {
                         Icon(
@@ -290,7 +393,7 @@ fun CreateEditTour(
 
                 TextFieldElement(
                     modifier = Modifier.weight(1f),
-                    value = tourDetail?.duration?.toString().orEmpty(),
+                    value = duration,
                     label = {
                         Text(
                             text = stringResource(R.string.label_duration),
@@ -309,10 +412,12 @@ fun CreateEditTour(
 
 @Composable
 fun Schedules(
-    tourDetail: TourDetailUi? = null,
+    dueDate: LocalDate?,
+    startTime: LocalTime?,
     onAddDateClick: () -> Unit = {},
     onDateChange: (String) -> Unit = {},
     onStartTimeChange: (String) -> Unit = {},
+    fieldErrors: Map<FormField, String>,
 ) {
     Row(
         modifier = Modifier
@@ -357,7 +462,7 @@ fun Schedules(
         ) {
             TextFieldElement(
                 modifier = Modifier.fillMaxWidth(),
-                value = tourDetail?.dueDate.orEmpty(),
+                value = dueDate.toString(),
                 label = {
                     Text(
                         text = stringResource(R.string.label_tour_date),
@@ -379,7 +484,7 @@ fun Schedules(
 
             TextFieldElement(
                 modifier = Modifier.fillMaxWidth(),
-                value = tourDetail?.startTime.orEmpty(),
+                value = startTime.toString(),
                 label = {
                     Text(
                         text = stringResource(R.string.label_start_time),
@@ -404,10 +509,13 @@ fun Schedules(
 
 @Composable
 fun PriceAndCapacity(
-    tourDetail: TourDetailUi? = null,
+    price: String,
+    maxPeople: String,
+    cancellationPolicy: String,
     onPriceChange: (String) -> Unit = {},
     onCapacityChange: (String) -> Unit = {},
     onCancellationPolicyChange: (String) -> Unit = {},
+    fieldErrors: Map<FormField, String>,
 ) {
     CardElement(
         modifier = Modifier
@@ -431,7 +539,7 @@ fun PriceAndCapacity(
             ) {
                 TextFieldElement(
                     modifier = Modifier.weight(1f),
-                    value = tourDetail?.price?.toString().orEmpty(),
+                    value = price,
                     label = {
                         Text(
                             text = stringResource(R.string.label_price_toman),
@@ -447,7 +555,7 @@ fun PriceAndCapacity(
 
                 TextFieldElement(
                     modifier = Modifier.weight(1f),
-                    value = tourDetail?.maxPeople?.toString().orEmpty(),
+                    value = maxPeople,
                     label = {
                         Text(
                             text = stringResource(R.string.label_capacity),
@@ -554,7 +662,9 @@ private fun TourImages(
 @Composable
 fun MiscInfo(
     modifier: Modifier = Modifier,
-    tourDetail: TourDetailUi? = null,
+    requiredItems: String,
+    highlights: String,
+    descriptionMisc: String,
     onRequiredItemsChange: (String) -> Unit = {},
     onHighlightsChange: (String) -> Unit = {},
     onDescriptionChange: (String) -> Unit = {},
@@ -577,7 +687,7 @@ fun MiscInfo(
 
             TextFieldElement(
                 modifier = Modifier.fillMaxWidth(),
-                value = tourDetail?.requiredItems?.joinToString(", ").orEmpty(),
+                value = requiredItems,/*.joinToString(", ")*/
                 label = {
                     Text(
                         text = stringResource(R.string.label_required_items),
@@ -592,7 +702,7 @@ fun MiscInfo(
 
             TextFieldElement(
                 modifier = Modifier.fillMaxWidth(),
-                value = tourDetail?.highlights?.joinToString(", ").orEmpty(),
+                value = highlights,/*.joinToString(", ")*/
                 label = {
                     Text(
                         text = stringResource(R.string.label_highlights),
@@ -611,56 +721,63 @@ fun MiscInfo(
 @Preview("default", showBackground = true, showSystemUi = true, locale = "fa")
 @Composable
 private fun PreviewCreateEditTour() {
-    val sampleTour = TourDetail(
-        id = 1L,
-        title = "Sample Tour",
-        description = "A sample tour description",
-        guide = Guide(
-            id = 1,
-            fullName = "John Doe",
-            bio = "",
-            verified = true,
-            totalTours = 20,
-            averageRating = 4.5f,
-            userId = 1
-        ),
-        highlights = listOf("Great views", "Local food"),
-        duration = 3,
-        price = 250000.0,
-        category = AttractionCategory(
-            id = 0,
-            type = CategoryType.HERITAGE,
-            description = "",
-            image = ""
-        ),
-        maxPeople = 20,
-        status = TourStatus.PENDING,
-        rate = 4.5f,
-        reviews = emptyList(),
+    val previewCreateEditTourUiState = CreateEditTourUiState(
+        title = "تور نیم‌روزه‌ی میدان نقش جهان",
+        description = "یکی از بزرگ‌ترین میدان‌های جهان با معماری اسلامی بی‌نظیر",
+        selectedCityId = 1L,
+        selectedCityName = "اصفهان",
+        selectedCategoryId = 1L,
+        selectedCategoryName = "میراث فرهنگی",
+        selectedLevel = "INTERMEDIATE",
+        selectedDemographic = "ALL_AGES",
+        duration = "180",
+        dueDate = LocalDate.of(2025, 2, 4),
+        startTime = LocalTime.of(8, 0),
+        price = "250000",
+        maxPeople = "20",
+        cancellationPolicy = "لغو تا ۲۴ ساعت قبل از تور امکان‌پذیر است",
         images = listOf("https://picsum.photos/400", "https://picsum.photos/401"),
-        requiredItems = listOf("Comfortable shoes", "Water bottle"),
-        level = TourLevel.INTERMEDIATE,
-        dueDate = "1403/05/15",
-        startTime = "08:00",
-        demographic = Demographic.ALL_AGES,
-        itinerary = emptyList(),
-        city = City(
-            id = 1,
-            name = "اصفهان",
-            latitude = 52.4888,
-            countyId = 1,
-            imageUrl = "",
-            longitude = 32.4564,
-            countyName = "اصفهان",
-            provinceId = 1,
-            description = "",
-            provinceName = "اصفهان",
+        meetingPoint = "میدان نقش جهان، روبه‌روی مسجد امام",
+        requiredItems = "کفش راحت\nبطری آب\nکلاه آفتابی",
+        highlights = "معماری صفوی\nغذای محلی\nمنظره‌های بی‌نظیر",
+        descriptionMisc = "لطفاً ۱۵ دقیقه زودتر در محل حاضر شوید",
+        itinerary = listOf(
+            ItineraryStopUi(title = "میدان نقش جهان", description = "شروع تور از میدان اصلی"),
+            ItineraryStopUi(title = "مسجد امام", description = "بازدید از مسجد تاریخی"),
+            ItineraryStopUi(title = "بازار قیصریه", description = "گشت در بازار سنتی"),
         ),
-    ).toUi(LocalContext.current)
+        fieldErrors = emptyMap(),
+        isLoading = false,
+    )
 
     AppTheme {
         BackgroundElement(modifier = Modifier.fillMaxSize()) {
-            CreateEditTourScreen(tourDetail = sampleTour)
+            CreateEditTourContent(
+                state = previewCreateEditTourUiState,
+                onTitleChange = { _ -> },
+                onDescriptionChange = { _ -> },
+                onCityClick = {},
+                onTourTypeClick = {},
+                onDifficultyClick = {},
+                onDemographicClick = {},
+                onDurationChange = { _ -> },
+                onAddDateClick = {},
+                onDateChange = { _ -> },
+                onStartTimeChange = { _ -> },
+                onPriceChange = { _ -> },
+                onCapacityChange = { _ -> },
+                onCancellationPolicyChange = { _ -> },
+                onUploadImageClick = {},
+                onImageRemoved = { _ -> },
+                onRequiredItemsChange = { _ -> },
+                onHighlightsChange = { _ -> },
+                onDescriptionMiscChange = { _ -> },
+                onAddItineraryStop = {},
+                onItineraryTitleChange = { _, _ -> },
+                onItineraryDescChange = { _, _ -> },
+                onRemoveItineraryStop = { _ -> },
+                onSubmit = {},
+            )
         }
     }
 }

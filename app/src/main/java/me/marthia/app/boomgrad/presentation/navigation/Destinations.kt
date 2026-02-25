@@ -10,10 +10,6 @@ data object LoginDestination : AppDestination {
     override val route = "login"
 }
 
-data object OtpDestination : AppDestination {
-    override val route = "otp"
-}
-
 data object HomeDestination : AppDestination {
     override val route = "home"
 }
@@ -22,12 +18,13 @@ data object FeedDestination : AppDestination {
     override val route = "home/feed"
 }
 
-data object AttractionsDestination : AppDestination {
-    override val route = "home/attractions"
+data object MyTours : AppDestination {
+    override val route: String
+        get() = "home/mytours"
 }
 
-data object CartDestination : AppDestination {
-    override val route = "home/cart"
+data object BookingsDestination : AppDestination {
+    override val route = "home/bookings"
 }
 
 data object ProfileDestination : AppDestination {
@@ -38,12 +35,12 @@ data object ToursDestination : AppDestination {
     override val route = "tours"
 }
 
-data object EditProfileDestination: AppDestination {
+data object EditProfileDestination : AppDestination {
     override val route: String
         get() = "profile/edit"
 }
 
-data object MyTripsDestination: AppDestination {
+data object MyTripsDestination : AppDestination {
     override val route: String
         get() = "profile/mytrips"
 }
@@ -64,19 +61,6 @@ data class TourDetailDestination(
     }
 }
 
-data class AttractionDetailDestination(
-    val attractionId: Long
-) : AppDestination {
-
-    override val route: String
-        get() = "$BASE_ROUTE/$attractionId"
-
-    companion object {
-        const val BASE_ROUTE = "attraction"
-        const val ARG_ATTRACTION_ID = "attractionId"
-        const val ROUTE_PATTERN = "$BASE_ROUTE/{$ARG_ATTRACTION_ID}"
-    }
-}
 
 data class GuideInfoDestination(
     val guideId: Long

@@ -19,16 +19,16 @@ val bottomBarDestinations = listOf(
         route = FeedDestination.route
     ),
     BottomBarDestination(
-        title = R.string.home_attraction,
+        title = R.string.label_home_bottom_nav_my_tours,
         icon = R.drawable.ic_location_tick_24,
         selectedIcon = R.drawable.ic_location_tick_filled_24,
-        route = AttractionsDestination.route
+        route = MyTours.route
     ),
     BottomBarDestination(
-        title = R.string.home_cart,
+        title = R.string.label_home_bottom_nav_bookings,
         icon = R.drawable.ic_cart_24,
         selectedIcon = R.drawable.ic_cart_filled_24,
-        route = CartDestination.route
+        route = BookingsDestination.route
     ),
     BottomBarDestination(
         title = R.string.home_profile,

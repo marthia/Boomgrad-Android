@@ -6,7 +6,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import me.marthia.app.boomgrad.presentation.MainContainer
-import me.marthia.app.boomgrad.presentation.attraction.detail.AttractionDetailScreen
 import me.marthia.app.boomgrad.presentation.guide.GuideInfoScreen
 import me.marthia.app.boomgrad.presentation.login.LoginScreen
 import me.marthia.app.boomgrad.presentation.profile.edit.EditProfileScreen
@@ -22,12 +21,7 @@ fun MainGraph(navigator: AppNavigator = rememberAppNavigator()) {
 
         composableWithCompositionLocal(HomeDestination.route) {
             MainContainer(
-                onTourSelected = navigator::navigateToTourDetail,
-                onAttractionSelected = navigator::navigateToAttraction,
                 onNavigateToLogin = navigator::navigateToLogin,
-                onCategorySelected = { id, from ->
-                    navigator.navigateToTours(categoryId = id)
-                }
             )
         }
 
@@ -52,24 +46,7 @@ fun MainGraph(navigator: AppNavigator = rememberAppNavigator()) {
             )
         }
 
-        composableWithCompositionLocal(
-            route = AttractionDetailDestination.ROUTE_PATTERN,
-            arguments = listOf(
-                navArgument(AttractionDetailDestination.ARG_ATTRACTION_ID) {
-                    type = NavType.LongType
-                }
-            )
-        ) { backStackEntry ->
 
-            val attractionId =
-                requireNotNull(backStackEntry.arguments)
-                    .getLong(AttractionDetailDestination.ARG_ATTRACTION_ID)
-
-            AttractionDetailScreen(
-                attractionId = attractionId,
-                onBackClick = navigator::navigateUp
-            )
-        }
 
         composable(LoginDestination.route) {
             LoginScreen(

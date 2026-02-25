@@ -15,7 +15,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "me.marthia.app.boomgrad"
+        applicationId = "me.marthia.app.boomgrad.guide"
         minSdk = 28
         targetSdk = 36
         versionCode = 1
