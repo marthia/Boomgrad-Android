@@ -311,7 +311,7 @@ fun AttractionListItem(
             ) {
 
                 AsyncImage(
-                    model = R.drawable.naghshe_jahan1,
+                    model = item.images.getOrNull(0)?.imageUrl,
                     contentDescription = "attraction image",
                     placeholder = debugPlaceholder(debugPreview = R.drawable.placeholder),
                     modifier = Modifier

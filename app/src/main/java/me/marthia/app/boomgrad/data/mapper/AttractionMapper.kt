@@ -10,11 +10,7 @@ fun AttractionDto.toDomain(): Attraction {
     return Attraction(
         id = id ?: throw IllegalStateException("id cannot be null"),
         category = category?.toDomain() ?: throw IllegalStateException("category cannot be null"),
-//        images = images?.toDomainList() ?: throw IllegalStateException("images cannot be null"),
-        images = listOf(
-            AttractionImage(1, "https://picsum.photos/1200"),
-            AttractionImage(2, "https://picsum.photos/1300")
-        ),
+        images = images?.toDomainList() ?: throw IllegalStateException("images cannot be null"),
         rating = rating ?: throw IllegalStateException("rating cannot be null"),
         contactInfo = contactInfo?.toDomain()
             ?: throw IllegalStateException("Contact Info Cannot be null"),

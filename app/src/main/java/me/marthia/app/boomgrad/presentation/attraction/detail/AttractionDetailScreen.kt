@@ -147,10 +147,7 @@ fun AttractionImages(modifier: Modifier = Modifier, images: List<AttractionImage
         pageSize = PageSize.Fill,
     ) { page ->
         AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(R.drawable.ali_qapu)
-                .crossfade(true)
-                .build(),
+            model = images[page].imageUrl,
             placeholder = debugPlaceholder(debugPreview = R.drawable.placeholder),
             contentDescription = "Attraction image ${page + 1}",
             modifier = Modifier
